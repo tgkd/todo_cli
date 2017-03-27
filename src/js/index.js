@@ -1,21 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './testDir/App';
-import Auth from './libs/auth';
+import User from './libs/user';
 
-let authTest = new Auth;
+const user = new User();
 
-
-authTest.test()
-  .then(response => {
-    console.log(response)
+user.get()
+  .then(user => {
+    System.import('./apps/App').then(App => App.default(user))
   })
-  .catch(error => {
-    console.log(error)
+  .catch(e => {
+
+    System.import('./apps/Auth').then(Auth => Auth.default(e))
   });
-
-
-ReactDOM.render(
-  <App />,
-  document.getElementById('root')
-);

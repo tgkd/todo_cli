@@ -1,57 +1,45 @@
 import axios from 'axios';
+import api from './config';
 
 class Auth {
-
-  test() {
-    return axios.request({
-      method: 'get',
-      url: 'css/main.css'
-    })
+  constructor() {
+    this.auth = api.methods.auth;
+    this.apiHost = api.backendUrl;
   }
 
   login(credentials, session) {
     return axios.request({
-      method: 'post',
-      url: '/api/user/login',
+      method: this.auth.login.method,
+      url: this.apiHost + this.auth.login.url,
       data: {
-        'email': credentials.email,
-        'password': credentials.password,
-        'session': {
-          'os': session.os,
-          'type': session.type,
-          'browser': session.browser
-        }
+        ...credentials,
+        session: session
       }
     })
   }
 
   logout() {
     return axios.request({
-      method: 'post',
-      url: '/api/user/logout'
+      method: this.auth.logout.method,
+      url: this.apiHost + this.auth.logout.url
     })
   }
 
   register(credentials, session) {
     return axios.request({
-      method: 'post',
-      url: '/api/user/register',
+      method: this.auth.register.method,
+      url: this.apiHost + this.auth.register.url,
       data: {
-        'email': credentials.email,
-        'password': credentials.password,
-        'session': {
-          'os': session.os,
-          'type': session.type,
-          'browser': session.browser
-        }
+        ...credentials,
+        session: session
       }
     })
   }
 
   getUser(email) {
     return axios.request({
-      method: 'post',
-      url: '/api/user/find_by_email',
+      method: this.auth.getUser.method,
+      url: this.apiHost + this.auth.getUser.url,
       data: {
         'email': email
       }
