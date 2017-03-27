@@ -4,12 +4,11 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 const dev = process.env.NODE_ENV !== 'production';
 
-console.log('dev ' + dev);
 const watch = process.env.NODE_ENV === 'development';
 
 
 const config = {
-  devtool: dev ? 'eval' : null,
+  devtool: dev ? 'inline-source-map' : null,
   watch: watch,
 
   entry: {

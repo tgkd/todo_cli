@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './test.styl';
+import './App.styl';
 
 class App extends Component {
   render() {
