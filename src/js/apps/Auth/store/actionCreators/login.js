@@ -7,12 +7,11 @@ export function getUser(email) {
   return (dispatch) => {
     return auth
       .getUser(email)
-      .then(user => {
-        dispatch(actions.getUser(user));
+      .then(response => {
+        dispatch(actions.getUser(response.data, !!response.data.email));
       })
       .catch(error => {
-        console.error(error);
-        dispatch(actions.error(error));
+        dispatch(actions.getUser(null, true));
       })
   }
 }
@@ -21,8 +20,8 @@ export function register(credentials, sessionInfo) {
   return (dispatch) => {
     return auth
       .register(credentials, sessionInfo)
-      .then(user => {
-        dispatch(actions.register(user));
+      .then(response => {
+        dispatch(actions.register(response.data));
       })
       .catch(error => {
         dispatch(actions.error(error));
@@ -34,8 +33,8 @@ export function login(credentials, sessionInfo) {
   return (dispatch) => {
     return auth
       .login(credentials, sessionInfo)
-      .then(user => {
-        dispatch(actions.login(user));
+      .then(response => {
+        dispatch(actions.login(response.data));
       })
       .catch(error => {
         dispatch(actions.error(error));

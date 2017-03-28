@@ -6,11 +6,12 @@ class User {
     this.user = api.methods.user;
     this.apiHost = api.backendUrl;
   }
-
-  get() {
+/*todo get by ...?*/
+  get(email) {
     return axios.request({
       method: this.user.getInfo.method,
-      url: this.apiHost + this.user.getInfo.url
+      url: this.apiHost + this.user.getInfo.url,
+      withCredentials: true
     })
   }
 
@@ -18,7 +19,8 @@ class User {
     return axios.request({
       method: this.user.updateInfo.method,
       url: this.apiHost + this.user.updateInfo.url,
-      data: updatedInfo
+      data: updatedInfo,
+      withCredentials: true
     })
   }
 
@@ -28,7 +30,8 @@ class User {
       url: this.apiHost + this.user.terminateSession.url,
       params: {
         id: id
-      }
+      },
+      withCredentials: true
     })
   }
 

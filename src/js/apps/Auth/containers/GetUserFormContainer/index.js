@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actionCreators/login';
 
 import GetUserForm from '../../components/GetUserForm';
+import {Redirect} from "react-router-dom";
 
 @connect(
-  ({ user }) => ({ user }),
+  ({ user, triedToEnter }) => ({ user, triedToEnter }),
   (dispatch) => bindActionCreators(actions, dispatch)
 )
 
@@ -17,6 +18,17 @@ export default class extends Component {
 
   render() {
     const { getUser } = this.props;
-    return <GetUserForm getUserInfo={getUser} />
+    const { user, triedToEnter } = this.props.user;
+
+    let content;
+    if(!user && !triedToEnter) {
+      content = <GetUserForm getUserInfo={getUser} />
+    } else if(user && triedToEnter) {
+      content = <Redirect to="/login" />
+    } else {
+      content = <Redirect to="/register" />
+    }
+
+    return content;
   }
 }

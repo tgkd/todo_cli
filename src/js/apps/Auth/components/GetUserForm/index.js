@@ -22,7 +22,9 @@ export default class extends Component {
   render() {
     return (
       <div>
+        <h4>Enter email</h4>
         <input type="text" onChange={::this.onChangeHandler}/>
+        <br/>
         <button onClick={::this.onClickHandler}>click</button>
       </div>
     )
