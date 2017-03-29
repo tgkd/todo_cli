@@ -4,13 +4,21 @@ import api from './config';
 class Auth {
   constructor() {
     this.auth = api.methods.auth;
-    this.apiHost = api.backendUrl;
+    this.api = axios.create({
+      baseURL: api.backendUrl,
+      timeout: 10000,
+      withCredentials: true,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
   }
 
   login(credentials, session) {
-    return axios.request({
+    return this.api.request({
       method: this.auth.login.method,
-      url: this.apiHost + this.auth.login.url,
+      url: this.auth.login.url,
       data: {
         ...credentials,
         session: session
@@ -19,16 +27,16 @@ class Auth {
   }
 
   logout() {
-    return axios.request({
+    return this.api.request({
       method: this.auth.logout.method,
       url: this.apiHost + this.auth.logout.url
     })
   }
 
   register(credentials, session) {
-    return axios.request({
+    return this.api.request({
       method: this.auth.register.method,
-      url: this.apiHost + this.auth.register.url,
+      url: this.auth.register.url,
       data: {
         ...credentials,
         session: session
@@ -37,9 +45,9 @@ class Auth {
   }
 
   getUser(email) {
-    return axios.request({
+    return this.api.request({
       method: this.auth.getUser.method,
-      url: this.apiHost + this.auth.getUser.url,
+      url: this.auth.getUser.url,
       data: {
         'email': email
       }

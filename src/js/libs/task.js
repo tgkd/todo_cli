@@ -4,36 +4,44 @@ import api from './config';
 class Task {
   constructor() {
     this.task = api.methods.task;
-    this.apiHost = api.backendUrl;
+    this.api = axios.create({
+      baseURL: api.backendUrl,
+      timeout: 10000,
+      withCredentials: true,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
   }
 
   getList() {
-    return axios.request({
+    return this.api.request({
       method: this.task.list.method,
-      url: this.apiHost + this.task.list.url
+      url: this.task.list.url
     })
   }
 
   create(newTask) {
-    return axios.request({
+    return this.api.request({
       method: this.task.create.method,
-      url: this.apiHost + this.task.create.url,
+      url: this.task.create.url,
       data: newTask
     })
   }
 
   update(updatedTask) {
-    return axios.request({
+    return this.api.request({
       method: this.task.update.method,
-      url: this.apiHost + this.task.update.url,
+      url: this.task.update.url,
       data: updatedTask
     })
   }
 
   del(id) {
-    return axios.request({
+    return this.api.request({
       method: this.task.del.method,
-      url: this.apiHost + this.task.del.url,
+      url: this.task.del.url,
       data: {
         id: id
       }

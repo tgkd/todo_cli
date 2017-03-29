@@ -6,7 +6,7 @@ import * as actions from '../../store/actionCreators/user';
 import Profile from '../../components/Profile';
 
 @connect(
-  ({  }) => ({ }),
+  ({ user }) => ({ user }),
   (dispatch) => bindActionCreators(actions, dispatch)
 )
 
@@ -16,6 +16,14 @@ export default class extends Component {
   }
 
   render() {
-    return <Profile />
+    const { updateUserInfo } = this.props;
+    const { user, sessions } = this.props.user;
+
+    return (
+      <div>
+        <h4>Profile container</h4>
+        <Profile updateUserInfo={updateUserInfo} user={user} sessions={sessions}/>
+      </div>
+    )
   }
 }

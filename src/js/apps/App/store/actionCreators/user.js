@@ -5,10 +5,10 @@ import User from '../../../../libs/user';
 const auth = new Auth();
 const user = new User();
 
-export function getUserInfo(email) {
+export function getUserInfo() {
   return (dispatch) => {
     return user
-      .get(email)
+      .get()
       .then(response => {
         dispatch(actions.getUserInfo(response.data));
       })

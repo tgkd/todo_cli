@@ -4,34 +4,39 @@ import api from './config';
 class User {
   constructor() {
     this.user = api.methods.user;
-    this.apiHost = api.backendUrl;
+    this.api = axios.create({
+      baseURL: api.backendUrl,
+      timeout: 10000,
+      withCredentials: true,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
   }
 /*todo get by ...?*/
-  get(email) {
-    return axios.request({
+  get() {
+    return this.api.request({
       method: this.user.getInfo.method,
-      url: this.apiHost + this.user.getInfo.url,
-      withCredentials: true
+      url: this.user.getInfo.url
     })
   }
 
   update(updatedInfo) {
-    return axios.request({
+    return this.api.request({
       method: this.user.updateInfo.method,
-      url: this.apiHost + this.user.updateInfo.url,
-      data: updatedInfo,
-      withCredentials: true
+      url: this.user.updateInfo.url,
+      data: updatedInfo
     })
   }
 
   terminateSession(id) {
-    return axios.request({
+    return this.api.request({
       method: this.user.terminateSession.method,
-      url: this.apiHost + this.user.terminateSession.url,
+      url: this.user.terminateSession.url,
       params: {
         id: id
-      },
-      withCredentials: true
+      }
     })
   }
 
