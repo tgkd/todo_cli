@@ -12,6 +12,7 @@ import { createBrowserHistory } from 'history';
 import * as Routes from './routes';
 import store from './store';
 import * as actions from './store/constants/user';
+import * as taskActions from './store/constants/task';
 
 const history  = syncHistoryWithStore(createBrowserHistory(), store);
 
@@ -36,16 +37,15 @@ ReactDom.render(
 
 
 
-export default function (data) {
-  let info = {
-    user: {
-      name: data.name,
-      photo: data.photo
-    },
-    sessions: data.sessions
-  };
+export default function ({user, sessions, tasks}) {
   store.dispatch({
     type: actions.getUserInfo,
-    payload: info
+    payload: {...user, sessions}
+  });
+
+
+  store.dispatch({
+    type: taskActions.getTasks,
+    payload: tasks
   });
 }

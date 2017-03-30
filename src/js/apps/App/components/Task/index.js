@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import TaskItem from './../TaskItem';
 
 export default class extends Component {
   constructor(props) {
@@ -17,20 +18,15 @@ export default class extends Component {
   }
 
   addTask() {
+
     this.props.createTask(this.props.newTask);
   }
 
-  /*get All tasks?*/
-  componentDidMount() {
-    this.props.getTasks();
-  }
+
 
   render() {
     const tasks = this.props.tasks;
-    /*sort tasks array*/
-
-    let incompleteTasks = [];
-    let completedTasks = [];
+    let { incompleteTasks, completedTasks } = this.state;
     if(tasks) {
       incompleteTasks = tasks.filter(item => {
         return item.done === false;
@@ -39,7 +35,7 @@ export default class extends Component {
         return item.done === true;
       });
     }
-
+    const {updateTask, deleteTask} = this.props;
 
     return (
       <div>
@@ -47,22 +43,32 @@ export default class extends Component {
           <input type="text" placeholder="new task"/>
           <button onClick={::this.addTask}>add</button>
         </div>
-        <ul>
-          {incompleteTasks.forEach(task => {
-            return(
-              <li>{task.title}</li>
-            )
-          })}
-        </ul>
 
         <hr/>
-        <ul>
-          {completedTasks.forEach(task => {
-            return(
-              <li>{task.title}</li>
-            )
-          })}
-        </ul>
+
+        {incompleteTasks.forEach(task => {
+          return(
+            <TaskItem
+              task={task}
+              updateTask={updateTask}
+              deleteTask={deleteTask}
+            />
+          )
+        })}
+
+        <hr/>
+
+        {completedTasks.forEach(task => {
+          return(
+            <TaskItem
+              key
+              task={task}
+              updateTask={updateTask}
+              deleteTask={deleteTask}
+            />
+          )
+        })}
+
       </div>
 
     )

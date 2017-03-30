@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import 'flexboxgrid';
 
 export default class extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      password: ''
+      password: '',
+      error: ''
     };
   }
 
@@ -21,21 +23,24 @@ export default class extends Component {
       password: this.state.password
     };
 
-    this.props.login(credentials, this.props.sessionInfo);
+    this.props.login(credentials, this.props.sessionInfo)
+      .then(data => {
+        window.location.href = '/';
+      })
+      .catch(error => {
+        //new error
+      });
   }
 
   render() {
     const user = this.props.user;
     return (
-      <div>
-
-        <p>photo: <img src={user.photo || ''} /></p>
-        <p>user: {user.name || 'unknown'} </p>
-        <p>email: {user.email} </p>
-        <p>Password</p>
-        <input name="pass" type="password" onChange={::this.onChangeHandler}/>
+      <div className="login-container col-xs-6 col-sm-6 col-md-6">
+        <img className="avatar" src={user.photo || './assets/unknown_photo.svg'} />
+        <h1> Hi {user.name || 'unknown'} </h1>
+        <input className="input-default" placeholder="Введите пароль" type="password" onChange={::this.onChangeHandler}/>
         <br/>
-        <button onClick={::this.onClickHandler}>click</button>
+        <button className="btn-default btn-enter" onClick={::this.onClickHandler}>Войти</button>
       </div>
     )
   }

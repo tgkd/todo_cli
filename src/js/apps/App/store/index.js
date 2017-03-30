@@ -12,7 +12,10 @@ const rootReducer = combineReducers({
 
 const logger = createLogger();
 
-const initialState = {};
+const initialState = {
+  user: {},
+  taskList: []
+};
 
 const store = createStore(rootReducer, initialState, applyMiddleware(logger, thunk, routerMiddleware(createBrowserHistory())));
 

@@ -3,7 +3,7 @@ import * as actions from '../constants/task';
 export default function (state = {}, action) {
   switch (action.type) {
     case actions.getTasks:
-      return { };
+      return {ac};
     case actions.createTask:
       return { };
     case actions.updateTask:

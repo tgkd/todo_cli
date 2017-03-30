@@ -28,7 +28,13 @@ export default class extends Component {
       password: this.state.password
     };
 
-    this.props.register(credentials, this.props.sessionInfo);
+    this.props.register(credentials, this.props.sessionInfo)
+      .then(data => {
+        window.location.href = '/';
+      })
+      .catch(error => {
+        //new error
+      });
   }
 
 

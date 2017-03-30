@@ -5,6 +5,7 @@ import * as actions from '../../store/actionCreators/login';
 import sessionInfo from '../../../../libs/session';
 
 import LoginForm from '../../components/LoginForm';
+import 'flexboxgrid';
 
 @connect(
   ({ user }) => ({ user }),
@@ -22,8 +23,7 @@ export default class extends Component {
     const { user } = this.props.user;
 
     return (
-      <div>
-        <h4>Login form container</h4>
+      <div className="row center-xs center-md center-md">
         <LoginForm login={login} user={user} sessionInfo={this.sessionInfo}/>
       </div>
     )

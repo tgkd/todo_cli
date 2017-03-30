@@ -11,7 +11,7 @@ gulp.task('default', ['dist'], () => {
   console.log('default task');
 });
 
-gulp.task('dist', ['stylus', 'js', 'assets'], () => {
+gulp.task('dist', ['stylus', 'js', 'assets', 'fonts'], () => {
   return gulp.src(['./src/html/*.html'])
     .pipe(gulp.dest('./public'))
 });
@@ -29,6 +29,11 @@ gulp.task('assets', () => {
     .pipe(gulp.dest('./public/assets'))
 });
 
+gulp.task('fonts', () => {
+  return gulp.src(['./src/stylus/fonts/*'])
+    .pipe(gulp.dest('./public/css/fonts'))
+});
+
 gulp.task('js', (callback) => {
   return gulp.src('')
     .pipe(plumber())
@@ -41,6 +46,8 @@ gulp.task('js', (callback) => {
       }
     })
 });
+
+
 
 gulp.task('watch', () => {
   gulp.watch('./src/*.html', ['dist']);

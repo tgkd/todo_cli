@@ -31,6 +31,6 @@ ReactDom.render(
 
 
 
-export default function authApp(error) {
+export default function (error) {
   console.log(error);
 }

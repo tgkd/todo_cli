@@ -6,6 +6,8 @@ import * as actions from '../../store/actionCreators/login';
 import GetUserForm from '../../components/GetUserForm';
 import {Redirect} from "react-router-dom";
 
+import 'flexboxgrid';
+
 @connect(
   ({ user, triedToEnter }) => ({ user, triedToEnter }),
   (dispatch) => bindActionCreators(actions, dispatch)
@@ -29,6 +31,10 @@ export default class extends Component {
       content = <Redirect to="/register" />
     }
 
-    return content;
+    return(
+      <div className="row center-sm center-xs center-md">
+        {content}
+      </div>
+    );
   }
 }

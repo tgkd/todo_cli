@@ -38,6 +38,10 @@ const config = {
             'stylus-loader'
           ]
         })
+      },
+      {
+        test: /\.css$/,
+        use: [ 'style-loader', 'css-loader' ]
       }
     ]
   },
@@ -46,7 +50,7 @@ const config = {
       path.resolve(__dirname, 'src'),
       'node_modules'
     ],
-    extensions: ['.js', '.styl']
+    extensions: ['.js', '.styl', '.css']
   },
   plugins: [
     new ExtractTextPlugin({

@@ -6,7 +6,7 @@ import * as actions from '../../store/actionCreators/task';
 import Task from '../../components/Task';
 
 @connect(
-  ({ user }) => ({ user }),
+  ({ taskList, user }) => ({ taskList, user }),
   (dispatch) => bindActionCreators(actions, dispatch)
 )
 
@@ -16,8 +16,7 @@ export default class extends Component {
   }
 
   render() {
-    const { createTask, updateTask, deleteTask, getTasks } = this.props;
-    const { tasks } = this.props.user;
+    const { taskList, createTask, updateTask, deleteTask} = this.props;
 
     return (
       <div>
@@ -26,8 +25,7 @@ export default class extends Component {
           createTask={createTask}
           updateTask={updateTask}
           deleteTask={deleteTask}
-          getTasks={getTasks}
-          tasks={tasks}
+          tasks={taskList}
         />
       </div>
     )
