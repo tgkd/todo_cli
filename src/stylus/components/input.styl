@@ -1,28 +1,46 @@
-.input-default
+.input
   border-radius 2px
-  border solid 1px #a3b1cd
-  padding 0
+  border solid 1px
+  box-sizing border-box
+  padding-left 10px
+  width 100%
+  height 40px
+
+.input--blue
+  border-color #a3b1cd
   &:hover
     border-color #749ae3
-  &:actiive
+  &:active
     border-color #749ae3
-    box-shadow none
   &:focus
+    outline none
     border solid 1px #749ae3
   &:after
     border solid 1px #7b8aa8
+  &::-webkit-input-placeholder
+    color #566495
+  &::-ms-input-placeholder
+    color #566495
+  &::-moz-placeholder
+    color #566495
+    opacity 1
 
-.input-alert
-  border solid 1px #cda3a3
-  border-radius 2px
+.input--red
+  border-color #cda3a3
+  &:active
+    border-color #cda3a3
+  &:focus
+    outline none
+    border-color #cda3a3
+  &::-webkit-input-placeholder
+    color #cda3a3
 
-::-webkit-input-placeholder
-  color #566495
+  &::-ms-input-placeholder
+    color #cda3a3
 
-:-ms-input-placeholder
-  color #566495
+  &::-moz-placeholder
+    color #cda3a3
+    opacity 1
 
-:-moz-placeholder
-  color #566495
-  opacity 1
+
 

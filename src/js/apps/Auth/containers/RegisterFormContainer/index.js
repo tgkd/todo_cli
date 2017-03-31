@@ -19,13 +19,9 @@ export default class extends Component {
 
   render() {
     const { register } = this.props;
-    const user  = this.props.user;
-    const error = !user.error ? '' : user.error.message;
     return (
-      <div>
-        <h4>Register form container</h4>
-        <RegisterForm register={register} error={user ? user.error : ''} sessionInfo={this.sessionInfo}/>
-        <p>{error} </p>
+      <div className="row center-xs center-md center-md">
+        <RegisterForm register={register} sessionInfo={this.sessionInfo}/>
       </div>
     )
   }

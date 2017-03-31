@@ -3,6 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actionCreators/user';
 
+import 'flexboxgrid';
+
 import MainPage from '../../components/MainPage';
 
 @connect(
@@ -16,6 +18,10 @@ export default class extends Component {
   }
 
   render() {
-    return <MainPage/>
+    return(
+      <div>
+        <MainPage/>
+      </div>
+    )
   }
 }

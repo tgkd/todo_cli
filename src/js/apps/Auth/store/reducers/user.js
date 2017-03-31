@@ -9,7 +9,7 @@ export default function (state = {}, action) {
     case actions.getUser:
       return {user: action.payload.user, triedToEnter: action.payload.triedToEnter};
     case actions.error:
-      return {error: action.payload};
+      return {...state, error: action.payload};
     default:
       return state
   }
