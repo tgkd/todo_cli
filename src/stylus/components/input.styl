@@ -1,3 +1,8 @@
+$blue_border = #749ae3
+$blue_placeholder = #566495
+$alert = #cda3a3
+
+
 .input
   border-radius 2px
   border solid 1px
@@ -9,37 +14,35 @@
 .input--blue
   border-color #a3b1cd
   &:hover
-    border-color #749ae3
+    border-color $blue_border
   &:active
-    border-color #749ae3
+    border-color $blue_border
   &:focus
     outline none
-    border solid 1px #749ae3
+    border-color $blue_border
   &:after
-    border solid 1px #7b8aa8
+    border-color #7b8aa8
   &::-webkit-input-placeholder
-    color #566495
+    color $blue_placeholder
   &::-ms-input-placeholder
-    color #566495
+    color $blue_placeholder
   &::-moz-placeholder
-    color #566495
+    color $blue_placeholder
     opacity 1
 
 .input--red
-  border-color #cda3a3
+  border-color $alert
   &:active
-    border-color #cda3a3
+    border-color $alert
   &:focus
     outline none
-    border-color #cda3a3
+    border-color $alert
   &::-webkit-input-placeholder
-    color #cda3a3
-
+    color $alert
   &::-ms-input-placeholder
-    color #cda3a3
-
+    color $alert
   &::-moz-placeholder
-    color #cda3a3
+    color $alert
     opacity 1
 
 

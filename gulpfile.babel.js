@@ -34,6 +34,10 @@ gulp.task('fonts', () => {
     .pipe(gulp.dest('./public/css/fonts'))
 });
 
+/*
+* Finished 'js' after 33 s
+ 'js' errored after 33 s
+ Error: task completion callback called too many times*/
 gulp.task('js', (callback) => {
   return gulp.src('')
     .pipe(plumber())
