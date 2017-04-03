@@ -8,7 +8,7 @@ export function getUser(email) {
     return auth
       .getUser(email)
       .then(response => {
-        dispatch(actions.getUser(response.data, !!response.data.email));
+        dispatch(actions.getUser(response.data));
       })
       .catch(error => {
         dispatch(actions.getUser(null, true));

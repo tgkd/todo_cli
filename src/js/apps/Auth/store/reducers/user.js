@@ -7,7 +7,7 @@ export default function (state = {}, action) {
     case actions.register:
       return {...state, user: action.payload};
     case actions.getUser:
-      return {user: action.payload.user, triedToEnter: action.payload.triedToEnter};
+      return {user: action.payload};
     case actions.error:
       return {...state, error: action.payload};
     default:

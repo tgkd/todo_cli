@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actionCreators/login';
 
 import GetUserForm from '../../components/GetUserForm';
-import {Redirect} from "react-router-dom";
 
 import 'flexboxgrid';
 
@@ -20,20 +19,11 @@ export default class extends Component {
 
   render() {
     const { getUser } = this.props;
-    const { user, triedToEnter } = this.props.user;
-
-    let content;
-    if(!user && !triedToEnter) {
-      content = <GetUserForm getUserInfo={getUser} />
-    } else if(user && triedToEnter) {
-      content = <Redirect to="/login" />
-    } else {
-      content = <Redirect to="/register" />
-    }
+    const {user} = this.props.user;
 
     return(
       <div className="row center-sm center-xs center-md">
-        {content}
+        <GetUserForm user={user} getUserInfo={getUser} />
       </div>
     );
   }

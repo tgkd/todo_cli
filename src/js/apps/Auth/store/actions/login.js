@@ -14,13 +14,10 @@ export function register(user) {
   }
 }
 
-export function getUser(user, triedToEnter) {
+export function getUser(user) {
   return {
     type: actions.getUser,
-    payload: {
-      user,
-      triedToEnter
-    }
+    payload: user
   }
 }
 
