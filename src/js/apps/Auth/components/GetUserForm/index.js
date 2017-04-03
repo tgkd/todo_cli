@@ -9,8 +9,12 @@ export default class extends Component {
 
     this.state = {
       email: '',
-      error: '',
-      redirect: false
+      error: false,
+      errorText: '',
+      apiError: {
+        error: true,
+        message: ''
+      }
     };
   }
 
@@ -27,10 +31,10 @@ export default class extends Component {
 
   isValidInput(email) {
     if (!email) {
-      this.setState({error: 'Введите e-mail'});
+      this.setState({error: true});
       return false;
     } else if (!this.isValidEmail(email)) {
-      this.setState({error: 'Введите действительный e-mail'});
+      this.setState({errorText: 'Введите действительный e-mail', error: true});
       return false;
     } else {
       return true;
@@ -41,13 +45,17 @@ export default class extends Component {
     let {email} = this.state;
 
     if (this.isValidInput(email)) {
-      this.props.getUserInfo(this.state.email);
+      this.setState({
+        error: false,
+        errorText: ''
+      });
+      this.props.getUserInfo(this.state.email)
     }
   }
 
   getInputClass() {
-    let {touched, disabledBtn, error} = this.state;
-    return `input ${touched && (disabledBtn || error) ? 'input--red' : 'input--blue'} email-container__input`
+    let {error} = this.state;
+    return `input ${error ? 'input--red' : 'input--blue'} email-container__input`
   }
 
   getAlertClass() {
@@ -55,44 +63,48 @@ export default class extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.user) {
+    const { apiError } = this.props.apiError;
+    if(apiError) {
       this.setState({
-        redirect: true
+        apiError: {
+          error: true,
+          message: apiError
+        }
       })
     }
   }
 
   render() {
-    let {error, disabledBtn, redirect} = this.state;
-
-    if (redirect) {
-      return <Redirect to="/login"/>
-    } else {
-
-      return (
-        <div className="email-container col-xs-6 col-sm-6 col-md-6 ">
-          <h1 className="email-container__header">Войти в приложение</h1>
-          <div className="row middle-md middle-sm middle-xs start-md start-sm start-xs">
-            <div className="col-md-8 col-sm-8 col-xs-8 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
-              <input className={::this.getInputClass()} type="text" placeholder='Введите email'
-                     onChange={::this.inputChangeHandler}/>
-              <div className={error ? '' : 'alert-container--hidden'}>
-                <span className="alert-message">{error}</span>
-              </div>
-            </div>
-            <div className="col-md-1 col-sm-1 col-xs-1 email-container__alert">
-              <img className={::this.getAlertClass()} src="/assets/alert.svg" alt="alert"/>
+    let { error, errorText } = this.state;
+    return (
+      <div className="email-container col-xs-6 col-sm-6 col-md-6 ">
+        <h1 className="email-container__header">Войти в приложение</h1>
+        <div className="row middle-md middle-sm middle-xs start-md start-sm start-xs">
+          <div className="col-md-8 col-sm-8 col-xs-8 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
+            <input
+              className={::this.getInputClass()} type="text"
+              placeholder='Введите email'
+              onChange={::this.inputChangeHandler}
+              value={this.state.email}
+            />
+            <div className={error ? '' : 'alert-container--hidden'}>
+              <span className="alert-message">{errorText}</span>
             </div>
           </div>
-          <div className="row middle-md middle-sm middle-xs">
-            <div className="col-md-8 col-sm-8 col-xs-8 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
-              <button className="btn btn-enter btn--greyblue" disabled={disabledBtn}
-                      onClick={::this.getUserClickHandler}>Продолжить
-              </button>
-            </div>
+          <div className="col-md-1 col-sm-1 col-xs-1 email-container__alert">
+            <img className={::this.getAlertClass()} src="/assets/alert.svg" alt="alert"/>
           </div>
         </div>
-      )
-    }
+        <div className="row middle-md middle-sm middle-xs">
+          <div className="col-md-8 col-sm-8 col-xs-8 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
+            <button className="btn btn-enter btn--greyblue"
+                    disabled={!this.state.email}
+                    onClick={::this.getUserClickHandler}>Продолжить
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+
   }
 }

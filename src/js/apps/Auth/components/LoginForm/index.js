@@ -7,8 +7,6 @@ import {Link} from "react-router-dom";
 export default class extends Component {
   constructor(props) {
     super(props);
-    /*todo wtf*/
-    //напрямую используем методы запросов к апи? или получать из this.state?
     this.auth = new Auth();
     this.state = {
       password: '',

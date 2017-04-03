@@ -10,19 +10,20 @@ export default class extends Component {
 
     this.auth = new Auth();
     this.state = {
+      apiError: {
+        error: false,
+        message: ''
+      },
       email: {
         value: '',
-        touched: false,
         error: ''
       },
       password: {
         value: '',
-        touched: false,
         error: ''
       },
       confirmPassword: {
         value: '',
-        touched: false,
         error: ''
       }
     };
@@ -67,40 +68,23 @@ export default class extends Component {
 
   isValidInputs() {
     const {email, confirmPassword, password} = this.state;
-    console.log(this.isValidEmail(email.value) && this.isSamePasswords(confirmPassword.value) && this.isRequiredPassLength(password.value));
     return this.isValidEmail(email.value) && this.isSamePasswords(confirmPassword.value) && this.isRequiredPassLength(password.value);
   }
 
   inputChangeHandler(inputName, value) {
-    switch (inputName) {
-      case 'email':
-        if (this.isValidEmail(value)) {
-          this.setState({email: {error: '', value, touched: true}})
-        } else {
-          this.setState({email: {value: '', touched: true, error: this.errorMessages.email}});
-        }
-        return;
-      case 'password':
-        if(this.isRequiredPassLength(value)){
-					this.setState({password: {error: '', value, touched: true}});
-        } else {
-	        this.setState({password: {value: '', touched: true, error: this.errorMessages.passLength}});
-        }
-
-        return;
-      case 'confirmPassword':
-        if (this.isSamePasswords(value)) {
-          this.setState({confirmPassword: {error: '', value, touched: true}})
-        } else {
-          this.setState({confirmPassword: {value: '', touched: true, error: this.errorMessages.passDiff}});
-        }
-        return;
-    }
+    this.setState({[inputName]: {value}});
   }
 
   isNotEmptyInputs() {
     const {email, password, confirmPassword} = this.state;
     return email.value.length && password.value.length && confirmPassword.value.length;
+  }
+
+  setErrorText() {
+    const {email, password, confirmPassword} = this.state;
+    if(!this.isValidEmail(email.value)) this.setState({email: {...email, error: this.errorMessages.email}});
+    if(!this.isSamePasswords(confirmPassword.value)) this.setState({confirmPassword: {...confirmPassword, error: this.errorMessages.passDiff}});
+    if(!this.isRequiredPassLength(password.value)) this.setState({password: {...password, error: this.errorMessages.passLength}});
   }
 
   submitClickHandler() {
@@ -109,33 +93,15 @@ export default class extends Component {
       password: this.state.password.value
     };
     if (this.isValidInputs() && this.isNotEmptyInputs()) {
-      this.auth.register(credentials, this.props.sessionInfo)
-        .then(data => {
-          window.location.href = '/';
-        })
-        .catch(error => {
-          this.setState({
-            email: {
-              ...this.state.email,
-              error: error.message
-            },
-            password: {
-              ...this.state.password,
-              value: ''
-            },
-            confirmPassword: {
-              ...this.state.confirmPassword,
-              value: ''
-            }
-          })
-        });
+      this.props.register(credentials);
+    } else {
+      this.setErrorText();
     }
   }
 
   getInputClass(inputName) {
-    const touched = this.state[inputName].touched;
     const error = this.state[inputName].error;
-    return `input ${touched && error ? 'input--red' : 'input--blue'} register-container__input`;
+    return `input ${error ? 'input--red' : 'input--blue'} register-container__input`;
   }
 
   getAlertClass(inputName) {
@@ -152,6 +118,18 @@ export default class extends Component {
         </div>
       )
     })
+  }
+
+  componentDidUpdate() {
+    const { apiError } = this.props;
+    if(apiError) {
+      this.setState({
+        apiError: {
+          error: true,
+          message: apiError
+        }
+      })
+    }
   }
 
   render() {
@@ -176,7 +154,6 @@ export default class extends Component {
     });
 
     const errorsList = this.getErrorsList();
-    const disabled = !this.isValidInputs();
     return (
       <div className="register-container col-xs-6 col-sm-6 col-md-6">
         <div className="row middle-md middle-sm middle-xs">
@@ -191,6 +168,9 @@ export default class extends Component {
 
         <div className="row middle-md middle-sm middle-xs start-md start-sm start-xs">
           <div className="col-md-8 col-sm-8 col-xs-8 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
+            <div className={ this.state.apiError.error ? '' : "alert-container--hidden"}>
+              <span className="alert-message">{ this.state.apiError.message}</span>
+            </div>
             {errorsList}
           </div>
         </div>
@@ -199,7 +179,6 @@ export default class extends Component {
           <div className="col-md-8 col-sm-8 col-xs-8 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
             <button
               className="btn btn-enter btn--greyblue"
-              disabled={disabled}
               onClick={::this.submitClickHandler}
             >
               Войти

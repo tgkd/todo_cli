@@ -30,7 +30,7 @@ export default class extends Component {
         </div>
       );
     } else {
-      return <Redirect to="/register" />
+      return <Redirect to="/find_by_email" />
     }
   }
 }

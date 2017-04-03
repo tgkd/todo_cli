@@ -4,29 +4,23 @@ import {Provider} from 'react-redux';
 
 import {Redirect, Route, Switch} from 'react-router';
 
-import {BrowserRouter as Router, Link} from 'react-router-dom';
-
-
-import {syncHistoryWithStore} from 'react-router-redux';
-import {createBrowserHistory} from 'history';
+import { ConnectedRouter } from 'react-router-redux';
 import * as Routes from './routes';
-import store from './store';
+import Store from './store';
 
-const history = syncHistoryWithStore(createBrowserHistory(), store);
+const { store, history } = Store;
 
 ReactDom.render(
   <Provider store={store}>
-    <Router history={history}>
-      <div>
+    <ConnectedRouter history={history}>
+      <Switch>
+        <Route path='/find_by_email' component={Routes.GetUser}/>
+        <Route path='/login' component={Routes.Login}/>
+        <Route path='/register' component={Routes.Register}/>
+        <Redirect from='*' to="/find_by_email" />
+      </Switch>
 
-        <Switch>
-          <Route path='/find_by_email' component={Routes.GetUser}/>
-          <Route path='/login' component={Routes.Login}/>
-          <Route path='/register' component={Routes.Register}/>
-          <Redirect from='*' to="/find_by_email"/>
-        </Switch>
-      </div>
-    </Router>
+    </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
 );

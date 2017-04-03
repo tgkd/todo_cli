@@ -34,23 +34,40 @@ class Auth {
   }
 
   register(credentials, session) {
-    return this.api.request({
-      method: this.auth.register.method,
-      url: this.auth.register.url,
-      data: {
-        ...credentials,
-        session: session
-      }
+    return new Promise((resolve, reject) => {
+      this.api.request({
+        method: this.auth.register.method,
+        url: this.auth.register.url,
+        data: {
+          ...credentials,
+          session: session
+        }
+      })
+        .then(user => {
+          resolve(user)
+        })
+        .catch(e => {
+          reject(e)
+        })
     })
+
   }
 
   getUser(email) {
-    return this.api.request({
-      method: this.auth.getUser.method,
-      url: this.auth.getUser.url,
-      data: {
-        'email': email
-      }
+    return new Promise((resolve, reject) => {
+      this.api.request({
+        method: this.auth.getUser.method,
+        url: this.auth.getUser.url,
+        data: {
+          'email': email
+        }
+      })
+        .then(user => {
+          resolve(user)
+        })
+        .catch(e => {
+          reject(e)
+        })
     })
   }
 
