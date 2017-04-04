@@ -10,9 +10,6 @@ export function getTasks() {
       .then(response => {
         dispatch(actions.getTasks(response.data));
       })
-      .catch(error => {
-        dispatch(actions.error(error));
-      })
   }
 }
 
@@ -22,9 +19,6 @@ export function updateTask(taskInfo) {
       .update(taskInfo)
       .then(response => {
         dispatch(actions.updateTask(response.data));
-      })
-      .catch(error => {
-        dispatch(actions.error(error));
       })
   }
 }
@@ -36,9 +30,6 @@ export function createTask(newTask) {
       .then(response => {
         dispatch(actions.createTask(response.data));
       })
-      .catch(error => {
-        dispatch(actions.error(error));
-      })
   }
 }
 
@@ -48,9 +39,6 @@ export function deleteTask(id) {
       .del(id)
       .then(response => {
         dispatch(actions.deleteTask(response.data));
-      })
-      .catch(error => {
-        dispatch(actions.error(error));
       })
   }
 }

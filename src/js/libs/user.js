@@ -14,30 +14,56 @@ class User {
       }
     });
   }
-/*todo get by ...?*/
+
   get() {
-    return this.api.request({
-      method: this.user.getInfo.method,
-      url: this.user.getInfo.url
+    return new Promise((resolve, reject) => {
+      return this.api.request({
+        method: this.user.getInfo.method,
+        url: this.user.getInfo.url
+      })
+        .then(user => {
+          resolve(user)
+        })
+        .catch(e => {
+          reject(e)
+        })
     })
   }
 
   update(updatedInfo) {
-    return this.api.request({
-      method: this.user.updateInfo.method,
-      url: this.user.updateInfo.url,
-      data: updatedInfo
+    return new Promise((resolve, reject) => {
+      return this.api.request({
+        method: this.user.updateInfo.method,
+        url: this.user.updateInfo.url,
+        data: updatedInfo
+      })
+        .then(user => {
+          resolve(user)
+        })
+        .catch(e => {
+          reject(e)
+        })
     })
+
   }
 
   terminateSession(id) {
-    return this.api.request({
-      method: this.user.terminateSession.method,
-      url: this.user.terminateSession.url,
-      params: {
-        id: id
-      }
+    return new Promise((resolve, reject) => {
+      return this.api.request({
+        method: this.user.terminateSession.method,
+        url: this.user.terminateSession.url,
+        params: {
+          id: id
+        }
+      })
+        .then(user => {
+          resolve(user)
+        })
+        .catch(e => {
+          reject(e)
+        })
     })
+
   }
 
 }

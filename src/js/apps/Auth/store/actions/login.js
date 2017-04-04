@@ -21,9 +21,3 @@ export function getUser(user) {
   }
 }
 
-export function error(error) {
-  return {
-    type: actions.error,
-    payload: error
-  }
-}

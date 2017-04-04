@@ -132,7 +132,19 @@ export default class extends Component {
     }
   }
 
+  onKeyPress(event) {
+    if (event.key === 'Enter') {
+      this.submitClickHandler();
+    }
+  }
+
+  componentDidMount() {
+    this.emailInput.focus();
+  }
+
+
   render() {
+
     const inputList = this.inputs.map((input, id) => {
       return (
         <div className="row middle-md middle-sm middle-xs start-md start-sm start-xs">
@@ -144,6 +156,11 @@ export default class extends Component {
               onChange={(e) => ::this.inputChangeHandler(input.name, e.target.value)}
               placeholder={input.placeholder}
               name={input.name}
+              value={this.state[input.name].value}
+              ref={input.name === 'email' ? (input) => {
+                this.emailInput = input;
+              } : null}
+              onKeyPress={::this.onKeyPress}
             />
           </div>
           <div className="col-md-1 col-sm-1 col-xs-1 register-container__alert">
@@ -155,10 +172,12 @@ export default class extends Component {
 
     const errorsList = this.getErrorsList();
     return (
-      <div className="register-container col-xs-6 col-sm-6 col-md-6">
-        <div className="row middle-md middle-sm middle-xs">
+      <div className="register-container col-xs-4 col-sm-4 col-md-4">
+        <div className="row">
           <div className="col-md-2 col-sm-2 col-xs-2">
-            <Link to='/find_by_email'>back</Link>
+            <Link to='/find_by_email'>
+              <span className="fa fa-long-arrow-left link register-container__link"/>
+            </Link>
           </div>
           <div className="col-md-8 col-sm-8 col-xs-8">
             <h1 className="register-container__header"> Регистрация e-mail</h1>

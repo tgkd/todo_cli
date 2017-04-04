@@ -3,7 +3,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actionCreators/login';
 import sessionInfo from '../../../../libs/session';
-import Auth from '../../../../libs/auth';
 
 import RegisterForm from '../../components/RegisterForm';
 
@@ -16,7 +15,6 @@ export default class extends Component {
   constructor(props) {
     super(props);
     this.sessionInfo = sessionInfo();
-    this.auth = new Auth();
     this.state = {
       error: ''
     }

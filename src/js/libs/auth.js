@@ -16,13 +16,21 @@ class Auth {
   }
 
   login(credentials, session) {
-    return this.api.request({
-      method: this.auth.login.method,
-      url: this.auth.login.url,
-      data: {
-        ...credentials,
-        session: session
-      }
+    return new Promise((resolve, reject) => {
+      return this.api.request({
+        method: this.auth.login.method,
+        url: this.auth.login.url,
+        data: {
+          ...credentials,
+          session: session
+        }
+      })
+        .then(user => {
+          resolve(user)
+        })
+        .catch(e => {
+          reject(e)
+        })
     })
   }
 
@@ -50,7 +58,6 @@ class Auth {
           reject(e)
         })
     })
-
   }
 
   getUser(email) {

@@ -1,0 +1,27 @@
+import React, {Component} from 'react';
+
+export default class extends Component {
+  constructor(props) {
+    super(props);
+
+  }
+
+  terminateSession(id) {
+    this.props.terminateSession(id);
+  }
+
+  render() {
+    const { os, type, id, browser } = this.props;
+    return (
+      <div className="row middle-xs middle-sm middle-md profile-container__session">
+        <div className="col-xs-10 col-sm-10 col-md-10">
+          <p className="session-name">{type}, {os}, {browser}</p>
+        </div>
+        <div className="col-xs-2 col-sm-2 col-md-2 session-button" onClick={this.terminateSession.bind(this, id)}>
+          <span className="fa fa-ban"/>
+          <span>&nbsp;Terminate</span>
+        </div>
+      </div>
+    )
+  }
+}

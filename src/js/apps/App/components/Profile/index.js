@@ -1,14 +1,16 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import ProfileInfo from '../ProfileInfo';
+import UserSession from '../UserSession';
 
 export default class extends Component {
   constructor(props) {
     super(props);
-    let user = this.props.user;
+    const { user } = this.props;
     this.state = {
       user: {
         name: user ? user.name : '',
-        birthday: user ? user.birthday : null,
-        photo: user ? user.photo : null
+        birthday: user ? user.birthday : '',
+        photo: user ? user.photo : ''
       },
       sessions: this.props.sessions
     }
@@ -33,9 +35,7 @@ export default class extends Component {
   }
 
   saveHandler() {
-    let userInfo = this.state.user;
     this.props.updateUserInfo(this.state.user);
-
   }
 
   handleFile(e) {
@@ -55,36 +55,58 @@ export default class extends Component {
 
 
   terminateSession(id) {
-    this.props.terminateSession(id)
+    this.props.terminateUserSession(id);
   }
 
   render() {
-    const sessions = this.props.sessions;
+    const { user, sessions } = this.props;
     let sessionsList;
-    if(sessions) {
+    if (sessions) {
       sessionsList = sessions.map(item => {
-        return(
-          <div key={item._id}>
-            <p>{item.os}</p>
-            <button onClick={this.terminateSession.bind(this, item._id)}>X</button>
+        return (
+          <div className="col-xs-8 col-sm-8 col-md-8" key={item._id}>
+            <UserSession os={item.os} type={item.type} browser={item.browser} id={item._id}
+                         terminateSession={::this.terminateSession}/>
           </div>
         )
       })
     }
     return (
-      <div>
-        <img src={ this.state.user.photo } />
-        <form encType="multipart/form-data" >
-          <input type="file" onChange={::this.handleFile} />
-        </form>
-        <input type="text" placeholder="name" value={this.state.user.name} onChange={::this.setName}/>
-        <br/>
-        <input type="date" value={this.state.user.birthday} onChange={::this.setDate} />
-        <br/>
-        <button onClick={::this.saveHandler}>save</button>
+      <div className="profile-container col-xs-10 col-sm-10 col-md-10">
+        <div className="row center-xs center-sm center-md">
+          <div className="col-xs-12 col-sm-12 col-md-12">
+            <h1 className="profile-container__header">Настройки профиля</h1>
+          </div>
+          <ProfileInfo handleFile={::this.handleFile} photo={this.state.user.photo}/>
+        </div>
+        <div className="row center-xs center_sm center-md">
+          <div className="col-xs-4 col-sm-4 col-md-4">
+            <input className="input input--blue profile-container__input-name" type="text" placeholder="Введите имя"
+                   value={this.state.user.name} onChange={::this.setName}/>
+          </div>
+        </div>
+        <div className="row center-xs center_sm center-md">
+          <div className="col-xs-4 col-sm-4 col-md-4">
+            {/*todo date selector component*/}
+            <input placeholder="Введите дату рождения" type="date" value={this.state.user.birthday}
+                   onChange={::this.setDate}/>
+          </div>
+        </div>
+        <div className="row center-md center-sm center-xs">
+          <div className="col-xs-4 col-sm-4 col-md-4">
+            <button className="btn btn-enter btn--greyblue" onClick={::this.saveHandler}>Сохранить</button>
+          </div>
+        </div>
+        <hr/>
 
-        <p>sessions</p>
-        {sessionsList}
+        <div className="row center-xs center-sm center-md">
+          <div className="col-md-12 col-xs-12 col-sm-12">
+            <h1 className="profile-container__header">Ваши сессии</h1>
+          </div>
+          {sessionsList}
+
+        </div>
+
       </div>
     )
   }

@@ -8,8 +8,6 @@ export default function (state = {}, action) {
       return {...state, user: action.payload};
     case actions.getUser:
       return {user: action.payload};
-    case actions.error:
-      return {...state, error: action.payload};
     default:
       return state
   }

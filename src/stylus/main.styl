@@ -1,11 +1,13 @@
 @import "components/button.styl"
 @import "components/input.styl"
 @import "components/alert.styl"
+@import "components/nav.styl"
 
 @import "getUser.styl"
 @import "login.styl"
 @import "register.styl"
 @import "main_page.styl"
+@import "profile.styl"
 
 @import "./../../node_modules/nib/index.styl"
 
@@ -16,11 +18,14 @@ html
   height 100%
 
 body
+  height 100%
   margin 0
   padding 0
   display flex
   font-family "Roboto Thin"
   background-image: linear-gradient(top right, #194b7f, #b88cb7);
+  background-repeat no-repeat
+  background-attachment fixed
 
 #root
   margin 0 auto
@@ -28,3 +33,7 @@ body
 
 .avatar
   border-radius 50%
+
+.link
+  color #696c9b
+  font-size 18px

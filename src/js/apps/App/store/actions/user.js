@@ -28,9 +28,4 @@ export function logout(user) {
   }
 }
 
-export function error(error) {
-  return {
-    type: actions.error,
-    payload: error
-  }
-}
+

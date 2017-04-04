@@ -8,16 +8,15 @@ import 'flexboxgrid';
 
 
 @connect(
-  ({ user, triedToEnter }) => ({ user, triedToEnter }),
+  ({ user }) => ({ user }),
   (dispatch) => bindActionCreators({ ...actions.login,  ...actions.router}, dispatch)
 )
 
 export default class extends Component {
   constructor(props) {
     super(props);
-    this.getUser = this.getUser.bind(this);
     this.state = {
-      error: null
+      error: ''
     }
   }
 
@@ -44,7 +43,7 @@ export default class extends Component {
 
     return(
       <div className="row center-sm center-xs center-md">
-        <GetUserForm user={user} apiError={this.state.error} getUserInfo={this.getUser} />
+        <GetUserForm user={user} apiError={this.state.error} getUserInfo={::this.getUser}/>
       </div>
     );
   }

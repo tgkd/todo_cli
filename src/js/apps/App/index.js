@@ -32,7 +32,7 @@ ReactDom.render(
 export default function ({user, sessions, tasks}) {
   store.dispatch({
     type: actions.getUserInfo,
-    payload: {...user, sessions}
+    payload: { user, sessions }
   });
 
 

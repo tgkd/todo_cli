@@ -12,9 +12,6 @@ export function getUserInfo() {
       .then(response => {
         dispatch(actions.getUserInfo(response.data));
       })
-      .catch(error => {
-        dispatch(actions.error(error));
-      })
   }
 }
 
@@ -24,9 +21,6 @@ export function updateUserInfo(userInfo) {
       .update(userInfo)
       .then(response => {
         dispatch(actions.updateUserInfo(response.data));
-      })
-      .catch(error => {
-        dispatch(actions.error(error));
       })
   }
 }
@@ -38,9 +32,6 @@ export function terminateSession(sessionId) {
       .then(response => {
         dispatch(actions.terminateSession(response.data));
       })
-      .catch(error => {
-        dispatch(actions.error(error));
-      })
   }
 }
 
@@ -50,9 +41,6 @@ export function logout() {
       .logout()
       .then(response => {
         dispatch(actions.logout(response.data));
-      })
-      .catch(error => {
-        dispatch(actions.error(error));
       })
   }
 }

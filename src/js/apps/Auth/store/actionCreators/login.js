@@ -30,8 +30,5 @@ export function login(credentials, sessionInfo) {
         .then(response => {
           dispatch(actions.login(response.data));
         })
-        .catch(error => {
-          dispatch(actions.error(error));
-        })
     }
 }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import { Redirect } from 'react-router';
 
 export default class extends Component {
   constructor(props) {
@@ -30,12 +29,12 @@ export default class extends Component {
         <Link className="main__link" to={item.route}>
           <div key={id} className="main__item col-xs-3 col-md-3 col-sm-3">
             <div className="row center-xs center-sm center-md">
-              <div className="main__item__icon col-md-12 col-xs-12 col-sm-12">
+              <div className="main__item-icon col-md-12 col-xs-12 col-sm-12">
                 <img src={item.img} alt={item.name}/>
               </div>
             </div>
             <div className="row center-xs center-sm center-md">
-              <div className="main__item__name col-md-12 col-xs-12 col-sm-12">
+              <div className="main__item-name col-md-12 col-xs-12 col-sm-12">
                 <h1>{item.name}</h1>
               </div>
             </div>

@@ -10,64 +10,73 @@ export default class extends Component {
     this.auth = new Auth();
     this.state = {
       password: '',
-      error: '',
-      disabledBtn: true,
-      user: this.props.user,
-      touched: false
+      error: false,
+      errorText: '',
+      user: this.props.user
     };
   }
 
   inputChangeHandler(e) {
     this.setState({
-      password: e.target.value,
-      disabledBtn: false,
-      touched: true
+      password: e.target.value
     })
   }
 
   submitClickHandler() {
+    let credentials = {
+      email: this.props.user.email,
+      password: this.state.password
+    };
     if (!this.state.password) {
       this.setState({
-        disabledBtn: true
+        error: true,
+        errorText: 'Введите пароль'
       })
     } else {
-      let credentials = {
-        email: this.props.user.email,
-        password: this.state.password
-      };
-
-      this.auth.login(credentials, this.props.sessionInfo)
-        .then(data => {
-          window.location.href = '/';
-        })
-        .catch(error => {
-          //todo если ошибка === 500 то куда писать сообщение?
-          let errMessage = error.response.status === 400 ? 'Неверный пароль' : '';
-          this.setState({
-            error: errMessage,
-            password: ''
-          });
-        });
+      this.props.login(credentials);
     }
   }
 
   getInputClass() {
-    let {touched, disabledBtn, error} = this.state;
-    return `input ${touched && (disabledBtn || error) ? 'input--red' : 'input--blue'} email-container__input`;
+    let { error } = this.state;
+    return `input ${error ? 'input--red' : 'input--blue'} email-container__input`;
   }
 
   getAlertClass() {
     return `alert-ico ${this.state.error ? '' : 'alert-ico--hidden'}`;
   }
 
+  componentDidUpdate() {
+    const { apiError } = this.props;
+    if (apiError) {
+      this.setState({
+        password: '',
+        error: true,
+        errorText: apiError
+      })
+    }
+  }
+
+  onKeyPress(event) {
+    if (event.key === 'Enter') {
+      this.submitClickHandler();
+    }
+  }
+
+  componentDidMount() {
+    this.passwordInput.focus();
+  }
+
   render() {
     const user = this.state.user;
-    const {disabledBtn, password, error} = this.state;
+    const { password, errorText } = this.state;
     return (
-      <div className="login-container col-xs-6 col-sm-6 col-md-6">
-        <div className="row middle-md middle-sm middle-xs">
+      <div className="login-container col-xs-4 col-sm-4 col-md-4">
+        <div className="row">
           <div className="col-md-2 col-sm-2 col-xs-2">
-            <Link to='/find_by_email'>back</Link>
+            <Link to='/find_by_email'>
+              <span className="fa fa-long-arrow-left link login-container__link"/>
+            </Link>
           </div>
           <div className="col-md-8 col-sm-8 col-xs-8">
             <img className="login-container__avatar" src={user.photo || '/assets/unknown.svg'}/>
@@ -77,8 +86,17 @@ export default class extends Component {
 
         <div className="row middle-md middle-sm middle-xs start-md start-sm start-xs">
           <div className="col-md-8 col-sm-8 col-xs-8 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
-            <input className={::this.getInputClass()} placeholder={error || "Введите пароль"} type="password"
-                   value={password} onChange={::this.inputChangeHandler}/>
+            <input
+              className={::this.getInputClass()}
+              placeholder={errorText || "Введите пароль"}
+              type="password"
+              value={password}
+              onChange={::this.inputChangeHandler}
+              ref={(input) => {
+                this.passwordInput = input;
+              }}
+              onKeyPress={::this.onKeyPress}
+            />
           </div>
           <div className="col-md-1 col-sm-1 col-xs-1 login-container__alert">
             <img className={::this.getAlertClass()} src="/assets/alert.svg" alt="alert"/>
@@ -89,7 +107,6 @@ export default class extends Component {
           <div className="col-md-8 col-sm-8 col-xs-8 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
             <button
               className="btn btn-enter btn--greyblue"
-              disabled={disabledBtn || !password}
               onClick={::this.submitClickHandler}
             >
               Войти
