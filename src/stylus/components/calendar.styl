@@ -1,0 +1,117 @@
+.input-calendar
+  font-family 'Pontano Sans', sans-serif
+  position relative
+  .input-calendar-field
+    width 120px
+    border 1px solid #ccc
+    border-radius 4px
+    font-family 'Pontano Sans', sans-serif
+    font-size 16px
+    padding 2px 8px
+    &:focus
+      outline none
+      border 1px solid #f39c12
+  .calendar-icon
+    display inline-block
+    padding 0px 1px 0 5px
+    height 27px
+    line-height 27px
+    transform translateY(4px)
+    cursor pointer
+  .cell
+    display inline-block
+    text-align center
+    cursor pointer
+    border 1px solid #fff
+    -webkit-touch-callout none
+    -webkit-user-select none
+    -moz-user-select none
+    -ms-user-select none
+    user-select none
+    &:hover
+      color #f39c12
+      border 1px solid #f39c12
+      border-radius 4px
+    &.current
+      background #f39c12
+      color #fff
+      border-radius 4px
+      opacity .8
+    &.day
+      &.today
+        position relative
+        &:after
+          content '.'
+          position absolute
+          bottom 15px
+          font-size 20px
+          color #F39C12
+  .day
+    width 25px
+    height 25px
+    line-height 25px
+  .month
+    width 58px
+    height 38px
+    line-height 38px
+  .year
+    width 58px
+    height 38px
+    line-height 38px
+  .days-title
+    .cell
+      height 25px
+      line-height 28px
+      opacity 0.5
+      cursor default
+      &:hover
+        color #000
+        border 1px solid #fff
+  .navigation-title
+    width 100px
+    display inline-block
+    cursor pointer
+    &:hover
+      color #f39c12
+  .years-view
+    .navigation-title
+      cursor default
+      &:hover
+        color #000
+  .icon-wrapper
+    cursor pointer
+  .icon
+    cursor pointer
+    width 20px
+  .today-btn
+    cursor pointer
+
+.input-calendar-wrapper
+  position absolute
+  padding 5px 12px
+  border 1px solid #c4c4c4
+  border-radius 5px
+  box-shadow 0 0 9px 5px rgba(0,0,0,0.05)
+  background-color #fff
+  text-align center
+  left 140px
+  -webkit-touch-callout none
+  -webkit-user-select none
+  -moz-user-select none
+  -ms-user-select none
+  user-select none
+
+.input-calendar .days,
+.input-calendar .months,
+.input-calendar .years
+  width 189px
+  padding-bottom 2px
+
+.input-calendar .day.prev,
+.input-calendar .day.next
+  opacity .4
+
+.input-calendar .icon:hover,
+.input-calendar .today-btn:hover,
+.input-calendar .icon-wrapper:hover
+  color #f39c12

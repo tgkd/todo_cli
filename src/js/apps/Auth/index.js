@@ -26,6 +26,4 @@ ReactDom.render(
 );
 
 
-export default function (error) {
-  console.log(error);
-}
+export default function () {}

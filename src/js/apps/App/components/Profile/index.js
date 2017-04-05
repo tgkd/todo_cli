@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ProfileInfo from '../ProfileInfo';
 import UserSession from '../UserSession';
+import DatePicker from '../DatePicker';
 
 export default class extends Component {
   constructor(props) {
@@ -88,8 +89,7 @@ export default class extends Component {
         <div className="row center-xs center_sm center-md">
           <div className="col-xs-4 col-sm-4 col-md-4">
             {/*todo date selector component*/}
-            <input placeholder="Введите дату рождения" type="date" value={this.state.user.birthday}
-                   onChange={::this.setDate}/>
+            <DatePicker onChange={::this.setDate}/>
           </div>
         </div>
         <div className="row center-md center-sm center-xs">

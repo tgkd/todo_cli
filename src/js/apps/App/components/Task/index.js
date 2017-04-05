@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import TaskItem from './../TaskItem';
+import {CompletedTask, IncompleteTask} from './../TaskItem';
+import NewTask from '../NewTask';
 
 export default class extends Component {
   constructor(props) {
@@ -11,13 +12,12 @@ export default class extends Component {
         done: false,
         end: ''
       },
-      tasks: this.props.tasks,
       incompleteTasks: [],
       completedTasks: []
     }
   }
 
-  addTask() {
+  createTask() {
 
     this.props.createTask(this.props.newTask);
   }
@@ -27,7 +27,7 @@ export default class extends Component {
   render() {
     const tasks = this.props.tasks;
     let { incompleteTasks, completedTasks } = this.state;
-    if(tasks) {
+    if(tasks && tasks.length > 0) {
       incompleteTasks = tasks.filter(item => {
         return item.done === false;
       });
@@ -35,39 +35,44 @@ export default class extends Component {
         return item.done === true;
       });
     }
+
+    /*update component state after filter state*/
     const {updateTask, deleteTask} = this.props;
 
-    return (
-      <div>
-        <div>
-          <input type="text" placeholder="new task"/>
-          <button onClick={::this.addTask}>add</button>
+    const incompleteList = incompleteTasks.map(item => {
+      return (
+        <div className="col-xs-8 col-sm-8 col-md-8" key={item._id}>
+          <IncompleteTask task={item}
+                    deleteTask={deleteTask}/>
         </div>
+      )
+    });
+    const completedList = completedTasks.map(item => {
+      return (
+        <div className="col-xs-8 col-sm-8 col-md-8" key={item._id}>
+          <CompletedTask task={item}
+                    updateTask={updateTask}/>
+        </div>
+      )
+    });
 
+    return (
+      <div className="tasks-container col-xs-10 col-sm-10 col-md-10">
+        <div className="row center-xs center-sm center-md">
+          <div className="col-xs-12 col-sm-12 col-md-12">
+            <h1 className="tasks-container__header">Дела</h1>
+          </div>
+          <div className="col-xs-12 col-sm-12 col-md-12">
+            <NewTask createHandler={::this.createTask}/>
+          </div>
+        </div>
         <hr/>
 
-        {incompleteTasks.forEach(task => {
-          return(
-            <TaskItem
-              task={task}
-              updateTask={updateTask}
-              deleteTask={deleteTask}
-            />
-          )
-        })}
-
-        <hr/>
-
-        {completedTasks.forEach(task => {
-          return(
-            <TaskItem
-              key
-              task={task}
-              updateTask={updateTask}
-              deleteTask={deleteTask}
-            />
-          )
-        })}
+        <div className="row center-xs center-sm center-md">
+          {incompleteList}
+          <hr/>
+          {completedList}
+        </div>
 
       </div>
 

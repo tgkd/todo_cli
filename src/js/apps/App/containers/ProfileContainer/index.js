@@ -29,7 +29,7 @@ export default class extends Component {
       })
   }
 
-  terminateUserSession() {
+  terminateUserSession(id) {
     const { terminateSession } = this.props;
     terminateSession(id);
   }
