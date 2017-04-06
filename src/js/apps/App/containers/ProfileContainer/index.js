@@ -34,6 +34,17 @@ export default class extends Component {
     terminateSession(id);
   }
 
+  componentDidMount() {
+    const { getUserInfo } = this.props;
+
+    getUserInfo()
+      .catch(e => {
+        this.setState({
+          error: 'Ошибка, повторите попытку'
+        })
+      })
+  }
+
   render() {
 
     const { user, sessions } = this.props.user;

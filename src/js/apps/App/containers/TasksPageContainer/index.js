@@ -49,15 +49,6 @@ export default class extends Component {
       })
   }
 
-  getTasks() {
-    const { getTasks } = this.props;
-    getTasks()
-      .catch(e => {
-        this.setState({
-          error: 'Ошибка, повторите попытку'
-        })
-      })
-  }
 
   filterTasks(tasks) {
     let incompleteTasks, completedTasks;
@@ -75,11 +66,21 @@ export default class extends Component {
     })
   }
 
+
   componentDidMount() {
     const { taskList } = this.props.taskList;
     if (taskList && taskList.length > 0) {
       this.filterTasks(taskList)
     }
+
+    const { getTasks } = this.props;
+
+    getTasks()
+      .catch(e => {
+        this.setState({
+          error: 'Ошибка, повторите попытку'
+        })
+      })
   }
 
   render() {
@@ -96,8 +97,7 @@ export default class extends Component {
             apiError={this.state.error}
             createTask={::this.createTask}
             updateTask={::this.updateTask}
-            deleteTask={::this.deleteTask}
-            getTasks={::this.getTasks}/>
+            deleteTask={::this.deleteTask}/>
         </div>
       </div>
     )

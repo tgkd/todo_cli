@@ -22,9 +22,19 @@ export default class extends Component {
     if (user) {
       this.setState({
         user: {
-          name: user ? user.name : '',
-          birthday: user ? user.birthday : '',
-          photo: user ? user.photo : ''
+          ...user
+        }
+      })
+    }
+  }
+
+  componentDidUpdate() {
+    const { user } = this.props;
+    const userState = this.state.user;
+    if (user && !userState._id) {
+      this.setState({
+        user: {
+          ...user
         }
       })
     }
@@ -70,7 +80,7 @@ export default class extends Component {
 
 
   terminateSession(id) {
-    this.props.terminateUserSession(id);
+    this.props.termianteUserSession(id);
   }
 
   showCalendar() {

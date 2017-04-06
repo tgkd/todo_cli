@@ -7,7 +7,7 @@ export default function (state = {}, action) {
     case actions.createTask:
       return { taskList: [...state.taskList, action.payload] };
     case actions.updateTask:
-      return { };
+      return { /*todo find by id and update?*/ };
     case actions.deleteTask:
       return { };
     default:
