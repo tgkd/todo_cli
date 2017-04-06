@@ -24,7 +24,7 @@ export default class extends Component {
         </div>
         <div className="col-md-5 col-xs-5 col-sm-5">
           <form encType="multipart/form-data">
-            <button className="btn-rounded" onClick={::this.uploadClick}>
+            <button className="btn btn-rounded" onClick={::this.uploadClick}>
               Загрузить
             </button>
             <input

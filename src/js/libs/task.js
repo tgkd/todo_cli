@@ -16,38 +16,69 @@ class Task {
   }
 
   getList() {
-    return this.api.request({
-      method: this.task.list.method,
-      url: this.task.list.url
+    return new Promise((resolve, reject) => {
+      return this.api.request({
+        method: this.task.list.method,
+        url: this.task.list.url
+      })
+        .then(task => {
+          resolve(task)
+        })
+        .catch(e => {
+          reject(e)
+        })
     })
   }
 
   create(newTask) {
-    return this.api.request({
-      method: this.task.create.method,
-      url: this.task.create.url,
-      data: newTask
+    return new Promise((resolve, reject) => {
+      return this.api.request({
+        method: this.task.create.method,
+        url: this.task.create.url,
+        data: newTask
+      })
+        .then(task => {
+          resolve(task)
+        })
+        .catch(e => {
+          reject(e)
+        })
     })
   }
 
   update(updatedTask) {
-    return this.api.request({
-      method: this.task.update.method,
-      url: this.task.update.url,
-      data: updatedTask
+    return new Promise((resolve, reject) => {
+      return this.api.request({
+        method: this.task.update.method,
+        url: this.task.update.url,
+        data: updatedTask
+      })
+        .then(task => {
+          resolve(task)
+        })
+        .catch(e => {
+          reject(e)
+        })
     })
   }
 
   del(id) {
-    return this.api.request({
-      method: this.task.del.method,
-      url: this.task.del.url,
-      data: {
-        id: id
-      }
+    return new Promise((resolve, reject) => {
+      return this.api.request({
+        method: this.task.del.method,
+        url: this.task.del.url,
+        data: {
+          id: id
+        }
+      })
+        .then(task => {
+          resolve(task)
+        })
+        .catch(e => {
+          reject(e)
+        })
     })
   }
-
 }
 
 export default Task;

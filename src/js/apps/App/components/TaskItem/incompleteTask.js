@@ -20,29 +20,29 @@ export default class extends Component {
     });
   }
 
-  deleteTask() {
-    this.props.deleteTask(this.state._id);
+  updateTask() {
+    this.setState({
+      done: true
+    });
+    this.props.updateTask(this.state);
   }
 
   render() {
     const { task } = this.props;
     return (
-    <div className="row middle-xs middle-sm middle-md tasks-container__task task task--completed">
-      <div className="col-xs-10 col-sm-10 col-md-10">
-        <div className="row">
-          <div className="col-xs-1 col-sm-1 col-md-1">
-            <input type="checkbox" checked={true} disabled={true}/>
-          </div>
-          <div className="col-xs-11 col-sm-11 col-md-11">
-            <p className="task-name">{task.title}</p>
-          </div>
+
+      <div className="row middle-xs middle-sm middle-md tasks-container__task task task--incomplete">
+        <div className="col-xs-1 col-sm-1 col-md-1">
+          <input type="checkbox" checked={false} onChange={::this.updateTask}/>
+        </div>
+        <div className="col-xs-8 col-sm-8 col-md-8">
+          <p className="task__name">{task.title}</p>
+        </div>
+        <div className="col-xs-3 col-sm-3 col-md-3">
+          <span className="task__end">{task.end}</span>
         </div>
       </div>
-      <div className="col-xs-2 col-sm-2 col-md-2 session-button" onClick={this.deleteTask.bind(this, task.id)}>
-        <span className="fa fa-ban"/>
-        <span>&nbsp;Terminate</span>
-      </div>
-    </div>
+
     )
   }
 }

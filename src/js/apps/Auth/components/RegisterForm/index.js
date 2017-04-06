@@ -176,7 +176,7 @@ export default class extends Component {
         <div className="row">
           <div className="col-md-2 col-sm-2 col-xs-2">
             <Link to='/find_by_email'>
-              <span className="fa fa-long-arrow-left link register-container__link"/>
+              <img src="/assets/back-grey.svg" className="register-container__link" alt="exit"/>
             </Link>
           </div>
           <div className="col-md-8 col-sm-8 col-xs-8">

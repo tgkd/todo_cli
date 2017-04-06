@@ -10,8 +10,6 @@ export default function (state = {}, action) {
       return {};
     case actions.terminateSession:
       return {session: action.payload};
-    case actions.error:
-      return {error: action.payload};
     default:
       return state
   }

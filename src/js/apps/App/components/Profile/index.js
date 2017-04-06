@@ -6,14 +6,27 @@ import DatePicker from '../DatePicker';
 export default class extends Component {
   constructor(props) {
     super(props);
-    const { user } = this.props;
     this.state = {
       user: {
-        name: user ? user.name : '',
-        birthday: user ? user.birthday : '',
-        photo: user ? user.photo : ''
+        name: '',
+        birthday: '',
+        photo: ''
       },
+      calendarVisible: false,
       sessions: this.props.sessions
+    }
+  }
+
+  componentDidMount() {
+    const { user } = this.props;
+    if (user) {
+      this.setState({
+        user: {
+          name: user ? user.name : '',
+          birthday: user ? user.birthday : '',
+          photo: user ? user.photo : ''
+        }
+      })
     }
   }
 
@@ -26,11 +39,12 @@ export default class extends Component {
     })
   }
 
-  setDate(e) {
+  setDate(date) {
     this.setState({
+      calendarVisible: false,
       user: {
         ...this.state.user,
-        birthday: e.target.value
+        birthday: date
       }
     })
   }
@@ -59,8 +73,15 @@ export default class extends Component {
     this.props.terminateUserSession(id);
   }
 
+  showCalendar() {
+    this.setState({
+      calendarVisible: !this.state.calendarVisible
+    })
+  }
+
   render() {
-    const { user, sessions } = this.props;
+    const { sessions } = this.props;
+    const { user, calendarVisible } = this.state;
     let sessionsList;
     if (sessions) {
       sessionsList = sessions.map(item => {
@@ -78,18 +99,25 @@ export default class extends Component {
           <div className="col-xs-12 col-sm-12 col-md-12">
             <h1 className="profile-container__header">Настройки профиля</h1>
           </div>
-          <ProfileInfo handleFile={::this.handleFile} photo={this.state.user.photo}/>
+          <ProfileInfo handleFile={::this.handleFile} photo={user.photo}/>
         </div>
         <div className="row center-xs center_sm center-md">
           <div className="col-xs-4 col-sm-4 col-md-4">
             <input className="input input--blue profile-container__input-name" type="text" placeholder="Введите имя"
-                   value={this.state.user.name} onChange={::this.setName}/>
+                   value={user.name} onChange={::this.setName}/>
           </div>
         </div>
         <div className="row center-xs center_sm center-md">
           <div className="col-xs-4 col-sm-4 col-md-4">
-            {/*todo date selector component*/}
-            <DatePicker onChange={::this.setDate}/>
+            <input className="input input--blue profile-container__input-date"
+                   type="text"
+                   placeholder="Введите дату рождения"
+                   value={user.birthday}/>
+            <img src="/assets/little-calendar.svg" alt="calendar" onClick={::this.showCalendar}/>
+            {
+              calendarVisible && <DatePicker date={user.birthday} setDate={::this.setDate}/>
+            }
+
           </div>
         </div>
         <div className="row center-md center-sm center-xs">

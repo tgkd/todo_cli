@@ -3,14 +3,12 @@ import * as actions from '../constants/task';
 export default function (state = {}, action) {
   switch (action.type) {
     case actions.getTasks:
-      return { };
+      return { taskList: action.payload };
     case actions.createTask:
-      return { };
+      return { taskList: [...state.taskList, action.payload] };
     case actions.updateTask:
       return { };
     case actions.deleteTask:
-      return { };
-    case actions.error:
       return { };
     default:
       return state
