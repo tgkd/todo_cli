@@ -6,14 +6,9 @@ export default class extends Component {
 
   }
 
-  uploadClick() {
-    this.uploadInput.click();
-  }
-
   handleFile(e) {
     this.props.handleFile(e);
   }
-
 
   render() {
     const { photo } = this.props;
@@ -24,17 +19,9 @@ export default class extends Component {
         </div>
         <div className="col-md-5 col-xs-5 col-sm-5">
           <form encType="multipart/form-data">
-            <button className="btn btn-rounded" onClick={::this.uploadClick}>
-              Загрузить
-            </button>
-            <input
-              className=""
-              type="file"
-              onChange={::this.handleFile}
-              ref={(input) => {
-                this.uploadInput = input;
-              }}
-            />
+
+            <input type="file" name="file" id="file" className="profile-container__file" onChange={::this.handleFile}/>
+            <label htmlFor="file" className="profile-container__loader btn-rounded">Загрузить</label>
           </form>
         </div>
       </div>

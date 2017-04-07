@@ -10,14 +10,24 @@
     border-radius 50%
     margin-bottom 15px
     height 140px
-  &__upload
-    display none
+  &__file
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
   &__input-name
     margin 20px 0
   &__session
     margin-bottom 15px
     background-color #ececec
     border-radius 2px
+  &__datepicker
+    bottom 1px
+    right 5px
+    width 60px
+    height 38px
 
 .session-name
   float left

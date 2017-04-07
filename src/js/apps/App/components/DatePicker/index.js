@@ -14,7 +14,7 @@ class DatePicker extends Component {
     let month = moment().month();
     let year = moment().year();
     this.state = {
-      date: null,
+      date: moment(),
       month: month,
       year: year,
       calendar: getCalendar(year, month),
@@ -27,8 +27,7 @@ class DatePicker extends Component {
     this.setState({
       date: day
     });
-
-    this.props.setDate(day.format("D MMMM YYYY"))
+    this.props.setDate(day)
 
   }
 
@@ -71,32 +70,31 @@ class DatePicker extends Component {
     })
   }
 
-  /*
-   componentDidMount(){
-   const {date} = this.props;
-   const newDate = moment(date, 'DD-MM-YYYY');
-   if(newDate.isValid()){
-   this.setState({
-   date: newDate,
-   calendar: getCalendar(moment(newDate).year(), moment(newDate).month())
-   })
-   } else {
-   this.setState({
-   date: moment()
-   })
-   }
-   }
-   */
+  componentDidMount() {
+    const { date } = this.props;
+    const newDate = moment(date, 'DD-MM-YYYY');
+    if (newDate.isValid()) {
+      this.setState({
+        date: newDate,
+        month: moment(newDate).month(),
+        year: moment(newDate).year(),
+        calendar: getCalendar(moment(newDate).year(), moment(newDate).month())
+      })
+    } else {
+      this.setState({
+        date: moment()
+      })
+    }
+  }
 
   render() {
     const { month, year, date, dayNames, calendar } = this.state;
-    const userDate = moment(date, 'DD-MM-YYYY');
     return <div>
       <div className="calendar">
         <table className="calendar__table">
           <CalendarHeader nextMonth={::this.nextMonth} previousMonth={::this.previousMonth} year={year}
                           dayNames={dayNames} month={month}/>
-          <Weeks setDate={::this.setDate} calendar={calendar} month={month} date={userDate || date}/>
+          <Weeks setDate={::this.setDate} calendar={calendar} month={month} date={date}/>
         </table>
       </div>
     </div>

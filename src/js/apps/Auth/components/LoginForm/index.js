@@ -48,7 +48,8 @@ export default class extends Component {
 
   componentDidUpdate() {
     const { apiError } = this.props;
-    if (apiError) {
+    const { errorText } = this.state;
+    if (apiError !== errorText) {
       this.setState({
         password: '',
         error: true,

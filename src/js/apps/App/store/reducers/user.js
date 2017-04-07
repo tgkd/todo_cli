@@ -9,7 +9,7 @@ export default function (state = {}, action) {
     case actions.logout:
       return {};
     case actions.terminateSession:
-      return {session: action.payload};
+      return { sessions: action.payload };
     default:
       return state
   }

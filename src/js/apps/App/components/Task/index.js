@@ -26,7 +26,7 @@ export default class extends Component {
 
     const incompleteList = incompleteTasks.map(item => {
       return (
-        <div className="col-xs-10 col-sm-10 col-md-10" key={item._id}>
+        <div className='col-xs-10 col-sm-10 col-md-10' key={item._id}>
           <IncompleteTask task={item}
                           updateTask={::this.updateTask}/>
         </div>
@@ -34,7 +34,7 @@ export default class extends Component {
     });
     const completedList = completedTasks.map(item => {
       return (
-        <div className="col-xs-10 col-sm-10 col-md-10" key={item._id}>
+        <div className='col-xs-10 col-sm-10 col-md-10' key={item._id}>
           <CompletedTask task={item}
                          deleteTask={::this.deleteTask}/>
         </div>
@@ -42,23 +42,23 @@ export default class extends Component {
     });
 
     return (
-      <div className="tasks-container col-xs-10 col-sm-10 col-md-10">
-        <div className="row center-xs center-sm center-md">
-          <div className="col-xs-12 col-sm-12 col-md-12">
-            <h1 className="tasks-container__header">Дела</h1>
+      <div className='tasks-container col-xs-10 col-sm-10 col-md-10'>
+        <div className='row center-xs center-sm center-md'>
+          <div className='col-xs-12 col-sm-12 col-md-12'>
+            <h1 className='tasks-container__header'>Дела</h1>
           </div>
-          <div className="col-xs-10 col-sm-10 col-md-10">
-            <NewTask createHandler={::this.createTask}/>
+          <div className='col-xs-10 col-sm-10 col-md-10'>
+            <NewTask apiErorr={this.props.apiError} createHandler={::this.createTask}/>
           </div>
         </div>
         <br/>
         <hr/>
 
-        <div className="row center-xs center-sm center-md">
+        <div className='row center-xs center-sm center-md'>
           {incompleteList}
         </div>
         <hr/>
-        <div className="row center-xs center-sm center-md">
+        <div className='row center-xs center-sm center-md'>
           {completedList}
         </div>
 

@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actionCreators/task';
+import * as userActions from '../../store/actionCreators/user';
 
 import Task from '../../components/Task';
 import Navigation from '../../components/Navigation';
 
 @connect(
   ({ taskList, user }) => ({ taskList, user }),
-  (dispatch) => bindActionCreators(actions, dispatch)
+  (dispatch) => bindActionCreators({ ...actions, ...userActions }, dispatch)
 )
 
 export default class extends Component {
@@ -39,6 +40,17 @@ export default class extends Component {
         })
       })
   }
+
+  logout() {
+    const { logout } = this.props;
+    logout()
+      .catch(e => {
+        this.setState({
+          error: 'Ошибка, повторите попытку'
+        })
+      })
+  }
+
   deleteTask(id) {
     const { deleteTask } = this.props;
     deleteTask(id)
@@ -89,8 +101,8 @@ export default class extends Component {
 
     return (
       <div>
-        <Navigation/>
-        <div className="row center-xs center-md center-md">
+        <Navigation logout={::this.logout}/>
+        <div className='row center-xs center-md center-md'>
           <Task
             incompleteTasks={incompleteTasks}
             completedTasks={completedTasks}

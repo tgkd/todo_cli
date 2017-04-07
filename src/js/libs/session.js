@@ -1,10 +1,11 @@
-
-/*todo get browser info*/
+import platform from 'platform';
 export default function () {
-  return {
-    os: navigator.platform,
-    browser: navigator.appName,
-    type: 'PC'
-  }
 
+  let version = platform.version.split('.');
+  return {
+    os: platform.os.toString(),
+    browser: `${platform.name} ${version[0]}`,
+    type: platform.product || 'PC'
+  }
 }
+

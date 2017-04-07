@@ -1,7 +1,13 @@
 import React, {Component} from 'react';
+
 import ProfileInfo from '../ProfileInfo';
 import UserSession from '../UserSession';
 import DatePicker from '../DatePicker';
+
+import Moment from 'moment';
+import {extendMoment} from 'moment-range';
+const moment = extendMoment(Moment);
+moment.locale('ru');
 
 export default class extends Component {
   constructor(props) {
@@ -10,7 +16,8 @@ export default class extends Component {
       user: {
         name: '',
         birthday: '',
-        photo: ''
+        photo: '',
+        formattedDate: null
       },
       calendarVisible: false,
       sessions: this.props.sessions
@@ -20,11 +27,16 @@ export default class extends Component {
   componentDidMount() {
     const { user } = this.props;
     if (user) {
-      this.setState({
-        user: {
-          ...user
-        }
-      })
+      let birthday = moment(user.birthday, 'D MMMM YYYY');
+      if (birthday.isValid()) {
+        this.setState({
+          user: {
+            ...user,
+            birthday: birthday.toString(),
+            formattedDate: moment(user.birthday)
+          }
+        })
+      }
     }
   }
 
@@ -32,11 +44,16 @@ export default class extends Component {
     const { user } = this.props;
     const userState = this.state.user;
     if (user && !userState._id) {
-      this.setState({
-        user: {
-          ...user
-        }
-      })
+      let birthday = moment(user.birthday, 'D MMMM YYYY');
+      if (birthday.isValid()) {
+        this.setState({
+          user: {
+            ...user,
+            birthday: birthday.toString(),
+            formattedDate: moment(user.birthday)
+          }
+        })
+      }
     }
   }
 
@@ -49,18 +66,32 @@ export default class extends Component {
     })
   }
 
+  setUserBirthday(e) {
+    const date = moment(e.target.value);
+    if (date.isValid()) {
+      this.setDate(date)
+    }
+  }
+
   setDate(date) {
     this.setState({
       calendarVisible: false,
       user: {
         ...this.state.user,
-        birthday: date
+        birthday: date.format('D MMMM YYYY'),
+        formattedDate: date
       }
     })
   }
 
   saveHandler() {
-    this.props.updateUserInfo(this.state.user);
+    const { user } = this.state;
+    let date = user.formattedDate.format('D MM YYYY').toString();
+    const result = {
+      ...user,
+      birthday: date
+    };
+    this.props.updateUserInfo(result);
   }
 
   handleFile(e) {
@@ -83,7 +114,8 @@ export default class extends Component {
     this.props.termianteUserSession(id);
   }
 
-  showCalendar() {
+  toggleCalendar(e) {
+    
     this.setState({
       calendarVisible: !this.state.calendarVisible
     })
@@ -96,7 +128,7 @@ export default class extends Component {
     if (sessions) {
       sessionsList = sessions.map(item => {
         return (
-          <div className="col-xs-8 col-sm-8 col-md-8" key={item._id}>
+          <div className='col-xs-8 col-sm-8 col-md-8' key={item._id}>
             <UserSession os={item.os} type={item.type} browser={item.browser} id={item._id}
                          terminateSession={::this.terminateSession}/>
           </div>
@@ -104,42 +136,58 @@ export default class extends Component {
       })
     }
     return (
-      <div className="profile-container col-xs-10 col-sm-10 col-md-10">
-        <div className="row center-xs center-sm center-md">
-          <div className="col-xs-12 col-sm-12 col-md-12">
-            <h1 className="profile-container__header">Настройки профиля</h1>
+      <div className='profile-container col-xs-10 col-sm-10 col-md-10'>
+        <div className='row center-xs center-sm center-md'>
+          <div className='col-xs-12 col-sm-12 col-md-12'>
+            <h1 className='profile-container__header'>Настройки профиля</h1>
           </div>
           <ProfileInfo handleFile={::this.handleFile} photo={user.photo}/>
         </div>
-        <div className="row center-xs center_sm center-md">
-          <div className="col-xs-4 col-sm-4 col-md-4">
-            <input className="input input--blue profile-container__input-name" type="text" placeholder="Введите имя"
+        <div className='row center-xs center_sm center-md'>
+          <div className='col-xs-4 col-sm-4 col-md-4'>
+            <input className='input input--blue profile-container__input-name' type='text' placeholder='Введите имя'
                    value={user.name} onChange={::this.setName}/>
           </div>
         </div>
-        <div className="row center-xs center_sm center-md">
-          <div className="col-xs-4 col-sm-4 col-md-4">
-            <input className="input input--blue profile-container__input-date"
-                   type="text"
-                   placeholder="Введите дату рождения"
-                   value={user.birthday}/>
-            <img src="/assets/little-calendar.svg" alt="calendar" onClick={::this.showCalendar}/>
-            {
-              calendarVisible && <DatePicker date={user.birthday} setDate={::this.setDate}/>
-            }
+        <div className='row center-xs center_sm center-md'>
+          <div className='col-xs-4 col-sm-4 col-md-4'>
+
+            <div className='input-container'>
+              <input className='input input--blue profile-container__input-date'
+                     type='text'
+                     placeholder='Введите дату рождения'
+                     onChange={::this.setUserBirthday}
+                     value={user.birthday}/>
+              <div
+                className='input-container__img profile-container__datepicker row middle-xs middle-sm middle-md end-xs end-sm end-md'
+                onClick={::this.toggleCalendar}>
+                <svg
+                  className='input-container__calendar-ico'
+                  width='18' height='20' viewBox='0 0 18 20'
+                  xmlns='http://www.w3.org/2000/svg'
+                >
+                  <title>8F18FF8D-0089-4998-AECB-EA32DEACFFFF</title>
+                  <path
+                    d='M16 2h-1V0h-2v2H5V0H3v2H2C.89 2 .01 2.9.01 4L0 18a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 16H2V7h14v11zM4 9h5v5H4V9z'
+                    fill='#566394' fill-rule='evenodd'/>
+                </svg>
+              </div>
+              {calendarVisible && <DatePicker date={user.formattedDate || null} setDate={::this.setDate}/>}
+            </div>
+
 
           </div>
         </div>
-        <div className="row center-md center-sm center-xs">
-          <div className="col-xs-4 col-sm-4 col-md-4">
-            <button className="btn btn-enter btn--greyblue" onClick={::this.saveHandler}>Сохранить</button>
+        <div className='row center-md center-sm center-xs'>
+          <div className='col-xs-4 col-sm-4 col-md-4'>
+            <button className='btn btn-enter btn--greyblue' onClick={::this.saveHandler}>Сохранить</button>
           </div>
         </div>
         <hr/>
 
-        <div className="row center-xs center-sm center-md">
-          <div className="col-md-12 col-xs-12 col-sm-12">
-            <h1 className="profile-container__header">Ваши сессии</h1>
+        <div className='row center-xs center-sm center-md'>
+          <div className='col-md-12 col-xs-12 col-sm-12'>
+            <h1 className='profile-container__header'>Ваши сессии</h1>
           </div>
           {sessionsList}
 

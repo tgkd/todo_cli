@@ -19,6 +19,7 @@ export default class extends Component {
     }
   }
 
+
   updateUserInfo(userInfo) {
     const { updateUserInfo } = this.props;
     updateUserInfo(userInfo)
@@ -31,7 +32,22 @@ export default class extends Component {
 
   terminateUserSession(id) {
     const { terminateSession } = this.props;
-    terminateSession(id);
+    terminateSession(id)
+      .catch(e => {
+        this.setState({
+          error: 'Ошибка, повторите попытку'
+        })
+      })
+  }
+
+  logout() {
+    const { logout } = this.props;
+    logout()
+      .catch(e => {
+        this.setState({
+          error: 'Ошибка, повторите попытку'
+        })
+      })
   }
 
   componentDidMount() {
@@ -51,8 +67,8 @@ export default class extends Component {
 
     return (
       <div>
-        <Navigation/>
-        <div className="row center-xs center-md center-md">
+        <Navigation logout={::this.logout}/>
+        <div className='row center-xs center-md center-md'>
           <Profile
             apiError={this.state.error}
             updateUserInfo={::this.updateUserInfo}
