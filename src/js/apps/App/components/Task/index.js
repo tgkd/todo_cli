@@ -19,7 +19,6 @@ export default class extends Component {
     this.props.updateTask(updatedTask);
   }
 
-
   render() {
 
     const { incompleteTasks, completedTasks } = this.props;
@@ -55,13 +54,12 @@ export default class extends Component {
         <hr/>
 
         <div className='row center-xs center-sm center-md'>
-          {incompleteList}
+          {incompleteList.length === 0 ? 'Нет незавершенных задач' : incompleteList}
         </div>
         <hr/>
         <div className='row center-xs center-sm center-md'>
-          {completedList}
+          {completedList.length === 0 ? 'Нет завершенных задач' : completedList}
         </div>
-
       </div>
 
     )

@@ -42,6 +42,9 @@ export default class extends Component {
     };
     if (this.isValidInput()) {
       this.props.createHandler(newTask);
+      this.setState({
+        title: ''
+      })
     } else {
       this.setState({
         error: true,
@@ -52,7 +55,8 @@ export default class extends Component {
 
   setTaskTitle(e) {
     this.setState({
-      title: e.target.value
+      title: e.target.value,
+      error: false
     })
   }
 
@@ -71,13 +75,16 @@ export default class extends Component {
   }
 
   render() {
-    const { calendarVisible, end } = this.state;
+    const { title, calendarVisible, end, error, errorMessage } = this.state;
     return (
       <div className='row middle-xs middle-sm middle-md'>
         <div className='col-xs-10 col-sm-10 col-md-10'>
           <div className='input-container'>
-            <input type='text' className={::this.getInputClass()} onChange={::this.setTaskTitle}
-                   placeholder='Новое дело'/>
+            <input type='text'
+                   className={::this.getInputClass()}
+                   onChange={::this.setTaskTitle}
+                   placeholder={error ? errorMessage : 'Новое дело'}
+                   value={title}/>
             <div
               className="input-container__img tasks-container__datepicker row middle-xs middle-sm middle-md end-xs end-sm end-md"
               onClick={::this.toggleCalendar}>

@@ -4,6 +4,7 @@
 @import "components/nav.styl"
 @import "components/calendar.styl"
 @import "components/task.styl"
+@import "colors.styl"
 
 @import "getUser.styl"
 @import "login.styl"
@@ -11,6 +12,7 @@
 @import "main_page.styl"
 @import "profile.styl"
 @import "tasks.styl"
+@import "calendarPage.styl"
 
 @import "./../../node_modules/nib/index.styl"
 
@@ -26,7 +28,7 @@ body
   padding 0
   display flex
   font-family "Roboto Thin"
-  background-image: linear-gradient(top right, #194b7f, #b88cb7);
+  background-image: linear-gradient(top right, $gradient_1, $gradient_2);
   background-repeat no-repeat
   background-attachment fixed
 
@@ -38,5 +40,5 @@ body
   border-radius 50%
 
 .link
-  color #696c9b
+  color $grey_blue
   font-size 18px

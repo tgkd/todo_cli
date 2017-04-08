@@ -6,6 +6,7 @@ import * as userActions from '../../store/actionCreators/user';
 
 import Task from '../../components/Task';
 import Navigation from '../../components/Navigation';
+import difference from '../../../../libs/utils';
 
 @connect(
   ({ taskList, user }) => ({ taskList, user }),
@@ -44,6 +45,9 @@ export default class extends Component {
   logout() {
     const { logout } = this.props;
     logout()
+      .then(response => {
+        window.location.href = '/';
+      })
       .catch(e => {
         this.setState({
           error: 'Ошибка, повторите попытку'
@@ -84,21 +88,26 @@ export default class extends Component {
     if (taskList && taskList.length > 0) {
       this.filterTasks(taskList)
     }
-
-    const { getTasks } = this.props;
-
-    getTasks()
-      .catch(e => {
-        this.setState({
-          error: 'Ошибка, повторите попытку'
-        })
-      })
   }
 
-  render() {
-
+  componentDidUpdate(prevProps, prevState) {
+    const { taskList } = this.props.taskList;
     const { incompleteTasks, completedTasks } = this.state;
+    if (taskList && taskList.length > 0 && incompleteTasks.length === 0 && completedTasks.length === 0) {
+      this.filterTasks(taskList);
+    }
+    const prevTaskList = prevProps.taskList;
+    const oldTaskList = prevTaskList.taskList;
 
+    const listsDiff = difference(taskList, oldTaskList);
+    if((taskList && oldTaskList && taskList.length !== oldTaskList.length) || listsDiff.length !== 0) {
+      this.filterTasks(taskList);
+    }
+  }
+
+
+  render() {
+    const { incompleteTasks, completedTasks } = this.state;
     return (
       <div>
         <Navigation logout={::this.logout}/>

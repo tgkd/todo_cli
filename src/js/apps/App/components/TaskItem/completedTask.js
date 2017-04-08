@@ -12,11 +12,12 @@ export default class extends Component {
   }
 
   componentDidMount() {
+    const { task } = this.props;
     this.setState({
-      title: this.props.task.title,
-      done: this.props.task.done,
-      end: this.props.task.end,
-      _id: this.props.task.id
+      title: task.title,
+      done: task.done,
+      end: task.end,
+      _id: task._id
     });
   }
 

@@ -8,16 +8,8 @@ export default class CalendarHeader extends Component {
     super(props)
   }
 
-  previousMonth(e) {
-    this.props.previousMonth(e);
-  }
-
-  nextMonth(e) {
-    this.props.nextMonth(e);
-  }
-
   render() {
-    const { dayNames, month, year } = this.props;
+    const { dayNames, month, year, previousMonth, nextMonth } = this.props;
 
     const dayNamesRow = dayNames.map(day => {
       return <td>{day}</td>
@@ -30,7 +22,7 @@ export default class CalendarHeader extends Component {
       </tr>
       <tr>
         <td>
-          <a href="#" className="calendar__nav calendar__nav--previous" onClick={ ::this.previousMonth }>
+          <a href="#" className="calendar__nav calendar__nav--previous" onClick={ previousMonth }>
             <span className="fa fa-angle-left"/>
           </a>
         </td>
@@ -38,7 +30,7 @@ export default class CalendarHeader extends Component {
           className="calendar__selected-date">{ moment().month(month).format("MMMM") } { year }</span>
         </td>
         <td>
-          <a href="#" className="calendar__nav calendar__nav--next" onClick={ ::this.nextMonth }>
+          <a href="#" className="calendar__nav calendar__nav--next" onClick={ nextMonth }>
             <span className="fa fa-angle-right"/>
           </a>
         </td>

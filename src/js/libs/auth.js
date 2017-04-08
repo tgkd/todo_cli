@@ -35,10 +35,20 @@ class Auth {
   }
 
   logout() {
-    return this.api.request({
-      method: this.auth.logout.method,
-      url: this.apiHost + this.auth.logout.url
+    return new Promise((resolve, reject) => {
+      return this.api.request({
+        method: this.auth.logout.method,
+        url: this.auth.logout.url
+      })
+        .then(logout => {
+          resolve(logout)
+        })
+        .catch(e => {
+          reject(e)
+        })
     })
+
+
   }
 
   register(credentials, session) {

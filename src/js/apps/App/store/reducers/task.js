@@ -7,9 +7,14 @@ export default function (state = {}, action) {
     case actions.createTask:
       return { taskList: [...state.taskList, action.payload] };
     case actions.updateTask:
-      return { /*todo find by id and update?*/ };
+      let updatedList = state.taskList.map(task => {
+        if(task._id === action.payload._id) {
+          task.done = true;
+        }
+      });
+      return { taskList: updatedList };
     case actions.deleteTask:
-      return { };
+      return { taskList: action.payload };
     default:
       return state
   }

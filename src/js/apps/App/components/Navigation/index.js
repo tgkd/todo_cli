@@ -6,12 +6,9 @@ export default class extends Component {
     super(props);
   }
 
-  logoutHandler() {
-    this.props.logout();
-  }
-
   render() {
     const location = window.location.pathname;
+    const {logout} = this.props;
     return (
       <div className="row center-md center-sm center-xs nav-links">
         <div className="col-xs-10 col-sm-10 col-md-10">
@@ -25,7 +22,7 @@ export default class extends Component {
                 </Link>
               }
             </div>
-            <div onClick={::this.logoutHandler} className="nav-links__logout col-md-2 col-sm-2 col-xs-2">
+            <div onClick={logout} className="nav-links__logout col-md-2 col-sm-2 col-xs-2">
               <img src="/assets/exit.svg" alt="exit"/>
               <span>&nbsp;Выйти</span>
             </div>

@@ -43,6 +43,9 @@ export default class extends Component {
   logout() {
     const { logout } = this.props;
     logout()
+      .then(response => {
+        window.location.href = '/';
+      })
       .catch(e => {
         this.setState({
           error: 'Ошибка, повторите попытку'
