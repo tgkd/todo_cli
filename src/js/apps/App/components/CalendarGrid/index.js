@@ -10,7 +10,7 @@ export default class Weeks extends Component {
   }
 
   render() {
-    const { calendar, month, date } = this.props;
+    const { calendar, month, incompleteTasks } = this.props;
     let weeks = [];
     if (calendar) {
       weeks = calendar.map((week, id) => {
@@ -26,9 +26,22 @@ export default class Weeks extends Component {
             dayClasses += " calendar-container__cell--muted";
           }
 
+          const taskToday = incompleteTasks.map(task => {
+            console.log(moment(task.end).format('DD-MM-YYYY'));
+            console.log(day.format('DD-MM-YYYY'));
+            if(day.format('DD-MM-YYYY') === moment(task.end).format('DD-MM-YYYY')){
+              return (
+                <div className="cell__task">
+                  {task.title}
+                </div>
+              )
+            }
+          });
+
           return (
             <div className={dayClasses} key={day.format('D-MM')}>
               <span href="#" className="calendar-container__date">{ day.format('D') }</span>
+              {taskToday}
             </div>
           )
         });
@@ -41,7 +54,7 @@ export default class Weeks extends Component {
     }
 
     return (
-      <div className="col-xs-12 col-sm-12 col-md-12">
+      <div className="col-xs-12 col-sm-12 col-md-12" style={{padding: 0}}>
         {weeks}
       </div>
     )

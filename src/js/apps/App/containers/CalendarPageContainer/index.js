@@ -72,6 +72,22 @@ export default class extends Component {
     })
   }
 
+  componentDidMount() {
+    const { getTasks } = this.props;
+    getTasks()
+      .then(data => {
+        const {taskList} = this.props.taskList;
+        if(taskList && taskList.length > 0){
+          this.filterTasks(taskList);
+        }
+      })
+      .catch(e => {
+        this.setState({
+          error: 'Ошибка, повторите попытку'
+        })
+      })
+  }
+
   render() {
     const { incompleteTasks, completedTasks } = this.state;
     return (

@@ -102,9 +102,7 @@ class DatePicker extends Component {
                               year={year}
                               dayNames={dayNames} month={month}/>
             </div>
-            <div className='col-xs-12 col-sm-12 col-md-12'>
-              <CalendarGrid calendar={calendar} month={month} date={date}/>
-            </div>
+              <CalendarGrid calendar={calendar} month={month} date={date} incompleteTasks={this.props.incompleteTasks}/>
           </div>
           <br/>
 

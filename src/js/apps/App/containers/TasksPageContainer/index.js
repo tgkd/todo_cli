@@ -84,23 +84,25 @@ export default class extends Component {
 
 
   componentDidMount() {
-    const { taskList } = this.props.taskList;
-    if (taskList && taskList.length > 0) {
-      this.filterTasks(taskList)
-    }
+    const { getTasks } = this.props;
+    getTasks()
+      .catch(e => {
+        this.setState({
+          error: 'Ошибка, повторите попытку'
+        })
+      })
   }
 
   componentDidUpdate(prevProps, prevState) {
     const { taskList } = this.props.taskList;
     const { incompleteTasks, completedTasks } = this.state;
-    if (taskList && taskList.length > 0 && incompleteTasks.length === 0 && completedTasks.length === 0) {
-      this.filterTasks(taskList);
-    }
     const prevTaskList = prevProps.taskList;
     const oldTaskList = prevTaskList.taskList;
 
     const listsDiff = difference(taskList, oldTaskList);
     if((taskList && oldTaskList && taskList.length !== oldTaskList.length) || listsDiff.length !== 0) {
+      this.filterTasks(taskList);
+    }else if (taskList && taskList.length > 0 && incompleteTasks.length === 0 && completedTasks.length === 0) {
       this.filterTasks(taskList);
     }
   }

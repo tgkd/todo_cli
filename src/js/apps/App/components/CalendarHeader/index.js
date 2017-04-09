@@ -30,7 +30,7 @@ export default class CalendarHeader extends Component {
               <span className="fa fa-angle-left"/>
             </a>
           </div>
-          <div className="col-xs-10 col-sm-10 col-md-10">
+          <div className="col-xs-3 col-sm-3 col-md-3">
             <span className="calendar-container__selected-date">{ moment().month(month).format("MMMM") } { year }</span>
           </div>
           <div className="col-xs-1 col-sm-1 col-md-1">
