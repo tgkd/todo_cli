@@ -11,6 +11,7 @@ export default function (state = {}, action) {
         if(task._id === action.payload._id) {
           task.done = true;
         }
+        return task;
       });
       return { taskList: updatedList };
     case actions.deleteTask:

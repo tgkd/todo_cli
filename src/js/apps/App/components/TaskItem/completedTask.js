@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Checkbox from '../Checkbox';
 
 export default class extends Component {
   constructor(props) {
@@ -32,7 +33,8 @@ export default class extends Component {
         <div className="col-xs-10 col-sm-10 col-md-10">
           <div className="row middle-xs middle-sm middle-md task task--completed">
             <div className="col-xs-1 col-sm-1 col-md-1">
-              <input type="checkbox" checked={true} disabled={true}/>
+              <Checkbox checked={true} disabled={true}/>
+              {/*<input type="checkbox" checked={true} disabled={true}/>*/}
             </div>
             <div className="col-xs-11 col-sm-11 col-md-11">
               <p className="task__name">{task.title}</p>

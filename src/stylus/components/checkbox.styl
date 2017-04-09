@@ -1,0 +1,27 @@
+$checkbox-color = #3c598c;
+.checkbox
+  display inline-block
+  box-sizing border-box
+  position relative
+  border 2px solid $checkbox-color
+  border-radius 2px
+  width 15px
+  height 15px
+  flex-shrink 0
+  cursor pointer
+  margin-top 5px
+  &--unchecked
+    background-color #ffffff
+  &--checked
+    background-color $checkbox-color
+    border-color $checkbox-color
+    pointer-events none
+    .checkbox__check
+      color #ffffff
+
+  &__check
+    font-size 13px
+    color $checkbox-color
+    position absolute
+    left -1px
+    top -1px

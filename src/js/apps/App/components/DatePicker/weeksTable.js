@@ -35,8 +35,11 @@ export default class Weeks extends Component {
           if (day.format('DD-MM-YYYY') === moment().format('DD-MM-YYYY')) {
             dayClasses += " calendar__day--today";
           }
-          return <td className="calendar__cell" key={day.format('D-MM')}>
-            <a href="#" className={ dayClasses } onClick={ this.setDate.bind(this, day) }>{ day.format('D') }</a></td>
+          return (
+            <td className="calendar__cell" key={day.format('D-MM')}>
+                <a href="#" className={ dayClasses } onClick={ this.setDate.bind(this, day) }>{ day.format('D') }</a>
+            </td>
+          )
         });
         return <tr key={ id }>{ days }</tr>
       });

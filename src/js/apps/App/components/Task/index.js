@@ -52,12 +52,11 @@ export default class extends Component {
         </div>
         <br/>
         <hr/>
-
-        <div className='row center-xs center-sm center-md'>
+        <div className='row center-xs center-sm center-md tasks-container__incomplete-list'>
           {incompleteList.length === 0 ? 'Нет незавершенных задач' : incompleteList}
         </div>
         <hr/>
-        <div className='row center-xs center-sm center-md'>
+        <div className='row center-xs center-sm center-md tasks-container__completed-list'>
           {completedList.length === 0 ? 'Нет завершенных задач' : completedList}
         </div>
       </div>

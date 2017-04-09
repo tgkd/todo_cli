@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Checkbox from '../Checkbox';
 
 import Moment from 'moment';
 import {extendMoment} from 'moment-range';
@@ -31,7 +32,10 @@ export default class extends Component {
     this.setState({
       done: true
     });
-    this.props.updateTask(this.state);
+    this.props.updateTask({
+      ...this.state,
+      done: true
+    });
   }
 
   render() {
@@ -42,7 +46,8 @@ export default class extends Component {
 
       <div className='row middle-xs middle-sm middle-md tasks-container__task task task--incomplete'>
         <div className='col-xs-1 col-sm-1 col-md-1'>
-          <input type='checkbox' checked={false} onChange={::this.updateTask}/>
+          <Checkbox checked={false} changeState={::this.updateTask} disabled={false}/>
+          {/*<input type='checkbox' checked={false} onChange={::this.updateTask}/>*/}
         </div>
         <div className='col-xs-9 col-sm-9 col-md-9'>
           <p className='task__name'>{task.title}</p>
