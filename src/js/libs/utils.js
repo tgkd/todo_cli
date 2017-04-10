@@ -4,7 +4,7 @@ export default function difference (array){
   const rest = [].concat.apply([], [].slice.call(arguments, 1));
 
   const containsEquals = (obj, target) => {
-    if (obj == null) {
+    if (obj === null) {
       return false;
     }
     return any(obj, function(value) {

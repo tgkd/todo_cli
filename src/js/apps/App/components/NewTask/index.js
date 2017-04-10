@@ -35,9 +35,10 @@ export default class extends Component {
 
   createTask() {
     const { title, done, formattedDate } = this.state;
+    let date = formattedDate.format('YYYY-MM-DD HH:mm:ss.000').toString() + 'Z';
     const newTask = {
       title,
-      end: formattedDate.format('D-MM-YYYY').toString(),
+      end: date,
       done
     };
     if (this.isValidInput()) {
@@ -97,9 +98,8 @@ export default class extends Component {
                 <title>8F18FF8D-0089-4998-AECB-EA32DEACFFFF</title>
                 <path
                   d="M16 2h-1V0h-2v2H5V0H3v2H2C.89 2 .01 2.9.01 4L0 18a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 16H2V7h14v11zM4 9h5v5H4V9z"
-                  fill="#566394" fill-rule="evenodd"/>
+                  fill="#566394"/>
               </svg>
-              {/*<img className='tasks-container__calendar-ico' src='/assets/little-calendar.svg' alt='calendar' onClick={::this.toggleCalendar}/>*/}
             </div>
             {calendarVisible && <DatePicker setDate={::this.setDate}/>}
           </div>

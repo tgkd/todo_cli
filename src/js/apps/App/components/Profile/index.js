@@ -7,7 +7,6 @@ import DatePicker from '../DatePicker';
 import Moment from 'moment';
 import {extendMoment} from 'moment-range';
 const moment = extendMoment(Moment);
-moment.locale('ru');
 
 export default class extends Component {
   constructor(props) {
@@ -27,12 +26,12 @@ export default class extends Component {
   componentDidMount() {
     const { user } = this.props;
     if (user) {
-      let birthday = moment(user.birthday, 'D MMMM YYYY');
+      const birthday = moment(user.birthday);
       if (birthday.isValid()) {
         this.setState({
           user: {
             ...user,
-            birthday: birthday.toString(),
+            birthday: birthday.format('DD MMMM YYYY').toString(),
             formattedDate: moment(user.birthday)
           }
         })
@@ -44,12 +43,13 @@ export default class extends Component {
     const { user } = this.props;
     const userState = this.state.user;
     if (user && !userState._id) {
-      let birthday = moment(user.birthday, 'D MMMM YYYY');
+      const birthday = moment(user.birthday);
+      console.log(birthday.toString());
       if (birthday.isValid()) {
         this.setState({
           user: {
             ...user,
-            birthday: birthday.toString(),
+            birthday: birthday.format('DD MMMM YYYY').toString(),
             formattedDate: moment(user.birthday)
           }
         })
@@ -74,11 +74,12 @@ export default class extends Component {
   }
 
   setDate(date) {
+    console.log(date.locale('ru').format('D MMMM YYYY'));
     this.setState({
       calendarVisible: false,
       user: {
         ...this.state.user,
-        birthday: date.format('D MMMM YYYY'),
+        birthday: date.locale('ru').format('D MMMM YYYY'),
         formattedDate: date
       }
     })
@@ -86,7 +87,7 @@ export default class extends Component {
 
   saveHandler() {
     const { user } = this.state;
-    let date = user.formattedDate.format('D MM YYYY').toString();
+    let date = user.formattedDate.format('YYYY-MM-DD HH:mm:ss.000').toString() + 'Z';
     const result = {
       ...user,
       birthday: date
