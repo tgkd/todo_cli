@@ -1,10 +1,12 @@
 @import "colors.styl"
 
 .calendar-container
-  position absolute
+  min-width 500px
   background-color #ffffff
-  box-shadow: 0 2px 4px 0 $shadow-color;
-
+  border-radius 2px
+  &__header
+    font-size 21px
+    margin 50px 0
   &__day-names
     background-color $light-blue
     text-align center
@@ -20,13 +22,31 @@
     height 130px
     width 100%
     border solid 1px $light-grey
-    margin 0 -1px -1px 0px
+    border-bottom 0
+    border-left 0
   &__cell--muted
     color $light-blue
     background-color $calendar-muted-cell
+  &__daynames
+    margin-top 25px
+    background-color $light-blue
+    display flex
+  &__selected-date
+    font-size 16px
+    font-weight 600
+    color $light-navy-blue
   &__date
     text-decoration none
     float right
     color $calendar-date-color
     cursor default
     margin 7px
+
+.dayname-container
+  width 100%
+  &__name
+    float left
+    color #ffffff
+    font-size 13px
+    font-weight 600
+    margin 10px 0 10px 5px

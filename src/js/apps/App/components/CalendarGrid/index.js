@@ -10,7 +10,15 @@ export default class Weeks extends Component {
   }
 
   render() {
-    const { calendar, month, incompleteTasks } = this.props;
+    const { dayNames, calendar, month, incompleteTasks } = this.props;
+    const dayNamesRow = dayNames.map(day => {
+      return (
+        <div className="dayname-container">
+          <span className="dayname-container__name">{day}</span>
+        </div>
+      )
+    });
+
     let weeks = [];
     if (calendar) {
       weeks = calendar.map((week, id) => {
@@ -45,6 +53,7 @@ export default class Weeks extends Component {
             </div>
           )
         });
+
         return (
           <div className="calendar-container__row" key={ id }>
             { days }
@@ -55,6 +64,9 @@ export default class Weeks extends Component {
 
     return (
       <div className="col-xs-12 col-sm-12 col-md-12" style={{padding: 0}}>
+        <div className="calendar-container__daynames">
+          {dayNamesRow}
+        </div>
         {weeks}
       </div>
     )

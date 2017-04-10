@@ -44,7 +44,6 @@ export default class extends Component {
     const userState = this.state.user;
     if (user && !userState._id) {
       const birthday = moment(user.birthday);
-      console.log(birthday.toString());
       if (birthday.isValid()) {
         this.setState({
           user: {
@@ -74,7 +73,6 @@ export default class extends Component {
   }
 
   setDate(date) {
-    console.log(date.locale('ru').format('D MMMM YYYY'));
     this.setState({
       calendarVisible: false,
       user: {
@@ -191,9 +189,7 @@ export default class extends Component {
             <h1 className='profile-container__header'>Ваши сессии</h1>
           </div>
           {sessionsList}
-
         </div>
-
       </div>
     )
   }
