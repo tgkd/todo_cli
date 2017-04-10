@@ -4,7 +4,6 @@ import Checkbox from '../Checkbox';
 import Moment from 'moment';
 import {extendMoment} from 'moment-range';
 const moment = extendMoment(Moment);
-moment.locale('ru');
 
 export default class extends Component {
   constructor(props) {
@@ -41,7 +40,7 @@ export default class extends Component {
   render() {
     const { task } = this.props;
     const endDate = moment(task.end);
-    const date = endDate.isValid() ? endDate.format('D MMMM YYYY').toString() : '-';
+    const date = endDate.isValid() ? endDate.locale('ru').utc().format('D MMMM YYYY').toString() : '-';
     return (
 
       <div className='row middle-xs middle-sm middle-md tasks-container__task task task--incomplete'>

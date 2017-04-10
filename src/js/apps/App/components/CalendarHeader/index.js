@@ -21,7 +21,7 @@ export default class CalendarHeader extends Component {
             </a>
           </div>
           <div className='col-xs-3 col-sm-3 col-md-3'>
-            <span className='calendar-container__selected-date'>{ moment().month(month).format('MMMM') } { year }</span>
+            <span className='calendar-container__selected-date'>{ moment().locale('ru').month(month).format('MMMM') } { year }</span>
           </div>
           <div className='col-xs-1 col-sm-1 col-md-1'>
             <a href='#' className='calendar-container__nav calendar-container__nav--next' onClick={ nextMonth }>

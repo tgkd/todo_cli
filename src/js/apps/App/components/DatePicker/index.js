@@ -6,7 +6,6 @@ import Weeks from './weeksTable';
 import getCalendar from './dateCreator';
 
 const moment = extendMoment(Moment);
-moment.locale('ru');
 
 class DatePicker extends Component {
   constructor(props) {

@@ -7,7 +7,6 @@ import CalendarHeader from '../CalendarHeader';
 import CalendarGrid from '../CalendarGrid';
 
 const moment = extendMoment(Moment);
-moment.locale('ru');
 
 class DatePicker extends Component {
   constructor(props) {

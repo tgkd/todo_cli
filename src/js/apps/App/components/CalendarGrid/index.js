@@ -35,9 +35,7 @@ export default class Weeks extends Component {
           }
 
           const taskToday = incompleteTasks.map(task => {
-            console.log(moment(task.end).format('DD-MM-YYYY'));
-            console.log(day.format('DD-MM-YYYY'));
-            if(day.format('DD-MM-YYYY') === moment(task.end).format('DD-MM-YYYY')){
+            if(day.locale('ru').utc().format('DD-MM-YYYY') === moment(task.end).locale('ru').utc().format('DD-MM-YYYY')){
               return (
                 <div className="cell__task">
                   {task.title}

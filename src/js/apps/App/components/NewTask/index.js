@@ -4,7 +4,6 @@ import DatePicker from '../DatePicker';
 import Moment from 'moment';
 import {extendMoment} from 'moment-range';
 const moment = extendMoment(Moment);
-moment.locale('ru');
 
 export default class extends Component {
   constructor(props) {
@@ -12,7 +11,7 @@ export default class extends Component {
     const now = moment();
     this.state = {
       title: '',
-      end: now.format('D MMMM YYYY'),
+      end: now.locale('ru').format('D MMMM YYYY'),
       done: false,
       calendarVisible: false,
       formattedDate: now,
@@ -62,9 +61,10 @@ export default class extends Component {
   }
 
   setDate(date) {
+    const endDate = date.locale('ru').format('D MMMM YYYY');
     this.setState({
       calendarVisible: false,
-      end: date.format('D MMMM YYYY'),
+      end: endDate,
       formattedDate: date
     })
   }
