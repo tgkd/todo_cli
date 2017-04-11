@@ -27,7 +27,7 @@ export default class CalendarHeader extends Component {
           </a>
         </td>
         <td colSpan="5"><span
-          className="calendar__selected-date">{ moment().month(month).format("MMMM") } { year }</span>
+          className="calendar__selected-date">{ moment().locale('ru').month(month).format("MMMM") } { year }</span>
         </td>
         <td>
           <a href="#" className="calendar__nav calendar__nav--next" onClick={ nextMonth }>

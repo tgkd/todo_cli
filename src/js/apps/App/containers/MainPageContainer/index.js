@@ -18,24 +18,11 @@ export default class extends Component {
     super(props);
   }
 
-  logout() {
-    const { logout } = this.props;
-    logout()
-      .then(response => {
-        window.location.href = '/';
-      })
-      .catch(e => {
-        this.setState({
-          error: 'Ошибка, повторите попытку'
-        })
-      })
-  }
-
-
   render() {
+    const { logout } = this.props;
     return(
       <div className="main">
-        <Navigation logout={::this.logout}/>
+        <Navigation logout={logout}/>
         <MainPage/>
       </div>
     )

@@ -16,53 +16,6 @@ import difference from '../../../../libs/utils';
 export default class extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      error: '',
-      incompleteTasks: [],
-      completedTasks: []
-    };
-  }
-
-  createTask(task) {
-    const { createTask } = this.props;
-    createTask(task)
-      .catch(e => {
-        this.setState({
-          error: 'Ошибка, повторите попытку'
-        })
-      })
-  }
-  updateTask(task) {
-    const { updateTask } = this.props;
-    updateTask(task)
-      .catch(e => {
-        this.setState({
-          error: 'Ошибка, повторите попытку'
-        })
-      })
-  }
-
-  logout() {
-    const { logout } = this.props;
-    logout()
-      .then(response => {
-        window.location.href = '/';
-      })
-      .catch(e => {
-        this.setState({
-          error: 'Ошибка, повторите попытку'
-        })
-      })
-  }
-
-  deleteTask(id) {
-    const { deleteTask } = this.props;
-    deleteTask(id)
-      .catch(e => {
-        this.setState({
-          error: 'Ошибка, повторите попытку'
-        })
-      })
   }
 
 
@@ -75,52 +28,29 @@ export default class extends Component {
     completedTasks = tasks.filter(item => {
       return item.done === true;
     });
-
-    this.setState({
+    return {
       incompleteTasks,
       completedTasks
-    })
-  }
-
-
-  componentDidMount() {
-    const { getTasks } = this.props;
-    getTasks()
-      .catch(e => {
-        this.setState({
-          error: 'Ошибка, повторите попытку'
-        })
-      })
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const { taskList } = this.props.taskList;
-    const { incompleteTasks, completedTasks } = this.state;
-    const prevTaskList = prevProps.taskList;
-    const oldTaskList = prevTaskList.taskList;
-
-    const listsDiff = difference(taskList, oldTaskList);
-    if((taskList && oldTaskList && taskList.length !== oldTaskList.length) || listsDiff.length !== 0) {
-      this.filterTasks(taskList);
-    }else if (taskList && taskList.length > 0 && incompleteTasks.length === 0 && completedTasks.length === 0) {
-      this.filterTasks(taskList);
     }
   }
 
 
   render() {
-    const { incompleteTasks, completedTasks } = this.state;
+    const { taskList } = this.props.taskList;
+    const { getTasks, createTask, updateTask, deleteTask, logout } = this.props;
+
+    const { incompleteTasks, completedTasks } = this.filterTasks(taskList || []);
     return (
       <div>
-        <Navigation logout={::this.logout}/>
+        <Navigation logout={logout}/>
         <div className='row center-xs center-sm center-md'>
           <Task
+            getTasks={getTasks}
             incompleteTasks={incompleteTasks}
             completedTasks={completedTasks}
-            apiError={this.state.error}
-            createTask={::this.createTask}
-            updateTask={::this.updateTask}
-            deleteTask={::this.deleteTask}/>
+            createTask={createTask}
+            updateTask={updateTask}
+            deleteTask={deleteTask}/>
         </div>
       </div>
     )

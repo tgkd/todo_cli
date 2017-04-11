@@ -23,6 +23,17 @@ export default class extends Component {
     }
   }
 
+  /*componentDidMount() {
+   const { getUserInfo } = this.props;
+
+   getUserInfo()
+   .catch(e => {
+   this.setState({
+   error: 'Ошибка, повторите попытку'
+   })
+   })
+   }*/
+
   componentDidMount() {
     const { user } = this.props;
     if (user) {
@@ -31,7 +42,7 @@ export default class extends Component {
         this.setState({
           user: {
             ...user,
-            birthday: birthday.format('DD MMMM YYYY').toString(),
+            birthday: birthday.locale('ru').format('DD MMMM YYYY').toString(),
             formattedDate: moment(user.birthday)
           }
         })
@@ -48,12 +59,38 @@ export default class extends Component {
         this.setState({
           user: {
             ...user,
-            birthday: birthday.format('DD MMMM YYYY').toString(),
+            birthday: birthday.locale('ru').format('DD MMMM YYYY').toString(),
             formattedDate: moment(user.birthday)
           }
         })
       }
     }
+  }
+
+  updateUserInfo() {
+    const { updateUserInfo } = this.props;
+    const { user } = this.state;
+    let date = user.formattedDate.format('YYYY-MM-DD HH:mm:ss.000').toString() + 'Z';
+    const result = {
+      ...user,
+      birthday: date
+    };
+    updateUserInfo(result)
+      .catch(e => {
+        this.setState({
+          error: 'Ошибка, повторите попытку'
+        })
+      })
+  }
+
+  terminateUserSession(id) {
+    const { terminateSession } = this.props;
+    terminateSession(id)
+      .catch(e => {
+        this.setState({
+          error: 'Ошибка, повторите попытку'
+        })
+      })
   }
 
   setName(e) {
@@ -83,15 +120,6 @@ export default class extends Component {
     })
   }
 
-  saveHandler() {
-    const { user } = this.state;
-    let date = user.formattedDate.format('YYYY-MM-DD HH:mm:ss.000').toString() + 'Z';
-    const result = {
-      ...user,
-      birthday: date
-    };
-    this.props.updateUserInfo(result);
-  }
 
   handleFile(e) {
     const reader = new FileReader();
@@ -114,7 +142,6 @@ export default class extends Component {
   }
 
   toggleCalendar(e) {
-    
     this.setState({
       calendarVisible: !this.state.calendarVisible
     })
@@ -168,7 +195,7 @@ export default class extends Component {
                   <title>8F18FF8D-0089-4998-AECB-EA32DEACFFFF</title>
                   <path
                     d='M16 2h-1V0h-2v2H5V0H3v2H2C.89 2 .01 2.9.01 4L0 18a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 16H2V7h14v11zM4 9h5v5H4V9z'
-                    fill='#566394' fill-rule='evenodd'/>
+                    fill='#566394'/>
                 </svg>
               </div>
               {calendarVisible && <DatePicker date={user.formattedDate || null} setDate={::this.setDate}/>}
@@ -179,7 +206,7 @@ export default class extends Component {
         </div>
         <div className='row center-md center-sm center-xs'>
           <div className='col-xs-4 col-sm-4 col-md-4'>
-            <button className='btn btn-enter btn--greyblue' onClick={::this.saveHandler}>Сохранить</button>
+            <button className='btn btn-enter btn--greyblue' onClick={::this.updateUserInfo}>Сохранить</button>
           </div>
         </div>
         <hr/>

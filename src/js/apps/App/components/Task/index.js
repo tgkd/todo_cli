@@ -5,18 +5,54 @@ import NewTask from '../NewTask';
 export default class extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      error: ''
+    }
   }
 
-  createTask(newTask) {
-    this.props.createTask(newTask);
+
+  createTask(task) {
+    const { createTask } = this.props;
+    createTask(task)
+      .catch(e => {
+        this.setState({
+          error: 'Ошибка, повторите попытку'
+        })
+      })
   }
+
+
+  updateTask(task) {
+    const { updateTask } = this.props;
+    updateTask(task)
+      .catch(e => {
+        this.setState({
+          error: 'Ошибка, повторите попытку'
+        })
+      })
+  }
+
 
   deleteTask(id) {
-    this.props.deleteTask(id);
+    const { deleteTask } = this.props;
+    deleteTask(id)
+      .catch(e => {
+        this.setState({
+          error: 'Ошибка, повторите попытку'
+        })
+      })
   }
 
-  updateTask(updatedTask) {
-    this.props.updateTask(updatedTask);
+
+  componentDidMount() {
+    const { getTasks } = this.props;
+    getTasks()
+      .catch(e => {
+        this.setState({
+          error: 'Ошибка, повторите попытку'
+        })
+      })
   }
 
   render() {
@@ -47,7 +83,7 @@ export default class extends Component {
             <h1 className='tasks-container__header'>Дела</h1>
           </div>
           <div className='col-xs-10 col-sm-10 col-md-10'>
-            <NewTask apiErorr={this.props.apiError} createHandler={::this.createTask}/>
+            <NewTask createHandler={::this.createTask}/>
           </div>
         </div>
         <br/>

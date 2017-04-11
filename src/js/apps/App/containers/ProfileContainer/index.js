@@ -14,68 +14,20 @@ import Navigation from '../../components/Navigation';
 export default class extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      error: ''
-    }
-  }
-
-
-  updateUserInfo(userInfo) {
-    const { updateUserInfo } = this.props;
-    updateUserInfo(userInfo)
-      .catch(e => {
-        this.setState({
-          error: 'Ошибка, повторите попытку'
-        })
-      })
-  }
-
-  terminateUserSession(id) {
-    const { terminateSession } = this.props;
-    terminateSession(id)
-      .catch(e => {
-        this.setState({
-          error: 'Ошибка, повторите попытку'
-        })
-      })
-  }
-
-  logout() {
-    const { logout } = this.props;
-    logout()
-      .then(response => {
-        window.location.href = '/';
-      })
-      .catch(e => {
-        this.setState({
-          error: 'Ошибка, повторите попытку'
-        })
-      })
-  }
-
-  componentDidMount() {
-    const { getUserInfo } = this.props;
-
-    getUserInfo()
-      .catch(e => {
-        this.setState({
-          error: 'Ошибка, повторите попытку'
-        })
-      })
   }
 
   render() {
 
     const { user, sessions } = this.props.user;
+    const { updateUserInfo, logout, terminateSession } = this.props;
 
     return (
       <div>
-        <Navigation logout={::this.logout}/>
+        <Navigation logout={logout}/>
         <div className='row center-xs center-sm center-md'>
           <Profile
-            apiError={this.state.error}
-            updateUserInfo={::this.updateUserInfo}
-            termianteUserSession={::this.terminateUserSession}
+            updateUserInfo={updateUserInfo}
+            termianteUserSession={terminateSession}
             user={user}
             sessions={sessions}/>
         </div>

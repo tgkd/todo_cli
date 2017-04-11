@@ -15,44 +15,6 @@ import Navigation from '../../components/Navigation';
 export default class extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      error: '',
-      incompleteTasks: [],
-      completedTasks: []
-    };
-  }
-
-  updateTask(task) {
-    const { updateTask } = this.props;
-    updateTask(task)
-      .catch(e => {
-        this.setState({
-          error: 'Ошибка, повторите попытку'
-        })
-      })
-  }
-
-  logout() {
-    const { logout } = this.props;
-    logout()
-      .then(response => {
-        window.location.href = '/';
-      })
-      .catch(e => {
-        this.setState({
-          error: 'Ошибка, повторите попытку'
-        })
-      })
-  }
-
-  deleteTask(id) {
-    const { deleteTask } = this.props;
-    deleteTask(id)
-      .catch(e => {
-        this.setState({
-          error: 'Ошибка, повторите попытку'
-        })
-      })
   }
 
 
@@ -65,40 +27,29 @@ export default class extends Component {
     completedTasks = tasks.filter(item => {
       return item.done === true;
     });
-
-    this.setState({
+    return {
       incompleteTasks,
       completedTasks
-    })
+    }
   }
 
-  componentDidMount() {
-    const { getTasks } = this.props;
-    getTasks()
-      .then(data => {
-        const {taskList} = this.props.taskList;
-        if(taskList && taskList.length > 0){
-          this.filterTasks(taskList);
-        }
-      })
-      .catch(e => {
-        this.setState({
-          error: 'Ошибка, повторите попытку'
-        })
-      })
-  }
 
   render() {
-    const { incompleteTasks, completedTasks } = this.state;
+    const { taskList } = this.props.taskList;
+
+    const { incompleteTasks, completedTasks } = this.filterTasks(taskList || []);
+    const { updateTask, getTasks, logout } = this.props;
+
     return (
       <div>
-        <Navigation logout={::this.logout}/>
+        <Navigation logout={logout}/>
         <div className='row center-xs center-sm center-md'>
           <CalendarPage
             incompleteTasks={incompleteTasks}
             completedTasks={completedTasks}
-            apiError={this.state.error}
-            updateTask={::this.updateTask}/>
+            updateTask={updateTask}
+            getTasks={getTasks}
+          />
         </div>
       </div>
     )

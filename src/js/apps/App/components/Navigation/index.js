@@ -6,6 +6,19 @@ export default class extends Component {
     super(props);
   }
 
+  logout() {
+    const { logout } = this.props;
+    logout()
+      .then(response => {
+        window.location.href = '/';
+      })
+      .catch(e => {
+        this.setState({
+          error: 'Ошибка, повторите попытку'
+        })
+      })
+  }
+
   render() {
     const location = window.location.pathname;
     const {logout} = this.props;
@@ -22,7 +35,7 @@ export default class extends Component {
                 </Link>
               }
             </div>
-            <div onClick={logout} className="nav-links__logout col-md-2 col-sm-2 col-xs-2">
+            <div onClick={::this.logout} className="nav-links__logout col-md-2 col-sm-2 col-xs-2">
               <img src="/assets/exit.svg" alt="exit"/>
               <span>&nbsp;Выйти</span>
             </div>

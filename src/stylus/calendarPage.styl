@@ -19,11 +19,12 @@
     display flex
     width 100%
   &__cell
-    height 130px
+    height 120px
     width 100%
     border solid 1px $light-grey
     border-bottom 0
     border-left 0
+    box-sizing border-box
   &__cell--muted
     color $light-blue
     background-color $calendar-muted-cell
@@ -36,8 +37,7 @@
     font-weight 600
     color $light-navy-blue
   &__date
-    text-decoration none
-    float right
+    text-align right
     color $calendar-date-color
     cursor default
     margin 7px
@@ -50,3 +50,23 @@
     font-size 13px
     font-weight 600
     margin 10px 0 10px 5px
+
+.cell
+  &__tasks-list
+    display flex
+    flex-wrap wrap
+    justify-content center
+  &__task
+    background-color $calendar-cell-task
+    border-radius 3px
+    margin-bottom 6px
+    width 90%
+    :active
+      background-color $blue
+  &__task-name
+    font-size 11px
+    display inline-block
+    margin 3px 7px
+  &__task-time
+    font-size 11px
+    display inline-block
