@@ -9,7 +9,8 @@ export default function (state = {}, action) {
     case actions.updateTask:
       let updatedList = state.taskList.map(task => {
         if(task._id === action.payload._id) {
-          task.done = true;
+          task.done = action.payload.done;
+          task.end = action.payload.end;
         }
         return task;
       });

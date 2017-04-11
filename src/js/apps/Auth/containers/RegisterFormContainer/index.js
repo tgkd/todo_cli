@@ -15,34 +15,13 @@ export default class extends Component {
   constructor(props) {
     super(props);
     this.sessionInfo = sessionInfo();
-    this.state = {
-      error: ''
-    }
-  }
-
-  register(credentials) {
-    const { register } = this.props;
-    register(credentials, this.sessionInfo)
-      .then(data => {
-        window.location.href = '/';
-      })
-      .catch(e => {
-        if (e.response && e.response.status === 400) {
-          this.setState({
-            error: 'Пользователь с таким e-mail уже существует'
-          })
-        } else {
-          this.setState({
-            error: 'Ошибка, повторите попытку'
-          })
-        }
-      });
   }
 
   render() {
+    const { register } = this.props;
     return (
       <div className="row center-xs center-md center-md">
-        <RegisterForm  register={::this.register} apiError={this.state.error} sessionInfo={this.sessionInfo}/>
+        <RegisterForm register={register} sessionInfo={this.sessionInfo}/>
       </div>
     )
   }

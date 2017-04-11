@@ -16,6 +16,28 @@ export default class extends Component {
     };
   }
 
+  login(credentials) {
+    const { login, sessionInfo } = this.props;
+    login(credentials, sessionInfo)
+      .then(data => {
+        window.location.href = '/';
+      })
+      .catch(e => {
+        if (e.response && e.response.status === 400) {
+          this.setState({
+            error: true,
+            errorText: 'Неверный пароль',
+            password: ''
+          })
+        } else {
+          this.setState({
+            error: true,
+            errorText: 'Ошибка, повторите попытку'
+          })
+        }
+      });
+  }
+
   inputChangeHandler(e) {
     this.setState({
       password: e.target.value
@@ -33,7 +55,7 @@ export default class extends Component {
         errorText: 'Введите пароль'
       })
     } else {
-      this.props.login(credentials);
+      this.login(credentials);
     }
   }
 
@@ -44,18 +66,6 @@ export default class extends Component {
 
   getAlertClass() {
     return `alert-ico ${this.state.error ? '' : 'alert-ico--hidden'}`;
-  }
-
-  componentDidUpdate() {
-    const { apiError } = this.props;
-    const { errorText } = this.state;
-    if (apiError !== errorText) {
-      this.setState({
-        password: '',
-        error: true,
-        errorText: apiError
-      })
-    }
   }
 
   onKeyPress(event) {

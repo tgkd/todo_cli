@@ -47,8 +47,13 @@ export default class Weeks extends Component {
     })
   }
 
+  updateTask(task) {
+    this.props.updateTask(task);
+    this.toggleTaskWindow()
+  }
+
   render() {
-    const { dayNames, calendar, month, updateTask } = this.props;
+    const { dayNames, calendar, month } = this.props;
     const { incompleteTasks } = this.props;
     const { taskWindowVisible } = this.state;
     const dayNamesRow = dayNames.map(day => {
@@ -74,16 +79,19 @@ export default class Weeks extends Component {
             dayClasses += ' calendar-container__cell--muted';
           }
 
-          const taskToday = incompleteTasks.map(task => {
+          const taskToday = incompleteTasks.map((task, id) => {
             const calendarDate = day.locale('ru').utc().format('DD-MM-YYYY');
             const taskDate = moment(task.end).locale('ru').utc().format('DD-MM-YYYY');
             if (calendarDate === taskDate) {
               let time = moment.parseZone(task.end).format('HH:mm');
               return (
-                <div className='cell__task' onClick={::this.toggleTaskWindow}>
-                  <span className='cell__task-name'>{task.title}</span>
-                  <span className='cell__task-time'>{time}</span>
-                  {taskWindowVisible && <TaskCard title={task.title} updateTask={updateTask} date={task.end}/>}
+                <div className='cell__task' key={id}>
+                  <div>
+                    <span className='cell__task-name' onClick={::this.toggleTaskWindow}>{task.title}</span>
+                    <span className='cell__task-time'>{time}</span>
+                    {taskWindowVisible &&
+                    <TaskCard title={task.title} _id={task._id} updateTask={::this.updateTask} date={task.end}/>}
+                  </div>
                 </div>
               )
             }

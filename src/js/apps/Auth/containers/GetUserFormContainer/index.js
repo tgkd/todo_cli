@@ -20,30 +20,13 @@ export default class extends Component {
     }
   }
 
-  getUser(email) {
-    const { goTo, getUser} = this.props;
-    getUser(email)
-      .then(data => {
-        goTo('/login')
-      })
-      .catch(e => {
-        if (e.response && e.response.status === 400) {
-          goTo('/register')
-        } else {
-          this.setState({
-            error: 'Ошибка, повторите попытку'
-          })
-        }
-      })
-  }
-
-
   render() {
     const {user} = this.props.user;
+    const { goTo, getUser } = this.props;
 
     return(
       <div className="row center-sm center-xs center-md">
-        <GetUserForm user={user} apiError={this.state.error} getUserInfo={::this.getUser}/>
+        <GetUserForm user={user} apiError={this.state.error} getUser={getUser} goTo={goTo}/>
       </div>
     );
   }

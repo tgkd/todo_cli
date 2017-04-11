@@ -52,6 +52,31 @@ export default class extends Component {
     ]
   }
 
+  register(credentials) {
+    const { register, sessionInfo } = this.props;
+    register(credentials, sessionInfo)
+      .then(data => {
+        window.location.href = '/';
+      })
+      .catch(e => {
+        if (e.response && e.response.status === 400) {
+          this.setState({
+            apiError: {
+              error: true,
+              message: 'Пользователь с таким e-mail уже существует'
+            }
+          })
+        } else {
+          this.setState({
+            apiError: {
+              error: true,
+              message: 'Ошибка, повторите попытку'
+            }
+          })
+        }
+      });
+  }
+
   isValidEmail(email) {
     const reg = /\S+@\S+\.\S+/;
     return reg.test(email);
@@ -93,7 +118,13 @@ export default class extends Component {
       password: this.state.password.value
     };
     if (this.isValidInputs() && this.isNotEmptyInputs()) {
-      this.props.register(credentials);
+      this.setState({
+        apiError: {
+          error: false,
+          message: ''
+        }
+      });
+      this.register(credentials);
     } else {
       this.setErrorText();
     }
@@ -120,17 +151,6 @@ export default class extends Component {
     })
   }
 
-  componentDidUpdate() {
-    const { apiError } = this.props;
-    if(apiError) {
-      this.setState({
-        apiError: {
-          error: true,
-          message: apiError
-        }
-      })
-    }
-  }
 
   onKeyPress(event) {
     if (event.key === 'Enter') {

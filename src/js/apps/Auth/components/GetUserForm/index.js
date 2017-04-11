@@ -9,11 +9,7 @@ export default class extends Component {
     this.state = {
       email: '',
       error: false,
-      errorText: '',
-      apiError: {
-        error: false,
-        message: ''
-      }
+      errorText: ''
     };
   }
 
@@ -40,6 +36,24 @@ export default class extends Component {
     }
   }
 
+  getUser(email) {
+    const { goTo, getUser } = this.props;
+    getUser(email)
+      .then(data => {
+        goTo('/login')
+      })
+      .catch(e => {
+        if (e.response && e.response.status === 400) {
+          goTo('/register')
+        } else {
+          this.setState({
+            error: true,
+            errorText: 'Ошибка, повторите попытку'
+          })
+        }
+      })
+  }
+
   getUserClickHandler() {
     let { email } = this.state;
 
@@ -48,13 +62,13 @@ export default class extends Component {
         error: false,
         errorText: ''
       });
-      this.props.getUserInfo(this.state.email)
+      this.getUser(this.state.email)
     }
   }
 
   getInputClass() {
-    let { error, apiError } = this.state;
-    return `input ${error || apiError.error ? 'input--red' : 'input--blue'} email-container__input`
+    let { error } = this.state;
+    return `input ${error ? 'input--red' : 'input--blue'} email-container__input`
   }
 
   getAlertClass() {
@@ -71,20 +85,9 @@ export default class extends Component {
     this.emailInput.focus();
   }
 
-  componentDidUpdate() {
-    const { apiError } = this.props;
-    if (apiError) {
-      this.setState({
-        apiError: {
-          error: true,
-          message: apiError
-        }
-      })
-    }
-  }
 
   render() {
-    const { error, errorText, apiError } = this.state;
+    const { error, errorText } = this.state;
 
     return (
       <div className='email-container col-xs-4 col-sm-4 col-md-4'>
@@ -102,8 +105,8 @@ export default class extends Component {
               }}
               onKeyPress={::this.onKeyPress}
             />
-            <div className={error || apiError.error ? '' : 'alert-container--hidden'}>
-              <span className='alert-message'>{errorText || apiError.message}</span>
+            <div className={error ? '' : 'alert-container--hidden'}>
+              <span className='alert-message'>{ errorText }</span>
             </div>
           </div>
           <div className='col-md-1 col-sm-1 col-xs-1 email-container__alert'>
