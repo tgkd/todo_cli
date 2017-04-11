@@ -1,3 +1,30 @@
 .task-card
-  width 400px
-  height 300px
+  position absolute
+  min-width 283px
+  min-height 186px
+  background-color #ffffff
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  z-index 100
+  border-radius 2px
+  padding 25px
+
+  &__header
+    font-size 16px
+    text-align left
+  &__date
+    font-size 11px
+    color $dark-blue
+    text-align left
+  &__input
+    width 50px
+    padding-left 17px
+    color $blue-input-text
+  &__separator
+    margin 0 7px
+    color $blue-input-text
+  &__inputs
+    display flex
+    align-items center
+    margin 18px 0 23px 0
+  &__btn
+    float left

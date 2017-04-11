@@ -70,6 +70,13 @@ class DatePicker extends Component {
     })
   }
 
+  updateTask(task) {
+    const { updateTask } = this.props;
+    updateTask(task)
+      .then()
+      .catch()
+  }
+
   componentDidMount() {
     const { date } = this.props;
     const newDate = moment(date, 'DD-MM-YYYY');
@@ -103,6 +110,7 @@ class DatePicker extends Component {
             </div>
             <CalendarGrid dayNames={dayNames}
                           calendar={calendar}
+                          updateTask={::this.updateTask}
                           month={month}
                           date={date}
                           incompleteTasks={this.props.incompleteTasks}/>

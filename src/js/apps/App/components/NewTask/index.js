@@ -105,7 +105,9 @@ export default class extends Component {
           </div>
         </div>
         <div className='col-xs-2 col-sm-2 col-md-2'>
-          <button className='btn btn-default btn--greyblue' onClick={::this.createTask}>Добавить</button>
+          <button className='btn btn-default btn--greyblue tasks-container__btn-add' onClick={::this.createTask}>
+            Добавить
+          </button>
         </div>
       </div>
     )

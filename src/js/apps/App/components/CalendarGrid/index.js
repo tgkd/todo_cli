@@ -48,13 +48,13 @@ export default class Weeks extends Component {
   }
 
   render() {
-    const { dayNames, calendar, month } = this.props;
+    const { dayNames, calendar, month, updateTask } = this.props;
     const { incompleteTasks } = this.props;
     const { taskWindowVisible } = this.state;
     const dayNamesRow = dayNames.map(day => {
       return (
-        <div className="dayname-container">
-          <span className="dayname-container__name">{day}</span>
+        <div className='dayname-container'>
+          <span className='dayname-container__name'>{day}</span>
         </div>
       )
     });
@@ -69,9 +69,9 @@ export default class Weeks extends Component {
         }
 
         let days = dayList.map((day) => {
-          let dayClasses = "calendar-container__cell";
+          let dayClasses = 'calendar-container__cell';
           if (!(day.month() === month)) {
-            dayClasses += " calendar-container__cell--muted";
+            dayClasses += ' calendar-container__cell--muted';
           }
 
           const taskToday = incompleteTasks.map(task => {
@@ -80,10 +80,10 @@ export default class Weeks extends Component {
             if (calendarDate === taskDate) {
               let time = moment.parseZone(task.end).format('HH:mm');
               return (
-                <div className="cell__task" onClick={::this.toggleTaskWindow}>
-                  <span className="cell__task-name">{task.title}</span>
-                  <span className="cell__task-time">{time}</span>
-                  {taskWindowVisible && <TaskCard title={task.title} date={task.end}/>}
+                <div className='cell__task' onClick={::this.toggleTaskWindow}>
+                  <span className='cell__task-name'>{task.title}</span>
+                  <span className='cell__task-time'>{time}</span>
+                  {taskWindowVisible && <TaskCard title={task.title} updateTask={updateTask} date={task.end}/>}
                 </div>
               )
             }
@@ -91,8 +91,8 @@ export default class Weeks extends Component {
 
           return (
             <div className={dayClasses} key={day.format('D-MM')}>
-              <p href="#" className="calendar-container__date">{ day.format('D') }</p>
-              <div className="cell__tasks-list">
+              <p href='#' className='calendar-container__date'>{ day.format('D') }</p>
+              <div className='cell__tasks-list'>
                 {taskToday}
               </div>
             </div>
@@ -100,7 +100,7 @@ export default class Weeks extends Component {
         });
 
         return (
-          <div className="calendar-container__row" key={ id }>
+          <div className='calendar-container__row' key={ id }>
             { days }
           </div>
         )
@@ -108,8 +108,8 @@ export default class Weeks extends Component {
     }
 
     return (
-      <div className="col-xs-12 col-sm-12 col-md-12" style={{padding: 0}}>
-        <div className="calendar-container__daynames">
+      <div className='col-xs-12 col-sm-12 col-md-12' style={{ padding: 0 }}>
+        <div className='calendar-container__daynames'>
           {dayNamesRow}
         </div>
         {weeks}

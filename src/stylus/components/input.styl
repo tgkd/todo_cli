@@ -9,7 +9,7 @@
   height 40px
 
 .input--blue
-  border-color #a3b1cd
+  border-color $default-blue-border
   &:hover
     border-color $blue_border
   &:active
@@ -18,13 +18,13 @@
     outline none
     border-color $blue_border
   &:after
-    border-color #7b8aa8
+    border-color $after-blue-border
   &::-webkit-input-placeholder
-    color $blue_placeholder
+    color $blue-input-text
   &::-ms-input-placeholder
-    color $blue_placeholder
+    color $blue-input-text
   &::-moz-placeholder
-    color $blue_placeholder
+    color $blue-input-text
     opacity 1
 
 .input--red
@@ -42,6 +42,13 @@
     color $alert
     opacity 1
 
+/*calendar ico hover color*/
+.input-container__img:hover svg
+  fill $light-blue
+
+.input-container__img:active svg
+  fill $grey
+
 .input-container
   position relative
   &__img
@@ -49,12 +56,8 @@
     position absolute
   &__date
     font-size 11px
-  &__calendar-ico
-    margin 0 15px 0 20px
-    :hover
-      fill $light-blue
-    :active
-      fill $grey
+    margin-right 20px
+
 
 
 
