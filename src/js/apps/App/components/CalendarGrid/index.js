@@ -89,8 +89,14 @@ export default class Weeks extends Component {
                   <div>
                     <span className='cell__task-name' onClick={::this.toggleTaskWindow}>{task.title}</span>
                     <span className='cell__task-time'>{time}</span>
-                    {taskWindowVisible &&
-                    <TaskCard title={task.title} _id={task._id} updateTask={::this.updateTask} date={task.end}/>}
+                    {
+                      taskWindowVisible &&
+                      <TaskCard
+                        title={task.title}
+                        _id={task._id}
+                        updateTask={::this.updateTask}
+                        date={task.end}/>
+                    }
                   </div>
                 </div>
               )

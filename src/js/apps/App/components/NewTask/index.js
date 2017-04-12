@@ -76,7 +76,7 @@ export default class extends Component {
   }
 
   render() {
-    const { title, calendarVisible, end, error, errorMessage } = this.state;
+    const { title, calendarVisible, end, error, errorMessage, formattedDate } = this.state;
     return (
       <div className='row middle-xs middle-sm middle-md'>
         <div className='col-xs-10 col-sm-10 col-md-10'>
@@ -101,7 +101,7 @@ export default class extends Component {
                   fill="#566394"/>
               </svg>
             </div>
-            {calendarVisible && <DatePicker setDate={::this.setDate}/>}
+            {calendarVisible && <DatePicker date={formattedDate} setDate={::this.setDate}/>}
           </div>
         </div>
         <div className='col-xs-2 col-sm-2 col-md-2'>

@@ -2,6 +2,8 @@
 
 .calendar
   position absolute
+  top 50px
+  right 15px
   background-color #ffffff
   box-shadow: 0 2px 4px 0 $shadow-color;
   z-index 100
@@ -12,9 +14,21 @@
     height 370px
   &__day
     display inline-block
+    box-sizing border-box
     color #000000
     text-decoration none
     font-size 14px
+    height 26px
+    width 26px
+    cursor pointer
+    padding-top 5px
+    &:hover
+      background-color $blue
+      color #fff
+      border-radius 50%
+
+  &__day-date
+    display inline-block
 
   &__day--muted
     color $light-blue
@@ -25,8 +39,9 @@
     border-radius 50%
 
   &__day--today
-    background none
-    color #000
+    background-color $blue
+    color #fff
+    border-radius 50%
 
   &__selected-date
     display block
