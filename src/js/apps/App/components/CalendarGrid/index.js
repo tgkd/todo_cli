@@ -28,9 +28,16 @@ export default class Weeks extends Component {
   }
 
   componentDidMount() {
-    /*    if(this.props.incompleteTasks) {
-     this.sortTasksByTime();
-     }*/
+    document.getElementById('root').addEventListener('click', (e) => {
+      const target = e.target.className;
+      let card = target.indexOf('task-card');
+      let task = target.indexOf('cell__task');
+      if (card < 0 && task < 0) {
+        this.setState({
+          taskWindowVisible: false
+        })
+      }
+    });
 
     this.setState({
       tasks: this.props.incompleteTasks
@@ -41,7 +48,7 @@ export default class Weeks extends Component {
 
   }
 
-  toggleTaskWindow(id) {
+  toggleTaskWindow(id, e) {
     this.setState({
       taskWindowVisible: !this.state.taskWindowVisible,
       currentId: id
@@ -109,7 +116,7 @@ export default class Weeks extends Component {
 
           return (
             <div className={dayClasses} key={day.format('D-MM')}>
-              <p href='#' className='calendar-container__date'>{ day.format('D') }</p>
+              <p className='calendar-container__date'>{ day.format('D') }</p>
               <div className='cell__tasks-list'>
                 {taskToday}
               </div>

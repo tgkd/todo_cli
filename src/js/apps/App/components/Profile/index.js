@@ -42,6 +42,21 @@ export default class extends Component {
         sessions: sessions
       })
     }
+
+    document.getElementById('root').addEventListener('click', (e) => {
+      const target = e.target.className;
+      let calendar = -1;
+      let calendarNav = -1;
+      if (typeof target === 'string') {
+        calendar = target.indexOf('calendar');
+        calendarNav = target.indexOf('fa');
+      }
+      if (calendar < 0 && calendarNav < 0 && target !== '') {
+        this.setState({
+          calendarVisible: false
+        })
+      }
+    });
   }
 
   componentDidUpdate() {
@@ -139,7 +154,10 @@ export default class extends Component {
           birthday: date.locale('ru').format('D MMMM YYYY'),
           formattedDate: date
         },
-        message: message.text === this.incorrectDateMessage ? '' : message.text
+        message: {
+          error: false,
+          text: message.text === this.incorrectDateMessage ? '' : message.text
+        }
       })
     } else {
       this.setState({
