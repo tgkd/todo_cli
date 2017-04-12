@@ -12,12 +12,12 @@ export default class extends Component {
   render() {
     const { os, type, id, browser } = this.props;
     return (
-      <div className="row middle-xs middle-sm middle-md profile-container__session">
-        <div className="col-xs-9 col-sm-9 col-md-9">
-          <p className="session-name">{type}, {os}, {browser}</p>
+      <div className='row middle-xs middle-sm middle-md profile-container__session'>
+        <div className='col-xs-10 col-sm-10 col-md-10'>
+          <p className='session-name'>{type}, {os}, {browser}</p>
         </div>
-        <div className="col-xs-3 col-sm-3 col-md-3 session-button" onClick={this.terminateSession.bind(this, id)}>
-          <span className="fa fa-ban"/>
+        <div className='col-xs-2 col-sm-2 col-md-2 session-button' onClick={this.terminateSession.bind(this, id)}>
+          <span className='fa fa-ban'/>
           <span>&nbsp;Terminate</span>
         </div>
       </div>

@@ -19,76 +19,92 @@ export default class extends Component {
         formattedDate: null
       },
       calendarVisible: false,
-      sessions: this.props.sessions
-    }
+      sessions: [],
+      message: {
+        error: false,
+        text: ''
+      }
+    };
+    this.incorrectDateMessage = 'Неверный формат даты';
   }
 
-  /*componentDidMount() {
-   const { getUserInfo } = this.props;
-
-   getUserInfo()
-   .catch(e => {
-   this.setState({
-   error: 'Ошибка, повторите попытку'
-   })
-   })
-   }*/
-
   componentDidMount() {
-    const { user } = this.props;
+    const { user, sessions } = this.props;
     if (user) {
       const birthday = moment(user.birthday);
-      if (birthday.isValid()) {
-        this.setState({
-          user: {
-            ...user,
-            birthday: birthday.locale('ru').format('DD MMMM YYYY').toString(),
-            formattedDate: moment(user.birthday)
-          }
-        })
-      }
+
+      this.setState({
+        user: {
+          ...user,
+          birthday: birthday.isValid() ? birthday.locale('ru').format('DD MMMM YYYY').toString() : '',
+          formattedDate: birthday.isValid() ? moment(user.birthday) : null
+        },
+        sessions: sessions
+      })
     }
   }
 
   componentDidUpdate() {
-    const { user } = this.props;
+    const { user, sessions } = this.props;
     const userState = this.state.user;
     if (user && !userState._id) {
       const birthday = moment(user.birthday);
-      if (birthday.isValid()) {
-        this.setState({
-          user: {
-            ...user,
-            birthday: birthday.locale('ru').format('DD MMMM YYYY').toString(),
-            formattedDate: moment(user.birthday)
-          }
-        })
-      }
+      this.setState({
+        user: {
+          ...user,
+          birthday: birthday.isValid() ? birthday.locale('ru').format('DD MMMM YYYY').toString() : '',
+          formattedDate: birthday.isValid() ? moment(user.birthday) : null
+        },
+        sessions: sessions
+      })
     }
   }
 
   updateUserInfo() {
     const { updateUserInfo } = this.props;
     const { user } = this.state;
+    if (!user.formattedDate.isValid()) {
+      this.setState({
+        message: {
+          error: true,
+          text: this.incorrectDateMessage
+        }
+      });
+      return;
+    }
     let date = user.formattedDate.format('YYYY-MM-DD HH:mm:ss.000').toString() + 'Z';
     const result = {
       ...user,
       birthday: date
     };
     updateUserInfo(result)
+      .then(user => {
+        this.setState({
+          message: {
+            error: false,
+            text: 'success'
+          }
+        })
+      })
       .catch(e => {
         this.setState({
-          error: 'Ошибка, повторите попытку'
+          message: {
+            error: true,
+            text: 'Ошибка, повторите попытку'
+          }
         })
       })
   }
 
   terminateUserSession(id) {
-    const { terminateSession } = this.props;
-    terminateSession(id)
+    const { terminateUserSession } = this.props;
+    terminateUserSession(id)
       .catch(e => {
         this.setState({
-          error: 'Ошибка, повторите попытку'
+          message: {
+            error: true,
+            text: 'Ошибка, повторите попытку'
+          }
         })
       })
   }
@@ -104,20 +120,32 @@ export default class extends Component {
 
   setUserBirthday(e) {
     const date = moment(e.target.value);
-    if (date.isValid()) {
-      this.setDate(date)
-    }
+    this.setState({
+      user: {
+        ...this.state.user,
+        birthday: e.target.value,
+        formattedDate: date
+      }
+    });
   }
 
   setDate(date) {
-    this.setState({
-      calendarVisible: false,
-      user: {
-        ...this.state.user,
-        birthday: date.locale('ru').format('D MMMM YYYY'),
+    const { message } = this.state;
+    if (date.isValid()) {
+      this.setState({
+        calendarVisible: false,
+        user: {
+          ...this.state.user,
+          birthday: date.locale('ru').format('D MMMM YYYY'),
+          formattedDate: date
+        },
+        message: message.text === this.incorrectDateMessage ? '' : message.text
+      })
+    } else {
+      this.setState({
         formattedDate: date
-      }
-    })
+      })
+    }
   }
 
 
@@ -137,26 +165,32 @@ export default class extends Component {
   }
 
 
-  terminateSession(id) {
-    this.props.termianteUserSession(id);
-  }
-
   toggleCalendar(e) {
     this.setState({
       calendarVisible: !this.state.calendarVisible
     })
   }
 
+  getInputClass() {
+    return `input 
+    ${this.state.message.text === this.incorrectDateMessage ? 'input--red' : 'input--blue'}
+     profile-container__input-date`
+  }
+
+  getAlertClass() {
+    return `alert-ico ${this.state.message.error ? '' : 'alert-ico--hidden'}`
+  }
+
+
   render() {
-    const { sessions } = this.props;
-    const { user, calendarVisible } = this.state;
+    const { sessions, user, calendarVisible, message } = this.state;
     let sessionsList;
     if (sessions) {
       sessionsList = sessions.map(item => {
         return (
           <div className='col-xs-8 col-sm-8 col-md-8' key={item._id}>
             <UserSession os={item.os} type={item.type} browser={item.browser} id={item._id}
-                         terminateSession={::this.terminateSession}/>
+                         terminateSession={::this.terminateUserSession}/>
           </div>
         )
       })
@@ -169,17 +203,18 @@ export default class extends Component {
           </div>
           <ProfileInfo handleFile={::this.handleFile} photo={user.photo}/>
         </div>
-        <div className='row center-xs center_sm center-md'>
+        <div className='row center-xs center_sm center-md profile-container__input-name'>
           <div className='col-xs-4 col-sm-4 col-md-4'>
-            <input className='input input--blue profile-container__input-name' type='text' placeholder='Введите имя'
+            <input className='input input--blue ' type='text' placeholder='Введите имя'
                    value={user.name} onChange={::this.setName}/>
           </div>
         </div>
         <div className='row center-xs center_sm center-md'>
+
           <div className='col-xs-4 col-sm-4 col-md-4'>
 
             <div className='input-container'>
-              <input className='input input--blue profile-container__input-date'
+              <input className={::this.getInputClass()}
                      type='text'
                      placeholder='Введите дату рождения'
                      onChange={::this.setUserBirthday}
@@ -200,15 +235,21 @@ export default class extends Component {
               </div>
               {calendarVisible && <DatePicker date={user.formattedDate || null} setDate={::this.setDate}/>}
             </div>
-
-
+            <div className={message.error ? '' : 'alert-container--hidden'}>
+              <span className='profile-container__message alert-message'>{ message.text }</span>
+            </div>
           </div>
+
         </div>
-        <div className='row center-md center-sm center-xs'>
+        <div className='row center-md center-sm center-xs profile-container__btn'>
           <div className='col-xs-4 col-sm-4 col-md-4'>
             <button className='btn btn-enter btn--greyblue' onClick={::this.updateUserInfo}>Сохранить</button>
+            <div className={!message.error && message.text === 'success' ? '' : 'alert-container--hidden'}>
+              <span className='alert-message--success'>{ message.text }</span>
+            </div>
           </div>
         </div>
+
         <hr/>
 
         <div className='row center-xs center-sm center-md'>
