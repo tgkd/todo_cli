@@ -8,31 +8,11 @@ const moment = extendMoment(Moment);
 export default class extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      title: '',
-      done: '',
-      end: '',
-      _id: ''
-    }
-  }
-
-  componentDidMount() {
-    const {task} = this.props;
-
-    this.setState({
-      title: task.title,
-      done: task.done,
-      end: task.end,
-      _id: task._id
-    });
   }
 
   updateTask() {
-    this.setState({
-      done: true
-    });
     this.props.updateTask({
-      ...this.state,
+      ...this.props.task,
       done: true
     });
   }

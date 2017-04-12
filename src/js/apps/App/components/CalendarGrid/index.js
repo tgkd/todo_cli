@@ -41,13 +41,16 @@ export default class Weeks extends Component {
 
   }
 
-  toggleTaskWindow() {
+  toggleTaskWindow(id) {
     this.setState({
-      taskWindowVisible: !this.state.taskWindowVisible
+      taskWindowVisible: !this.state.taskWindowVisible,
+      currentId: id
     })
   }
 
   updateTask(task) {
+    const { title, done, end } = task;
+
     this.props.updateTask(task);
     this.toggleTaskWindow()
   }
@@ -55,7 +58,7 @@ export default class Weeks extends Component {
   render() {
     const { dayNames, calendar, month } = this.props;
     const { incompleteTasks } = this.props;
-    const { taskWindowVisible } = this.state;
+    const { taskWindowVisible, currentId } = this.state;
     const dayNamesRow = dayNames.map(day => {
       return (
         <div className='dayname-container'>
@@ -87,10 +90,11 @@ export default class Weeks extends Component {
               return (
                 <div className='cell__task' key={id}>
                   <div>
-                    <span className='cell__task-name' onClick={::this.toggleTaskWindow}>{task.title}</span>
-                    <span className='cell__task-time'>{time}</span>
+                    <span className='cell__task-name'
+                          onClick={this.toggleTaskWindow.bind(this, task._id)}>{task.title}</span>
+                    <span className='cell__task-time' onClick={this.toggleTaskWindow.bind(this, task._id)}>{time}</span>
                     {
-                      taskWindowVisible &&
+                      taskWindowVisible && currentId === task._id &&
                       <TaskCard
                         title={task.title}
                         _id={task._id}

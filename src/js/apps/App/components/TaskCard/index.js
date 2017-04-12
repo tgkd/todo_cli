@@ -29,10 +29,10 @@ export default class extends Component {
   saveNewTime() {
     const { title, date, updateTask, _id } = this.props;
     const { hours, minutes } = this.state;
-
-    const newDate = moment(date)
+    const newDate = moment.parseZone(date)
         .hour(parseInt(hours))
         .minute(parseInt(minutes))
+        .seconds(0)
         .format('YYYY-MM-DD HH:mm:ss.000').toString() + 'Z';
     updateTask({
       title,

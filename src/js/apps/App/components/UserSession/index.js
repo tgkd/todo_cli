@@ -16,9 +16,9 @@ export default class extends Component {
         <div className='col-xs-10 col-sm-10 col-md-10'>
           <p className='session-name'>{type}, {os}, {browser}</p>
         </div>
-        <div className='col-xs-2 col-sm-2 col-md-2 session-button' onClick={this.terminateSession.bind(this, id)}>
-          <span className='fa fa-ban'/>
-          <span>&nbsp;Terminate</span>
+        <div className='col-xs-2 col-sm-2 col-md-2 icon-button' onClick={this.terminateSession.bind(this, id)}>
+          <span className='fa fa-ban icon-button__ico'/>
+          <span className="icon-button__text">Terminate</span>
         </div>
       </div>
     )
