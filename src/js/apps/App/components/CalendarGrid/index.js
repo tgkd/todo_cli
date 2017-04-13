@@ -7,45 +7,37 @@ export default class Weeks extends Component {
     super(props);
 
     this.state = {
+      transferTask: null,
       tasks: [],
       taskWindowVisible: false
     }
   }
 
-  sortTasksByTime() {
-    const { incompleteTasks } = this.props;
-    incompleteTasks.sort((a, b) => {
-      let first = moment(a.end)
-    });
-
-    this.setState({
-      tasks: incompleteTasks
-    })
-  }
-
-  componentDidMount() {
-    document.getElementById('root').addEventListener('click', (e) => {
-      const target = e.target.className;
-      let card = target.indexOf('task-card');
-      let task = target.indexOf('cell__task');
-      if (card < 0 && task < 0) {
-        this.setState({
-          taskWindowVisible: false
-        })
-      }
-    });
-
-    this.setState({
-      tasks: this.props.incompleteTasks
+  setEventListeners() {
+    const { month } = this.props;
+    const tasks = document.querySelectorAll('.cell__task');
+    [].forEach.call(tasks, (task) => {
+      task.addEventListener('dragstart', this.dragStart.bind(this, task), false);
+      task.addEventListener('dragend', this.dragEnd.bind(this, task), false);
     });
 
     const containers = document.querySelectorAll('.calendar-container__cell');
     [].forEach.call(containers, (container) => {
-      container.addEventListener('dragenter', this.dragEnter.bind(this, container), false);
-      container.addEventListener('dragover', this.dragOver.bind(this, container), false);
-      container.addEventListener('dragleave', this.dragLeave.bind(this, container), false);
-      container.addEventListener('drop', this.handleDrop.bind(this, container), false);
+      let dateCellMonth = moment(container.id, 'DD-MM-YYYY').month();
+      if (dateCellMonth === month) {
+        container.addEventListener('dragenter', this.dragEnter.bind(this, container), false);
+        container.addEventListener('dragover', this.dragOver.bind(this, container), false);
+        container.addEventListener('dragleave', this.dragLeave.bind(this, container), false);
+        container.addEventListener('drop', this.handleDrop.bind(this, container), false);
+      }
     });
+  }
+
+  componentDidMount() {
+    this.setState({
+      tasks: this.props.incompleteTasks
+    });
+    this.setEventListeners()
   }
 
   componentDidUpdate() {
@@ -77,61 +69,64 @@ export default class Weeks extends Component {
   }
 
   dragEnter(container, e) {
-    console.log(e)
+    if (container.className.indexOf('drag-enter-cell') < 0) {
+      container.className = container.className + ' drag-enter-cell'
+    }
   }
 
   dragEnd(item, event) {
-    console.log(item, event)
+
   }
 
   dragLeave(container, e) {
-    console.log(e)
+    let styleClass = container.className.split(' ');
+    styleClass.pop();
+
+    container.className = styleClass.join(' ');
   }
 
   dragOver(container, e) {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
+    if (container.className.indexOf('drag-enter-cell') < 0) {
+      container.className = container.className + ' drag-enter-cell'
+    }
   }
 
   handleDrop(cell, event) {
     event.stopPropagation();
-    const { transferTask } = this.state;
-    const oldChild = document.getElementById(transferTask.id);
-    const oldCell = oldChild.parentNode.parentNode;
-    if (oldCell === cell) {
-      return;
-    }
-    const oldCellTasksList = oldChild.parentNode;
-    oldCellTasksList.removeChild(oldChild);
-
-    const newTaskDiv = document.createElement('div');
-    newTaskDiv.innerHTML = transferTask.content;
-    newTaskDiv.className = oldChild.className;
-    newTaskDiv.draggable = true;
-    newTaskDiv.id = transferTask.id;
-
     this.setNewTaskDate(cell.id);
-    const newCellTasksList = cell.childNodes[1];
-    newCellTasksList.appendChild(newTaskDiv);
-    this.addEventListener(newTaskDiv);
-
+    let styleClass = cell.className.split(' ');
+    cell.className = styleClass[0];
     return false;
   }
 
   setNewTaskDate(id) {
-    const { tasks } = this.state;
-    let test = moment(id).year(2017);
+    const { transferTask } = this.state;
+    const { incompleteTasks } = this.props;
+
     let oldTaskInfo = null;
-    tasks.forEach(task => {
-      if (task._id === id) {
+    incompleteTasks.forEach(task => {
+      if (task._id === transferTask.id) {
         oldTaskInfo = task;
       }
     });
 
     if (oldTaskInfo) {
-      const oldTaskDate = moment(oldTaskInfo.end);
-      const newDate = moment(id).year(oldTaskInfo.year())
+      const hours = moment.parseZone(oldTaskInfo.end).hours();
+      const minutes = moment.parseZone(oldTaskInfo.end).minutes();
 
+      const newDate = moment(id, 'DD-MM-YYYY')
+          .hour(hours)
+          .minute(minutes)
+          .seconds(0)
+          .format('YYYY-MM-DD HH:mm:ss.000').toString() + 'Z';
+      this.updateTask({
+        title: oldTaskInfo.title,
+        _id: oldTaskInfo._id,
+        end: newDate,
+        done: false
+      })
     }
   }
 
@@ -187,7 +182,8 @@ export default class Weeks extends Component {
           });
 
           return (
-            <div id={day.format('D-MM')} className={dayClasses} key={day.format('D-MM')}>
+            /*todo первый день недели приходить верный, но форматируется на -1 день*/
+            <div id={day.format('DD-MM-YYYY')} className={dayClasses} key={day.format('DD-MM-YYYY')}>
               <p className='calendar-container__date'>{ day.format('D') }</p>
               <div className='cell__tasks-list'>
                 {taskToday}
@@ -206,6 +202,12 @@ export default class Weeks extends Component {
 
     return weeks;
   }
+
+  updateTask(task) {
+    this.props.updateTask(task);
+    this.toggleTaskWindow()
+  }
+
 
   render() {
     const { dayNames } = this.props;
