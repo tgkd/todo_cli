@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 
-import 'flexboxgrid';
-
 export default class extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +23,7 @@ export default class extends Component {
   }
 
   isValidInput(email) {
+    email = email.trim();
     if (!email) {
       this.setState({ error: true });
       return false;

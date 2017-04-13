@@ -1,11 +1,10 @@
-import Moment from 'moment';
+import moment from 'moment';
 import React, {Component} from 'react';
-import {extendMoment} from 'moment-range';
+
 import CalendarHeader from './header';
 import Weeks from './weeksTable';
 import getCalendar from './dateCreator';
 
-const moment = extendMoment(Moment);
 
 class DatePicker extends Component {
   constructor(props) {
@@ -100,8 +99,5 @@ class DatePicker extends Component {
   }
 }
 
-DatePicker.defaultProps = {
-  date: moment()
-};
 
 export default DatePicker;

@@ -4,31 +4,22 @@ import Auth from '../../../../libs/auth';
 const auth = new Auth();
 
 export function getUser(email) {
-  return (dispatch) => {
-    return auth
-      .getUser(email)
-        .then(response => {
-          dispatch(actions.getUser(response.data));
-        })
-  }
+  return async (dispatch) => {
+    const response = await auth.getUser(email);
+    dispatch(actions.getUser(response.data))
+  };
 }
 
 export function register(credentials, sessionInfo) {
-  return (dispatch) => {
-    return auth
-      .register(credentials, sessionInfo)
-        .then(response => {
-          dispatch(actions.register(response.data));
-        })
+  return async (dispatch) => {
+    const response = await auth.register(credentials, sessionInfo);
+    dispatch(actions.register(response.data));
   }
 }
 
 export function login(credentials, sessionInfo) {
-  return (dispatch) => {
-    return auth
-      .login(credentials, sessionInfo)
-        .then(response => {
-          dispatch(actions.login(response.data));
-        })
+  return async (dispatch) => {
+    const response = auth.login(credentials, sessionInfo)
+    dispatch(actions.login(response.data));
     }
 }

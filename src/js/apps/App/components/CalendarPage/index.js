@@ -1,12 +1,10 @@
-import Moment from 'moment';
+import moment from 'moment';
 import React, {Component} from 'react';
-import {extendMoment} from 'moment-range';
-import getCalendar from '../DatePicker/dateCreator';
 
+import getCalendar from '../DatePicker/dateCreator';
 import CalendarHeader from '../CalendarHeader';
 import CalendarGrid from '../CalendarGrid';
 
-const moment = extendMoment(Moment);
 
 class DatePicker extends Component {
   constructor(props) {

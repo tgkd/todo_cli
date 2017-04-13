@@ -1,5 +1,5 @@
 import * as actions from '../actions/task';
-import Task from '../../../../libs/task';
+import Task from 'libs/task';
 
 const task = new Task();
 

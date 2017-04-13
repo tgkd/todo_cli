@@ -1,8 +1,5 @@
-import Moment from 'moment';
+import moment from 'moment';
 import React, {Component} from 'react';
-import {extendMoment} from 'moment-range';
-
-const moment = extendMoment(Moment);
 
 export default class extends Component {
   constructor(props) {

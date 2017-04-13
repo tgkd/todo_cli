@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import DatePicker from '../DatePicker';
 
-import Moment from 'moment';
-import {extendMoment} from 'moment-range';
-const moment = extendMoment(Moment);
+import moment from 'moment';
 
 export default class extends Component {
   constructor(props) {
@@ -20,22 +18,22 @@ export default class extends Component {
     }
   }
 
-  componentDidMount() {
-    document.getElementById('root').addEventListener('click', (e) => {
-      const target = e.target.className;
-      let calendar = -1;
-      let calendarNav = -1;
-      if (typeof target === 'string') {
-        calendar = target.indexOf('calendar');
-        calendarNav = target.indexOf('fa');
-      }
-      if (calendar < 0 && calendarNav < 0 && target !== '') {
-        this.setState({
-          calendarVisible: false
-        })
-      }
-    });
-  }
+  /*
+   clickEventListener(e) {
+   const target = e.target.className;
+   let calendar = -1;
+   let calendarNav = -1;
+   if (typeof target === 'string') {
+   calendar = target.indexOf('calendar');
+   calendarNav = target.indexOf('fa');
+   }
+   if (calendar < 0 && calendarNav < 0 && target !== '') {
+   this.setState({
+   calendarVisible: false
+   })
+   }
+   }*/
+
 
   toggleCalendar() {
     this.setState({

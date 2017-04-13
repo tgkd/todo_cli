@@ -1,6 +1,6 @@
 import * as actions from '../actions/user';
-import Auth from '../../../../libs/auth';
-import User from '../../../../libs/user';
+import Auth from 'libs/auth';
+import User from 'libs/user';
 
 const auth = new Auth();
 const user = new User();

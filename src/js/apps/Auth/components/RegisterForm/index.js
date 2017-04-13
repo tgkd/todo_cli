@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import 'flexboxgrid';
 
-import Auth from '../../../../libs/auth';
+import Auth from 'libs/auth';
 import {Link} from "react-router-dom";
 
 export default class extends Component {
@@ -52,29 +51,24 @@ export default class extends Component {
     ]
   }
 
-  register(credentials) {
+  async register(credentials) {
     const { register, sessionInfo } = this.props;
-    register(credentials, sessionInfo)
-      .then(data => {
-        window.location.href = '/';
-      })
-      .catch(e => {
-        if (e.response && e.response.status === 400) {
-          this.setState({
-            apiError: {
-              error: true,
-              message: 'Пользователь с таким e-mail уже существует'
-            }
-          })
-        } else {
-          this.setState({
-            apiError: {
-              error: true,
-              message: 'Ошибка, повторите попытку'
-            }
-          })
+    try {
+      const response = await register(credentials, sessionInfo);
+      if (response.status === 200) window.location.href = '/';
+    } catch (e) {
+      let errorText = e.response && e.response.status === 400
+        ?
+        'Пользователь с таким e-mail уже существует'
+        :
+        'Ошибка, повторите попытку';
+      this.setState({
+        apiError: {
+          error: true,
+          message: errorText
         }
-      });
+      })
+    }
   }
 
   isValidEmail(email) {
@@ -162,10 +156,8 @@ export default class extends Component {
     this.emailInput.focus();
   }
 
-
-  render() {
-
-    const inputList = this.inputs.map((input, id) => {
+  getInputsTemplate() {
+    this.inputs.map((input, id) => {
       return (
         <div className="row middle-md middle-sm middle-xs start-md start-sm start-xs">
           <div className="col-md-8 col-sm-8 col-xs-8 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
@@ -189,8 +181,12 @@ export default class extends Component {
         </div>
       )
     });
+  }
 
+  render() {
+    const inputList = this.getInputsTemplate();
     const errorsList = this.getErrorsList();
+
     return (
       <div className="register-container col-xs-4 col-sm-4 col-md-4">
         <div className="row">

@@ -27,7 +27,7 @@ export default class extends Component {
         <div className='row center-xs center-sm center-md'>
           <Profile
             updateUserInfo={updateUserInfo}
-            termianteUserSession={terminateSession}
+            terminateUserSession={terminateSession}
             user={user}
             sessions={sessions}/>
         </div>

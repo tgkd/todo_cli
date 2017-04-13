@@ -1,9 +1,6 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import moment from 'moment';
 import Checkbox from '../Checkbox';
-
-import Moment from 'moment';
-import {extendMoment} from 'moment-range';
-const moment = extendMoment(Moment);
 
 export default class extends Component {
   constructor(props) {

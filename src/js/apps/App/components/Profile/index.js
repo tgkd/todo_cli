@@ -1,12 +1,10 @@
+import moment from 'moment';
 import React, {Component} from 'react';
 
 import ProfileInfo from '../ProfileInfo';
 import UserSession from '../UserSession';
 import DatePicker from '../DatePicker';
 
-import Moment from 'moment';
-import {extendMoment} from 'moment-range';
-const moment = extendMoment(Moment);
 
 export default class extends Component {
   constructor(props) {
@@ -26,38 +24,42 @@ export default class extends Component {
       }
     };
     this.incorrectDateMessage = 'Неверный формат даты';
+    this.incorrectUsername = 'Введите корректное имя';
+    this.successMessage = 'Успешно сохранено';
+    this.serverError = 'Ошибка, повторите попытку';
   }
 
   componentDidMount() {
-    const { user, sessions } = this.props;
+    const { user } = this.props;
     if (user) {
       const birthday = moment(user.birthday);
 
       this.setState({
         user: {
           ...user,
-          birthday: birthday.isValid() ? birthday.locale('ru').format('DD MMMM YYYY').toString() : '',
+          birthday: birthday.isValid() ? birthday.locale('ru').format('DD.MM.YYYY').toString() : '',
           formattedDate: birthday.isValid() ? moment(user.birthday) : null
-        },
-        sessions: sessions
+        }
       })
     }
-
-    document.getElementById('root').addEventListener('click', (e) => {
-      const target = e.target.className;
-      let calendar = -1;
-      let calendarNav = -1;
-      if (typeof target === 'string') {
-        calendar = target.indexOf('calendar');
-        calendarNav = target.indexOf('fa');
-      }
-      if (calendar < 0 && calendarNav < 0 && target !== '') {
-        this.setState({
-          calendarVisible: false
-        })
-      }
-    });
   }
+
+  /*
+   clickEvent(e) {
+   const target = e.target.className;
+   let calendar = -1;
+   let calendarNav = -1;
+   if (typeof target === 'string') {
+   calendar = target.indexOf('calendar');
+   calendarNav = target.indexOf('fa');
+   }
+   if (calendar < 0 && calendarNav < 0 && target !== '') {
+   this.setState({
+   calendarVisible: false
+   })
+   }
+   }*/
+
 
   componentDidUpdate() {
     const { user, sessions } = this.props;
@@ -67,9 +69,13 @@ export default class extends Component {
       this.setState({
         user: {
           ...user,
-          birthday: birthday.isValid() ? birthday.locale('ru').format('DD MMMM YYYY').toString() : '',
+          birthday: birthday.isValid() ? birthday.locale('ru').format('DD.MM.YYYY').toString() : '',
           formattedDate: birthday.isValid() ? moment(user.birthday) : null
-        },
+        }
+      })
+    }
+    if (this.state.sessions.length === 0) {
+      this.setState({
         sessions: sessions
       })
     }
@@ -78,26 +84,28 @@ export default class extends Component {
   updateUserInfo() {
     const { updateUserInfo } = this.props;
     const { user } = this.state;
-    if (!user.formattedDate.isValid()) {
+    let name = user.name.trim();
+    if (!user.formattedDate.isValid() || name === '') {
+      let message = name !== '' ? this.incorrectDateMessage : this.incorrectUsername;
       this.setState({
         message: {
           error: true,
-          text: this.incorrectDateMessage
+          text: message
         }
       });
       return;
     }
-    let date = user.formattedDate.format('YYYY-MM-DD HH:mm:ss.000').toString() + 'Z';
+
     const result = {
       ...user,
-      birthday: date
+      birthday: user.formattedDate.format('YYYY-MM-DD HH:mm:ss.000').toString() + 'Z'
     };
     updateUserInfo(result)
       .then(user => {
         this.setState({
           message: {
             error: false,
-            text: 'success'
+            text: this.successMessage
           }
         })
       })
@@ -105,7 +113,7 @@ export default class extends Component {
         this.setState({
           message: {
             error: true,
-            text: 'Ошибка, повторите попытку'
+            text: this.serverError
           }
         })
       })
@@ -118,7 +126,7 @@ export default class extends Component {
         this.setState({
           message: {
             error: true,
-            text: 'Ошибка, повторите попытку'
+            text: this.serverError
           }
         })
       })
@@ -189,30 +197,27 @@ export default class extends Component {
     })
   }
 
-  getInputClass() {
-    return `input 
-    ${this.state.message.text === this.incorrectDateMessage ? 'input--red' : 'input--blue'}
-     profile-container__input-date`
-  }
 
   getAlertClass() {
     return `alert-ico ${this.state.message.error ? '' : 'alert-ico--hidden'}`
   }
 
 
-  render() {
-    const { sessions, user, calendarVisible, message } = this.state;
-    let sessionsList;
-    if (sessions) {
-      sessionsList = sessions.map(item => {
+  getSessionsTemplate(sessions) {
+    return (
+      sessions.map(item => {
         return (
           <div className='col-xs-8 col-sm-8 col-md-8' key={item._id}>
             <UserSession os={item.os} type={item.type} browser={item.browser} id={item._id}
                          terminateSession={::this.terminateUserSession}/>
           </div>
         )
-      })
-    }
+      }))
+  }
+
+  render() {
+    const { sessions, user, calendarVisible, message } = this.state;
+    let sessionsList = sessions ? this.getSessionsTemplate(sessions) : null;
     return (
       <div className='profile-container col-xs-10 col-sm-10 col-md-10'>
         <div className='row center-xs center-sm center-md'>
@@ -223,8 +228,15 @@ export default class extends Component {
         </div>
         <div className='row center-xs center_sm center-md profile-container__input-name'>
           <div className='col-xs-4 col-sm-4 col-md-4'>
-            <input className='input input--blue ' type='text' placeholder='Введите имя'
-                   value={user.name} onChange={::this.setName}/>
+            <input
+              className={
+                `input
+    ${message.text === this.incorrectUsername ? 'input--red' : 'input--blue'}
+     profile-container__input-date`
+              }
+              type='text'
+              placeholder='Введите имя'
+              value={user.name} onChange={::this.setName}/>
           </div>
         </div>
         <div className='row center-xs center_sm center-md'>
@@ -232,11 +244,16 @@ export default class extends Component {
           <div className='col-xs-4 col-sm-4 col-md-4'>
 
             <div className='input-container'>
-              <input className={::this.getInputClass()}
-                     type='text'
-                     placeholder='Введите дату рождения'
-                     onChange={::this.setUserBirthday}
-                     value={user.birthday}/>
+              <input
+                className={
+                  `input
+    ${message.text === this.incorrectDateMessage ? 'input--red' : 'input--blue'}
+     profile-container__input-date`
+                }
+                type='text'
+                placeholder='Введите дату рождения'
+                onChange={::this.setUserBirthday}
+                value={user.birthday}/>
               <div
                 className='input-container__img profile-container__datepicker row middle-xs middle-sm middle-md end-xs end-sm end-md'
                 onClick={::this.toggleCalendar}>
@@ -251,7 +268,8 @@ export default class extends Component {
                     fill='#566394'/>
                 </svg>
               </div>
-              {calendarVisible && <DatePicker date={user.formattedDate || null} setDate={::this.setDate}/>}
+              {calendarVisible && <DatePicker toggleCalendar={::this.toggleCalendar} date={user.formattedDate || null}
+                                              setDate={::this.setDate}/>}
             </div>
             <div className={message.error ? '' : 'alert-container--hidden'}>
               <span className='profile-container__message alert-message'>{ message.text }</span>
@@ -262,7 +280,7 @@ export default class extends Component {
         <div className='row center-md center-sm center-xs profile-container__btn'>
           <div className='col-xs-4 col-sm-4 col-md-4'>
             <button className='btn btn-enter btn--greyblue' onClick={::this.updateUserInfo}>Сохранить</button>
-            <div className={!message.error && message.text === 'success' ? '' : 'alert-container--hidden'}>
+            <div className={!message.error && message.text === this.successMessage ? '' : 'alert-container--hidden'}>
               <span className='alert-message--success'>{ message.text }</span>
             </div>
           </div>
@@ -270,7 +288,7 @@ export default class extends Component {
 
         <hr/>
 
-        <div className='row center-xs center-sm center-md'>
+        <div className='row center-xs center-sm center-md profile-container__sessions'>
           <div className='col-md-12 col-xs-12 col-sm-12'>
             <h1 className='profile-container__header'>Ваши сессии</h1>
           </div>

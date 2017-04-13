@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import 'flexboxgrid';
-
-import Auth from '../../../../libs/auth';
+import Auth from 'libs/auth';
 import {Link} from "react-router-dom";
 
 export default class extends Component {

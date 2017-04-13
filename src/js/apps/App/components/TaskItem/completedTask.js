@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Checkbox from '../Checkbox';
 
 export default class extends Component {

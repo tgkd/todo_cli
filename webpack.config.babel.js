@@ -50,7 +50,11 @@ const config = {
       path.resolve(__dirname, 'src'),
       'node_modules'
     ],
-    extensions: ['.js', '.styl', '.css']
+    extensions: ['.js', '.styl', '.css'],
+    alias: {
+      libs: path.resolve(__dirname, 'src/js/libs/'),
+      apps: path.resolve(__dirname, 'src/js/apps/')
+    }
   },
   plugins: [
     new ExtractTextPlugin({

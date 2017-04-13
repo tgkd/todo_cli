@@ -21,10 +21,9 @@ export default class extends Component {
 
   render() {
     const location = window.location.pathname;
-    const {logout} = this.props;
     return (
-      <div className="row center-md center-sm center-xs nav-links">
-        <div className="col-xs-10 col-sm-10 col-md-10">
+      <div className="row center-md center-sm center-xs">
+        <div className="col-xs-10 col-sm-10 col-md-10 nav-links">
           <div className="row between-xs between-sm between-md">
             <div className="col-md-1 col-sm-1 col-xs-1 nav-links__back">
               {location === '/main' ?

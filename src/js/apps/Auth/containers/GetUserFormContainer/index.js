@@ -15,9 +15,6 @@ import 'flexboxgrid';
 export default class extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      error: ''
-    }
   }
 
   render() {
@@ -26,7 +23,7 @@ export default class extends Component {
 
     return(
       <div className="row center-sm center-xs center-md">
-        <GetUserForm user={user} apiError={this.state.error} getUser={getUser} goTo={goTo}/>
+        <GetUserForm user={user} getUser={getUser} goTo={goTo}/>
       </div>
     );
   }
