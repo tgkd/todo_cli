@@ -98,6 +98,7 @@ export default class extends Component {
 
     const result = {
       ...user,
+      name,
       birthday: user.formattedDate.format('YYYY-MM-DD HH:mm:ss.000').toString() + 'Z'
     };
     updateUserInfo(result)
@@ -227,7 +228,7 @@ export default class extends Component {
           <ProfileInfo handleFile={::this.handleFile} photo={user.photo}/>
         </div>
         <div className='row center-xs center_sm center-md profile-container__input-name'>
-          <div className='col-xs-4 col-sm-4 col-md-4'>
+          <div className='col-xs-9 col-sm-6 col-md-4'>
             <input
               className={
                 `input
@@ -241,7 +242,7 @@ export default class extends Component {
         </div>
         <div className='row center-xs center_sm center-md'>
 
-          <div className='col-xs-4 col-sm-4 col-md-4'>
+          <div className='col-xs-9 col-sm-6 col-md-4'>
 
             <div className='input-container'>
               <input
@@ -271,14 +272,15 @@ export default class extends Component {
               {calendarVisible && <DatePicker toggleCalendar={::this.toggleCalendar} date={user.formattedDate || null}
                                               setDate={::this.setDate}/>}
             </div>
-            <div className={message.error ? '' : 'alert-container--hidden'}>
+            <div
+              className={message.error ? 'col-xs-9 col-sm-6 col-md-4' : 'col-xs-9 col-sm-6 col-md-4 alert-container--hidden'}>
               <span className='profile-container__message alert-message'>{ message.text }</span>
             </div>
           </div>
 
         </div>
         <div className='row center-md center-sm center-xs profile-container__btn'>
-          <div className='col-xs-4 col-sm-4 col-md-4'>
+          <div className='col-xs-9 col-sm-6 col-md-4'>
             <button className='btn btn-enter btn--greyblue' onClick={::this.updateUserInfo}>Сохранить</button>
             <div className={!message.error && message.text === this.successMessage ? '' : 'alert-container--hidden'}>
               <span className='alert-message--success'>{ message.text }</span>

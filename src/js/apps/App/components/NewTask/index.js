@@ -94,7 +94,7 @@ export default class extends Component {
     const { title, calendarVisible, end, error, errorMessage, formattedDate } = this.state;
     return (
       <div className='row middle-xs middle-sm middle-md'>
-        <div className='col-xs-10 col-sm-10 col-md-10'>
+        <div className='col-xs-12 col-sm-10 col-md-10'>
           <div className='input-container'>
             <input type='text'
                    className={::this.getInputClass()}
@@ -119,7 +119,7 @@ export default class extends Component {
             {calendarVisible && <DatePicker date={formattedDate} setDate={::this.setDate}/>}
           </div>
         </div>
-        <div className='col-xs-2 col-sm-2 col-md-2'>
+        <div className='col-xs-12 col-sm-2 col-md-2'>
           <button className='btn btn-default btn--greyblue tasks-container__btn-add' onClick={::this.createTask}>
             Добавить
           </button>

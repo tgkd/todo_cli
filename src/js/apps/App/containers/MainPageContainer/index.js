@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../../store/actionCreators/user';
-import Navigation from '../../components/Navigation';
 
 import 'flexboxgrid';
 
@@ -19,12 +18,8 @@ export default class extends Component {
   }
 
   render() {
-    const { logout } = this.props;
     return(
-      <div className="main">
-        <Navigation logout={logout}/>
-        <MainPage/>
-      </div>
+      <MainPage/>
     )
   }
 }

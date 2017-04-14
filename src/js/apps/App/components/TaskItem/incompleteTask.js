@@ -31,10 +31,10 @@ export default class extends Component {
         <div className='col-xs-1 col-sm-1 col-md-1'>
           <Checkbox checked={false} changeState={::this.updateTask} disabled={false}/>
         </div>
-        <div className='col-xs-9 col-sm-9 col-md-9'>
+        <div className='col-xs-6 col-sm-8 col-md-9'>
           <p className='task__name'>{task.title}</p>
         </div>
-        <div className='col-xs-2 col-sm-2 col-md-2'>
+        <div className='col-xs-5 col-sm-3 col-md-2'>
           <span className={this.getDateClass()}>{date}</span>
         </div>
       </div>

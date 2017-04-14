@@ -53,11 +53,6 @@ export default class Weeks extends Component {
     }
   }
 
-  addEventListener(item) {
-    item.addEventListener('dragstart', this.dragStart.bind(this, item), false);
-    item.addEventListener('dragend', this.dragEnd.bind(this, item), false);
-  }
-
   dragStart(item, event) {
     this.setState({
       transferTask: {
@@ -69,9 +64,9 @@ export default class Weeks extends Component {
   }
 
   dragEnter(container, e) {
-    if (container.className.indexOf('drag-enter-cell') < 0) {
-      container.className = container.className + ' drag-enter-cell'
-    }
+    /* if (container.className.indexOf('drag-enter-cell') < 0) {
+     container.className = container.className + ' drag-enter-cell'
+     }*/
   }
 
   dragEnd(item, event) {
@@ -79,18 +74,18 @@ export default class Weeks extends Component {
   }
 
   dragLeave(container, e) {
-    let styleClass = container.className.split(' ');
-    styleClass.pop();
+    /* let styleClass = container.className.split(' ');
+     styleClass.pop();
 
-    container.className = styleClass.join(' ');
+     container.className = styleClass.join(' ');*/
   }
 
   dragOver(container, e) {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
-    if (container.className.indexOf('drag-enter-cell') < 0) {
-      container.className = container.className + ' drag-enter-cell'
-    }
+    /* if (container.className.indexOf('drag-enter-cell') < 0) {
+     container.className = container.className + ' drag-enter-cell'
+     }*/
   }
 
   handleDrop(cell, event) {
@@ -137,9 +132,40 @@ export default class Weeks extends Component {
     })
   }
 
-  getCalendarTemplate() {
-    const { incompleteTasks, calendar, month } = this.props;
+  getTasksTemplatesByDay(day) {
+    const { incompleteTasks } = this.props;
     const { taskWindowVisible, currentId } = this.state;
+    return incompleteTasks.map((task, id) => {
+      const calendarDate = moment.parseZone(day).locale('ru').format('DD-MM-YYYY');
+      const taskDate = moment.parseZone(task.end).locale('ru').format('DD-MM-YYYY');
+      if (calendarDate === taskDate) {
+        let time = moment.parseZone(task.end).format('HH:mm');
+        return (
+          <div id={task._id} draggable={true} className='col-md-12 col-xs-12 col-sm-12 cell__task' key={id}>
+            <div className="row">
+              <div className="col-md-8 col-sm-8 col-xs-8">
+                <p className='cell__task-name' onClick={this.toggleTaskWindow.bind(this, task._id)}>{task.title}</p>
+              </div>
+              <div className="col-md-4 col-sm-4 col-xs-4">
+                <p className='cell__task-time' onClick={this.toggleTaskWindow.bind(this, task._id)}>{time}</p>
+              </div>
+            </div>
+            {
+              taskWindowVisible && currentId === task._id &&
+              <TaskCard
+                title={task.title}
+                _id={task._id}
+                updateTask={::this.updateTask}
+                date={task.end}/>
+            }
+          </div>
+        )
+      }
+    });
+  }
+
+  getCalendarTemplate() {
+    const { calendar, month } = this.props;
 
     let weeks = [];
     if (calendar) {
@@ -155,38 +181,19 @@ export default class Weeks extends Component {
           if (!(day.month() === month)) {
             dayClasses += ' calendar-container__cell--muted';
           }
-
-          const taskToday = incompleteTasks.map((task, id) => {
-            const calendarDate = day.locale('ru').utc().format('DD-MM-YYYY');
-            const taskDate = moment(task.end).locale('ru').utc().format('DD-MM-YYYY');
-            if (calendarDate === taskDate) {
-              let time = moment.parseZone(task.end).format('HH:mm');
-              return (
-                <div id={task._id} draggable={true} className='cell__task' key={id}>
-                  <div>
-                    <span className='cell__task-name'
-                          onClick={this.toggleTaskWindow.bind(this, task._id)}>{task.title}</span>
-                    <span className='cell__task-time' onClick={this.toggleTaskWindow.bind(this, task._id)}>{time}</span>
-                    {
-                      taskWindowVisible && currentId === task._id &&
-                      <TaskCard
-                        title={task.title}
-                        _id={task._id}
-                        updateTask={::this.updateTask}
-                        date={task.end}/>
-                    }
-                  </div>
-                </div>
-              )
-            }
-          });
+          const taskToday = this.getTasksTemplatesByDay(day);
 
           return (
-            /*todo первый день недели приходить верный, но форматируется на -1 день*/
             <div id={day.format('DD-MM-YYYY')} className={dayClasses} key={day.format('DD-MM-YYYY')}>
-              <p className='calendar-container__date'>{ day.format('D') }</p>
-              <div className='cell__tasks-list'>
-                {taskToday}
+              <div className="row center-md center-xs center-sm">
+                <div className="col-md-12 col-xs-12 col-sm-12">
+                  <p className='calendar-container__date'>{ day.format('D') }</p>
+                </div>
+                <div className="col-md-10 col-xs-10 col-sm-10">
+                  <div className="cell__tasks-list row around-sm around-md around-xs">
+                    {taskToday}
+                  </div>
+                </div>
               </div>
             </div>
           )
@@ -219,14 +226,12 @@ export default class Weeks extends Component {
       )
     });
 
-    const weeks = this.getCalendarTemplate();
-
     return (
       <div className='col-xs-12 col-sm-12 col-md-12' style={{ padding: 0 }}>
         <div className='calendar-container__daynames'>
           {dayNamesRow}
         </div>
-        {weeks}
+        {this.getCalendarTemplate()}
       </div>
     )
   }
