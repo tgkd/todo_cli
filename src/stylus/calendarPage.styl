@@ -2,7 +2,6 @@
 
 .calendar-container
   min-width 320px
-  max-width 933px !important
   background-color #ffffff
   border-radius 2px
   &__header
@@ -63,18 +62,24 @@
     margin-bottom 6px
     cursor pointer
     display flex
+    justify-content space-between
     width 95%
     height 22px
   &__task-name
+    display inline-block
     font-size 11px
     margin 5px
     overflow hidden
     white-space nowrap
     text-overflow ellipsis
-    max-width 40px
+    max-width 80px
   &__task-time
+    display inline-block
     font-size 11px
     margin 5px
+    overflow hidden
+    white-space nowrap
+    text-overflow ellipsis
 
 .drag-enter-cell {
   background-color $blue

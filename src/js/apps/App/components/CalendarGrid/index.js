@@ -141,13 +141,10 @@ export default class Weeks extends Component {
       if (calendarDate === taskDate) {
         let time = moment.parseZone(task.end).format('HH:mm');
         return (
-          <div id={task._id} draggable={true} className='cell__task row' key={id}>
-            <div className="col-xs-12 col-md-7 col-sm-7">{/*    position absolute*/}
-              <p className='cell__task-name' onClick={this.toggleTaskWindow.bind(this, task._id)}>{task.title}</p>
-            </div>
-            <div className="col-xs-12 col-md-5 col-sm-5">
-              <p className='cell__task-time' onClick={this.toggleTaskWindow.bind(this, task._id)}>{time}</p>
-            </div>
+          <div id={task._id} draggable={true} className='cell__task' key={id}>
+            {/*todo fix click to task box*/}
+            <span className='cell__task-name' onClick={this.toggleTaskWindow.bind(this, task._id)}>{task.title}</span>
+            <span className='cell__task-time' onClick={this.toggleTaskWindow.bind(this, task._id)}>{time}</span>
             {
               taskWindowVisible && currentId === task._id &&
               <TaskCard
