@@ -141,14 +141,12 @@ export default class Weeks extends Component {
       if (calendarDate === taskDate) {
         let time = moment.parseZone(task.end).format('HH:mm');
         return (
-          <div id={task._id} draggable={true} className='col-md-12 col-xs-12 col-sm-12 cell__task' key={id}>
-            <div className="row">
-              <div className="col-md-8 col-sm-8 col-xs-8">
-                <p className='cell__task-name' onClick={this.toggleTaskWindow.bind(this, task._id)}>{task.title}</p>
-              </div>
-              <div className="col-md-4 col-sm-4 col-xs-4">
-                <p className='cell__task-time' onClick={this.toggleTaskWindow.bind(this, task._id)}>{time}</p>
-              </div>
+          <div id={task._id} draggable={true} className='cell__task row' key={id}>
+            <div className="col-xs-12 col-md-7 col-sm-7">{/*    position absolute*/}
+              <p className='cell__task-name' onClick={this.toggleTaskWindow.bind(this, task._id)}>{task.title}</p>
+            </div>
+            <div className="col-xs-12 col-md-5 col-sm-5">
+              <p className='cell__task-time' onClick={this.toggleTaskWindow.bind(this, task._id)}>{time}</p>
             </div>
             {
               taskWindowVisible && currentId === task._id &&
@@ -185,15 +183,9 @@ export default class Weeks extends Component {
 
           return (
             <div id={day.format('DD-MM-YYYY')} className={dayClasses} key={day.format('DD-MM-YYYY')}>
-              <div className="row center-md center-xs center-sm">
-                <div className="col-md-12 col-xs-12 col-sm-12">
-                  <p className='calendar-container__date'>{ day.format('D') }</p>
-                </div>
-                <div className="col-md-10 col-xs-10 col-sm-10">
-                  <div className="cell__tasks-list row around-sm around-md around-xs">
-                    {taskToday}
-                  </div>
-                </div>
+              <p className='calendar-container__date'>{ day.format('D') }</p>
+              <div className="cell__tasks-list">
+                {taskToday}
               </div>
             </div>
           )

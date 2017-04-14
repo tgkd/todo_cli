@@ -70,7 +70,7 @@ export default class extends Component {
 
   setTaskTitle(e) {
     this.setState({
-      title: e.target.value,
+      title: e.target.value.trim(),
       error: false
     })
   }

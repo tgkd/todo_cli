@@ -137,7 +137,7 @@ export default class extends Component {
     this.setState({
       user: {
         ...this.state.user,
-        name: e.target.value
+        name: e.target.value.trim()
       }
     })
   }
