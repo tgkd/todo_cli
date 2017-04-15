@@ -104,6 +104,10 @@ export default class extends Component {
     updateUserInfo(result)
       .then(user => {
         this.setState({
+          user: {
+            ...this.state.user,
+            name: name
+          },
           message: {
             error: false,
             text: this.successMessage
@@ -137,7 +141,7 @@ export default class extends Component {
     this.setState({
       user: {
         ...this.state.user,
-        name: e.target.value.trim()
+        name: e.target.value
       }
     })
   }
@@ -160,7 +164,7 @@ export default class extends Component {
         calendarVisible: false,
         user: {
           ...this.state.user,
-          birthday: date.locale('ru').format('D MMMM YYYY'),
+          birthday: date.locale('ru').format('DD.MM.YYYY'),
           formattedDate: date
         },
         message: {

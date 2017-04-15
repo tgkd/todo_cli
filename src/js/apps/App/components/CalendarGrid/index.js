@@ -9,7 +9,8 @@ export default class Weeks extends Component {
     this.state = {
       transferTask: null,
       tasks: [],
-      taskWindowVisible: false
+      taskWindowVisible: false,
+      moreTasksWindowVisible: false
     }
   }
 
@@ -132,36 +133,69 @@ export default class Weeks extends Component {
     })
   }
 
+  showMoreTasks(day, e) {
+    this.setState({
+      taskWindowVisible: !this.state.taskWindowVisible,
+      dayToShowMoreTasks: day.format('DD-MM-YYYY')
+    })
+  }
+
+  getMoreTasksToday(day) {
+
+  }
+
   getTasksTemplatesByDay(day) {
     const { incompleteTasks } = this.props;
-    const { taskWindowVisible, currentId } = this.state;
-    return incompleteTasks.map((task, id) => {
-      const calendarDate = moment.parseZone(day).locale('ru').format('DD-MM-YYYY');
-      const taskDate = moment.parseZone(task.end).locale('ru').format('DD-MM-YYYY');
+    const {
+      moreTasksWindowVisible,
+      taskWindowVisible,
+      currentId } = this.state;
+    let moreTasksList = [];
+    let tasksList = [];
+      incompleteTasks.forEach((task, id) => {
+      const { taskWindowVisible, currentId } = this.state;
+      const calendarDate = moment.parseZone(day).format('DD-MM-YYYY');
+      const taskDate = moment.parseZone(task.end).format('DD-MM-YYYY');
       if (calendarDate === taskDate) {
-        let time = moment.parseZone(task.end).format('HH:mm');
-        return (
-          <div id={task._id} draggable={true} className='cell__task' key={id}>
-            {/*todo fix click to task box*/}
-            <span className='cell__task-name' onClick={this.toggleTaskWindow.bind(this, task._id)}>{task.title}</span>
-            <span className='cell__task-time' onClick={this.toggleTaskWindow.bind(this, task._id)}>{time}</span>
-            {
-              taskWindowVisible && currentId === task._id &&
-              <TaskCard
-                title={task.title}
-                _id={task._id}
-                updateTask={::this.updateTask}
-                date={task.end}/>
-            }
-          </div>
-        )
+        const time = moment.parseZone(task.end).format('HH:mm');
+        if( id >= 2) {
+          moreTasksList.push(task);
+        } else {
+          tasksList.push(
+            <div id={task._id} draggable={true} className='cell__task' key={id}>
+              {/*todo fix click to task box*/}
+              <span className='cell__task-name' onClick={this.toggleTaskWindow.bind(this, task._id)}>{task.title}</span>
+              <span className='cell__task-time' onClick={this.toggleTaskWindow.bind(this, task._id)}>{time}</span>
+              {
+                taskWindowVisible && currentId === task._id &&
+                <TaskCard
+                  title={task.title}
+                  _id={task._id}
+                  updateTask={::this.updateTask}
+                  date={task.end}/>
+              }
+            </div>
+          )
+        }
       }
     });
+
+    if(moreTasksList.length !== 0) {
+      tasksList.push(<div className='btn-more' onClick={this.showMoreTasks.bind(this, day)}>
+        <span className='btn-more__text'>Еще задачи</span>
+        <span className='btn-more__icon fa fa-arrow-down' />
+        {
+          moreTasksWindowVisible &&
+          <MoreTasks tasksList={moreTasksList}/>
+        }
+      </div>)
+    }
+
+    return tasksList;
   }
 
   getCalendarTemplate() {
     const { calendar, month } = this.props;
-
     let weeks = [];
     if (calendar) {
       weeks = calendar.map((week, id) => {

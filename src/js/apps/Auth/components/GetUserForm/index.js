@@ -92,7 +92,7 @@ export default class extends Component {
       <div className='email-container col-xs-4 col-sm-4 col-md-4'>
         <h1 className='email-container__header'>Войти в приложение</h1>
         <div className='row middle-md middle-sm middle-xs start-md start-sm start-xs'>
-          <div className='col-md-8 col-sm-8 col-xs-8 col-md-offset-2 col-sm-offset-2 col-xs-offset-2'>
+          <div className='col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1'>
             <input
               className={::this.getInputClass()}
               type='text'
@@ -113,7 +113,7 @@ export default class extends Component {
           </div>
         </div>
         <div className='row middle-md middle-sm middle-xs'>
-          <div className='col-md-8 col-sm-8 col-xs-8 col-md-offset-2 col-sm-offset-2 col-xs-offset-2'>
+          <div className='col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1'>
             <button className='btn btn-enter btn--greyblue'
                     disabled={!this.state.email}
                     onClick={::this.getUserClickHandler}>Продолжить

@@ -16,9 +16,10 @@ export default class extends Component {
 
   getDateClass() {
     const { task } = this.props;
-    const taskDate = moment.parseZone(task.end).format('DD-MM-YYYY');
-    const dateNow = moment().format('DD-MM-YYYY');
-    return `${taskDate < dateNow ? 'task__end--expired' : ''} task__end`
+    const taskDate = moment.parseZone(task.end);
+    const dateNow = moment();
+    const diff = dateNow.diff(taskDate, 'days');
+    return `${diff > 0 ? 'task__end--expired' : ''} task__end`
   }
 
   render() {

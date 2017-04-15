@@ -79,6 +79,9 @@ export default class extends Component {
   render() {
     const user = this.state.user;
     const { password, errorText } = this.state;
+    const imageStyle = {
+      backgroundImage: user.photo.length === 0 ? 'url(http://localhost:3001/assets/unknown.svg)' : `url(${user.photo})`
+    };
     return (
       <div className="login-container col-xs-4 col-sm-4 col-md-4">
         <div className="row">
@@ -88,13 +91,21 @@ export default class extends Component {
             </Link>
           </div>
           <div className="col-md-8 col-sm-8 col-xs-8">
-            <img className="login-container__avatar" src={user.photo || '/assets/unknown.svg'}/>
-            <h1 className="login-container__header"> Hi, {user.name || 'unknown'} </h1>
+            <div className="row center-md center-sm center-xs">
+              <div className="col-xs-12 col-sm-12 col-md-12 avatar-container">
+                <div className="profile-container__avatar" style={imageStyle}></div>
+              </div>
+              <div className="col-xs-12 col-sm-12 col-md-12">
+                <h1 className="login-container__header"> Hi, {user.name || 'unknown'} </h1>
+              </div>
+            </div>
+            <br/>
+            {/*<img className="login-container__avatar" src={user.photo || '/assets/unknown.svg'}/>*/}
           </div>
         </div>
 
         <div className="row middle-md middle-sm middle-xs start-md start-sm start-xs">
-          <div className="col-md-8 col-sm-8 col-xs-8 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
+          <div className="col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
             <input
               className={::this.getInputClass()}
               placeholder={errorText || "Введите пароль"}
@@ -113,7 +124,7 @@ export default class extends Component {
         </div>
 
         <div className="row middle-md middle-sm middle-xs">
-          <div className="col-md-8 col-sm-8 col-xs-8 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
+          <div className="col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
             <button
               className="btn btn-enter btn--greyblue"
               onClick={::this.submitClickHandler}

@@ -157,10 +157,10 @@ export default class extends Component {
   }
 
   getInputsTemplate() {
-    this.inputs.map((input, id) => {
+    return this.inputs.map((input, id) => {
       return (
         <div className="row middle-md middle-sm middle-xs start-md start-sm start-xs">
-          <div className="col-md-8 col-sm-8 col-xs-8 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
+          <div className="col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
             <input
               className={::this.getInputClass(input.name)}
               key={id}
@@ -184,7 +184,7 @@ export default class extends Component {
   }
 
   render() {
-    const inputList = this.getInputsTemplate();
+    //const inputList = this.getInputsTemplate();
     const errorsList = this.getErrorsList();
 
     return (
@@ -199,10 +199,10 @@ export default class extends Component {
             <h1 className="register-container__header"> Регистрация e-mail</h1>
           </div>
         </div>
-        {inputList}
+        {::this.getInputsTemplate()}
 
         <div className="row middle-md middle-sm middle-xs start-md start-sm start-xs">
-          <div className="col-md-8 col-sm-8 col-xs-8 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
+          <div className="col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
             <div className={ this.state.apiError.error ? '' : "alert-container--hidden"}>
               <span className="alert-message">{ this.state.apiError.message}</span>
             </div>
@@ -211,7 +211,7 @@ export default class extends Component {
         </div>
 
         <div className="row middle-md middle-sm middle-xs">
-          <div className="col-md-8 col-sm-8 col-xs-8 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
+          <div className="col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
             <button
               className="btn btn-enter btn--greyblue"
               onClick={::this.submitClickHandler}

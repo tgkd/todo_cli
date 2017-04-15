@@ -12,10 +12,13 @@ export default class extends Component {
 
   render() {
     const { photo } = this.props;
+    const imageStyle = {
+      backgroundImage: photo.length === 0 ? 'url(http://localhost:3001/assets/unknown.svg)' : `url(${photo})`
+    };
     return (
       <div className="row center-xs center-sm center-md">
-        <div className="col-md-12 col-xs-12 col-sm-12">
-          <img src={ photo || '/assets/unknown.svg' } className="profile-container__avatar"/>
+        <div className="col-md-12 col-xs-12 col-sm-12 avatar-container">
+          <div className="profile-container__avatar" style={imageStyle}></div>
         </div>
         <div className="col-md-5 col-xs-5 col-sm-5">
           <form encType="multipart/form-data">

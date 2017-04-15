@@ -43,15 +43,16 @@ export default class extends Component {
 
   isValidInput() {
     const { title, formattedDate } = this.state;
-    return !((title.length === 0 ) || !formattedDate.isValid());
-
+    const TaskTitle = title.trim();
+    return !((TaskTitle.length === 0 ) || !formattedDate.isValid());
   }
 
   createTask() {
     const { title, done, formattedDate } = this.state;
     let date = formattedDate.format('YYYY-MM-DD HH:mm:ss.000').toString() + 'Z';
+    const taskTitle = title.trim();
     const newTask = {
-      title,
+      title: taskTitle,
       end: date,
       done
     };
@@ -70,7 +71,7 @@ export default class extends Component {
 
   setTaskTitle(e) {
     this.setState({
-      title: e.target.value.trim(),
+      title: e.target.value,
       error: false
     })
   }
