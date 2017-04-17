@@ -42,23 +42,23 @@ export default class extends Component {
         }
       })
     }
+    document.getElementById('root').addEventListener('click', ::this.clickEvent);
   }
 
-  /*
-   clickEvent(e) {
-   const target = e.target.className;
-   let calendar = -1;
-   let calendarNav = -1;
-   if (typeof target === 'string') {
-   calendar = target.indexOf('calendar');
-   calendarNav = target.indexOf('fa');
-   }
-   if (calendar < 0 && calendarNav < 0 && target !== '') {
-   this.setState({
-   calendarVisible: false
-   })
-   }
-   }*/
+  clickEvent(e) {
+    const target = e.target.className;
+    let calendar = -1;
+    let calendarNav = -1;
+    if (typeof target === 'string') {
+      calendar = target.indexOf('calendar');
+      calendarNav = target.indexOf('fa');
+    }
+    if (calendar < 0 && calendarNav < 0 && target !== '') {
+      this.setState({
+        calendarVisible: false
+      })
+    }
+  }
 
 
   componentDidUpdate() {
@@ -79,6 +79,10 @@ export default class extends Component {
         sessions: sessions
       })
     }
+  }
+
+  componentWillUnmount() {
+    document.getElementById('root').removeEventListener('click', ::this.clickEvent);
   }
 
   updateUserInfo() {
@@ -112,7 +116,7 @@ export default class extends Component {
             error: false,
             text: this.successMessage
           }
-        })
+        });
       })
       .catch(e => {
         this.setState({
@@ -224,7 +228,7 @@ export default class extends Component {
     const { sessions, user, calendarVisible, message } = this.state;
     let sessionsList = sessions ? this.getSessionsTemplate(sessions) : null;
     return (
-      <div className='profile-container col-xs-10 col-sm-10 col-md-10'>
+      <div className='profile-container col-xs-10 col-sm-10 col-md-10 col-lg-7'>
         <div className='row center-xs center-sm center-md'>
           <div className='col-xs-12 col-sm-12 col-md-12'>
             <h1 className='profile-container__header'>Настройки профиля</h1>

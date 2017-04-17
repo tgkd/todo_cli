@@ -21,7 +21,7 @@ export default class extends Component {
           <p className="task__name">{task.title}</p>
         </div>
         <div className="col-xs-5 col-sm-3 col-md-2 icon-button" onClick={this.deleteTask.bind(this, task.id)}>
-          <img src="/assets/delete.svg" alt="delete task" className="icon-button__ico"/>
+          <img src="/assets/images/icons/delete.svg" alt="delete task" className="icon-button__ico"/>
           <span className="icon-button__text">Удалить</span>
         </div>
       </div>

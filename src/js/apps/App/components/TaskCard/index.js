@@ -91,6 +91,10 @@ export default class extends Component {
     this.hoursInput.focus();
   }
 
+  disableClick(e) {
+    e.preventDefault();
+  }
+
 
   render() {
     const { date, title } = this.props;
@@ -98,7 +102,7 @@ export default class extends Component {
 
     const taskDate = moment(date).locale('ru').format('DD MMM YYYY');
     return (
-      <div className="task-card">
+      <div className="task-card" onClick={::this.disableClick}>
         <h1 className="task-card__header">{title}</h1>
         <p className="task-card__date">{taskDate}</p>
         <div className="task-card__inputs">

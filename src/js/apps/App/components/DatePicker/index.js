@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 
 import CalendarHeader from './header';
 import Weeks from './weeksTable';
-import getCalendar from './dateCreator';
+import getCalendar from 'libs/dateCreator';
 
 
 class DatePicker extends Component {

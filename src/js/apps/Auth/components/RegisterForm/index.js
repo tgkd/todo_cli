@@ -176,7 +176,7 @@ export default class extends Component {
             />
           </div>
           <div className="col-md-1 col-sm-1 col-xs-1 register-container__alert">
-            <img className={::this.getAlertClass(input.name)} src="/assets/alert.svg" alt="alert"/>
+            <img className={::this.getAlertClass(input.name)} src="/assets/images/icons/alert.svg" alt="alert"/>
           </div>
         </div>
       )
@@ -192,7 +192,7 @@ export default class extends Component {
         <div className="row">
           <div className="col-md-2 col-sm-2 col-xs-2">
             <Link to='/find_by_email'>
-              <img src="/assets/back-grey.svg" className="register-container__link" alt="exit"/>
+              <img src="/assets/images/icons/back-grey.svg" className="register-container__link" alt="exit"/>
             </Link>
           </div>
           <div className="col-md-8 col-sm-8 col-xs-8">

@@ -1,5 +1,5 @@
-import moment from 'moment';
 import React, {Component} from 'react';
+import CalendarTaskItem from '../CalendarTaskItem';
 
 export default class extends Component {
   constructor(props) {
@@ -7,14 +7,22 @@ export default class extends Component {
   }
 
   getTasksListTemplate(){
-    const { tasks } = this.props;
+    const {
+      tasks,
+      updateTask,
+      toggleTaskWindow,
+      taskWindowVisible,
+      currentId
+    } = this.props;
+
     return tasks.map(task => {
       return (
-        <div className="row">
-          <div className="col-md-7">{task.title}</div>
-          <div className="col-md-3">{moment(task.end).format('DD-MM-YYYY')}</div>
-          <div className="col-md-2">{moment.parseZone(task.end).format('HH-mm')}</div>
-        </div>
+        <CalendarTaskItem
+          updateTask={updateTask}
+          toggleTaskWindow={ toggleTaskWindow }
+          task={task}
+          taskWindowVisible={taskWindowVisible}
+          currentId={currentId}/>
       )
     })
   }
@@ -22,7 +30,7 @@ export default class extends Component {
   render() {
 
     return (
-      <div className="more-tasks-container">
+      <div className="cell__tasks-list">
         {::this.getTasksListTemplate()}
       </div>
     )

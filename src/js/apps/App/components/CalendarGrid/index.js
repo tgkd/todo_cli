@@ -1,6 +1,7 @@
 import moment from 'moment';
 import React, {Component} from 'react';
-import TaskCard from '../TaskCard';
+import CalendarTaskItem from '../CalendarTaskItem';
+import MoreTasks from '../MoreTasks';
 
 export default class Weeks extends Component {
   constructor(props) {
@@ -10,7 +11,8 @@ export default class Weeks extends Component {
       transferTask: null,
       tasks: [],
       taskWindowVisible: false,
-      moreTasksWindowVisible: false
+      moreTasksVisible: false,
+      dayToShowMoreTasks: null
     }
   }
 
@@ -45,13 +47,30 @@ export default class Weeks extends Component {
     const { tasks } = this.state;
     const { incompleteTasks } = this.props;
     if (incompleteTasks.length !== 0 && tasks.length === 0) {
+      this.setState({
+        tasks: incompleteTasks
+      });
       const tasks = document.querySelectorAll('.cell__task');
       [].forEach.call(tasks, (task) => {
         task.addEventListener('dragstart', this.dragStart.bind(this, task), false);
         task.addEventListener('dragend', this.dragEnd.bind(this, task), false);
       });
-
     }
+  }
+
+  componentWillUnmount() {
+    const tasks = document.querySelectorAll('.cell__task');
+    [].forEach.call(tasks, (task) => {
+      task.removeEventListener('dragstart', this.dragStart.bind(this, task), false);
+      task.removeEventListener('dragend', this.dragEnd.bind(this, task), false);
+    });
+    const containers = document.querySelectorAll('.calendar-container__cell');
+    [].forEach.call(containers, (container) => {
+      container.removeEventListener('dragenter', this.dragEnter.bind(this, container), false);
+      container.removeEventListener('dragover', this.dragOver.bind(this, container), false);
+      container.removeEventListener('dragleave', this.dragLeave.bind(this, container), false);
+      container.removeEventListener('drop', this.handleDrop.bind(this, container), false);
+    });
   }
 
   dragStart(item, event) {
@@ -65,8 +84,8 @@ export default class Weeks extends Component {
   }
 
   dragEnter(container, e) {
-    /* if (container.className.indexOf('drag-enter-cell') < 0) {
-     container.className = container.className + ' drag-enter-cell'
+    /*   if (container.className.indexOf('drag-over-cell') < 0) {
+     container.className = container.className + ' drag-over-cell'
      }*/
   }
 
@@ -75,17 +94,16 @@ export default class Weeks extends Component {
   }
 
   dragLeave(container, e) {
-    /* let styleClass = container.className.split(' ');
+    /*  let styleClass = container.className.split(' ');
      styleClass.pop();
-
      container.className = styleClass.join(' ');*/
   }
 
   dragOver(container, e) {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
-    /* if (container.className.indexOf('drag-enter-cell') < 0) {
-     container.className = container.className + ' drag-enter-cell'
+    /*  if (container.className.indexOf('drag-over-cell') < 0) {
+     container.className = container.className + ' drag-over-cell'
      }*/
   }
 
@@ -129,66 +147,68 @@ export default class Weeks extends Component {
   toggleTaskWindow(id, e) {
     this.setState({
       taskWindowVisible: !this.state.taskWindowVisible,
-      currentId: id
+      currentId: id,
+      moreTasksWindowVisible: false,
     })
   }
 
-  showMoreTasks(day, e) {
+  showMoreTasks(tasks, e) {
     this.setState({
-      taskWindowVisible: !this.state.taskWindowVisible,
-      dayToShowMoreTasks: day.format('DD-MM-YYYY')
+      moreTasksWindowVisible: !this.state.moreTasksWindowVisible,
+      dayToShowMoreTasks: day.format('DD-MM-YYYY'),
+      taskWindowVisible: false
     })
   }
 
-  getMoreTasksToday(day) {
-
+  sortTasksByDate(tasks) {
+    return tasks.sort(function (left, right) {
+      return moment.parseZone(left.end).diff(moment.parseZone(right.end), 'hours')
+    });
   }
+
 
   getTasksTemplatesByDay(day) {
-    const { incompleteTasks } = this.props;
     const {
-      moreTasksWindowVisible,
+      moreTasksVisible,
+      dayToShowMoreTasks,
       taskWindowVisible,
-      currentId } = this.state;
-    let moreTasksList = [];
+      currentId
+    } = this.state;
+
+    const { incompleteTasks } = this.props;
     let tasksList = [];
-      incompleteTasks.forEach((task, id) => {
-      const { taskWindowVisible, currentId } = this.state;
+    let moreTasksList = [];
+
+    const sortedTasks = this.sortTasksByDate(incompleteTasks || []);
+    sortedTasks.forEach((task) => {
       const calendarDate = moment.parseZone(day).format('DD-MM-YYYY');
       const taskDate = moment.parseZone(task.end).format('DD-MM-YYYY');
       if (calendarDate === taskDate) {
-        const time = moment.parseZone(task.end).format('HH:mm');
-        if( id >= 2) {
+        if (tasksList.length >= 2) {
           moreTasksList.push(task);
+
         } else {
+
           tasksList.push(
-            <div id={task._id} draggable={true} className='cell__task' key={id}>
-              {/*todo fix click to task box*/}
-              <span className='cell__task-name' onClick={this.toggleTaskWindow.bind(this, task._id)}>{task.title}</span>
-              <span className='cell__task-time' onClick={this.toggleTaskWindow.bind(this, task._id)}>{time}</span>
-              {
-                taskWindowVisible && currentId === task._id &&
-                <TaskCard
-                  title={task.title}
-                  _id={task._id}
-                  updateTask={::this.updateTask}
-                  date={task.end}/>
-              }
-            </div>
-          )
+            <CalendarTaskItem
+              visible={ true }
+              updateTask={ ::this.updateTask }
+              toggleTaskWindow={ ::this.toggleTaskWindow }
+              task={ task }
+              taskWindowVisible={ taskWindowVisible }
+              currentId={ currentId }/>)
+
         }
       }
     });
 
-    if(moreTasksList.length !== 0) {
-      tasksList.push(<div className='btn-more' onClick={this.showMoreTasks.bind(this, day)}>
-        <span className='btn-more__text'>Еще задачи</span>
-        <span className='btn-more__icon fa fa-arrow-down' />
-        {
-          moreTasksWindowVisible &&
-          <MoreTasks tasksList={moreTasksList}/>
-        }
-      </div>)
+    if (moreTasksList.length > 0) {
+      tasksList.push(
+        <div className='btn-more' onClick={this.showMoreTasks.bind(this, moreTasksList)}>
+          <span className='btn-more__text'>Еще задачи</span>
+          <span className='btn-more__icon fa fa-arrow-down'/>
+        </div>
+      )
     }
 
     return tasksList;
@@ -215,6 +235,8 @@ export default class Weeks extends Component {
           return (
             <div id={day.format('DD-MM-YYYY')} className={dayClasses} key={day.format('DD-MM-YYYY')}>
               <p className='calendar-container__date'>{ day.format('D') }</p>
+              <p
+                className='calendar-container__date--extended'>{ day.locale('ru').format('dd').toString().toUpperCase()}</p>
               <div className="cell__tasks-list">
                 {taskToday}
               </div>

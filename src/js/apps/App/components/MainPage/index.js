@@ -6,17 +6,17 @@ export default class extends Component {
     super(props);
     this.containers = [
       {
-        img: '/assets/main_page/profile.svg',
+        img: '/assets/images/main_page/profile.svg',
         name: 'Профиль',
         route: '/profile'
       },
       {
-        img: '/assets/main_page/todolist.svg',
+        img: '/assets/images/main_page/todolist.svg',
         name: 'Дела',
         route: '/tasks'
       },
       {
-        img: '/assets/main_page/calendar.svg',
+        img: '/assets/images/main_page/calendar.svg',
         name: 'Календарь',
         route: '/calendar'
       }
@@ -66,7 +66,7 @@ export default class extends Component {
           <div className="col-xs-12 col-sm-12 col-md-12">
             <div className="row end-md end-sm end-xs">
               <div className="main-container__logout" onClick={::this.logout}>
-                <img src="/assets/exit.svg" alt="exit"/>
+                <img src="/assets/images/icons/exit.svg" alt="exit"/>
                 <span>&nbsp;Выйти</span>
               </div>
             </div>

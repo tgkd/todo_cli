@@ -63,6 +63,7 @@ export default class extends Component {
       })
     } else {
       this.setState({
+        title: '',
         error: true,
         errorMessage: 'Укажите название задачи'
       })

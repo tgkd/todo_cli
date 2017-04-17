@@ -22,17 +22,17 @@ export default class extends Component {
   render() {
     return (
       <div className="row center-md center-sm center-xs">
-        <div className="col-xs-10 col-sm-10 col-md-10 nav-links">
+        <div className="col-xs-10 col-sm-10 col-md-10 col-lg-7 nav-links">
           <div className="row between-xs between-sm between-md">
 
             <div className="col-md-1 col-sm-1 col-xs-1 nav-links__back">
               <Link to='/find_by_email'>
-                <img src="/assets/back.svg" alt="exit"/>
+                <img src="/assets/images/icons/back.svg" alt="exit"/>
               </Link>
             </div>
 
             <div onClick={::this.logout} className="nav-links__logout col-md-2 col-sm-2 col-xs-2">
-              <img src="/assets/exit.svg" alt="exit"/>
+              <img src="/assets/images/icons/exit.svg" alt="exit"/>
               <span>&nbsp;Выйти</span>
             </div>
 

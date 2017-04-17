@@ -109,7 +109,7 @@ export default class extends Component {
             </div>
           </div>
           <div className='col-md-1 col-sm-1 col-xs-1 email-container__alert'>
-            <img className={::this.getAlertClass()} src='/assets/alert.svg' alt='alert'/>
+            <img className={::this.getAlertClass()} src='/assets/images/icons/alert.svg' alt='alert'/>
           </div>
         </div>
         <div className='row middle-md middle-sm middle-xs'>

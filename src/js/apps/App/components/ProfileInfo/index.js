@@ -13,7 +13,7 @@ export default class extends Component {
   render() {
     const { photo } = this.props;
     const imageStyle = {
-      backgroundImage: photo.length === 0 ? 'url(http://localhost:3001/assets/unknown.svg)' : `url(${photo})`
+      backgroundImage: photo.length === 0 ? 'url(http://localhost:3001/assets/profile/unknown.svg)' : `url(${photo})`
     };
     return (
       <div className="row center-xs center-sm center-md">

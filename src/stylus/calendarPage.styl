@@ -1,7 +1,7 @@
 @import "colors.styl"
 
 .calendar-container
-  min-width 320px
+  min-width 310px
   background-color #ffffff
   border-radius 2px
   &__header
@@ -19,8 +19,9 @@
     display flex
     width 100%
   &__cell
-    height 120px
+    min-height 120px
     width 100%
+    min-width 40px
     border solid 1px $light-grey
     border-bottom 0
     border-left 0
@@ -41,6 +42,11 @@
     color $calendar-date-color
     cursor default
     margin 7px
+  &__date--extended
+    display none
+    text-align right
+    margin 7px
+    color $calendar-date-color
 
 .dayname-container
   width 100%
@@ -58,13 +64,17 @@
     flex-wrap wrap
   &__task
     background-color $calendar-cell-task
+    position relative
     border-radius 3px
     margin-bottom 6px
     cursor pointer
     display flex
     justify-content space-between
     width 95%
-    height 22px
+    min-height 22px
+    flex-wrap wrap
+  &__task--invisible
+    display none
   &__task-name
     display inline-block
     font-size 11px
@@ -81,7 +91,34 @@
     white-space nowrap
     text-overflow ellipsis
 
-.drag-enter-cell {
+.drag-over-cell
   background-color $blue
   transition background-color 200ms linear
-}
+
+@media all and (max-width: 425px)
+  .calendar-container__cell--muted
+    display none
+
+  .calendar-container__daynames
+    display none
+
+  .calendar-container__date
+    float left
+
+  .calendar-container__date--extended
+    display block
+    float left
+    margin 7px 0
+
+  .calendar-container__row
+    flex-wrap wrap
+
+  .cell__tasks-list
+    display block
+    margin 0 auto
+
+  .cell__task
+    margin 5px auto
+
+  .btn-more
+    margin 0 auto
