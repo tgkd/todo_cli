@@ -11,20 +11,24 @@ export default class extends Component {
   }
 
   setHours(e) {
+    const inputValue = e.target.value !== '' ? parseInt(e.target.value, 10) : 0;
+    let hours = inputValue > 23 ? '00' : inputValue < 0 ? '23' : inputValue;
     this.setState({
-      hours: parseInt(e.target.value) > 23 ? '00' : e.target.value
+      hours: hours
     })
   }
 
   setMinutes(e) {
+    const inputValue = e.target.value !== '' ? parseInt(e.target.value, 10) : 0;
+    let minutes = inputValue > 59 ? '00' : inputValue < 0 ? '59' : inputValue;
     this.setState({
-      minutes: parseInt(e.target.value) > 59 ? '00' : e.target.value
+      minutes: minutes
     })
   }
 
 
   saveNewTime() {
-    const { title, date, updateTask, _id } = this.props;
+    const { title, date, updateTask, _id, day } = this.props;
     const { hours, minutes } = this.state;
     const newDate = moment.parseZone(date)
         .hour(parseInt(hours))
@@ -36,7 +40,7 @@ export default class extends Component {
       _id,
       end: newDate,
       done: false
-    })
+    }, day)
   }
 
   hoursOnKeyDown(event) {
@@ -114,12 +118,14 @@ export default class extends Component {
               this.hoursInput = input;
             }}
             onKeyDown={::this.hoursOnKeyDown}
+            onChange={::this.setHours}
           />
           <span className="task-card__separator">:</span>
           <input
             className="input input--blue task-card__input"
             type="text"
             value={minutes}
+            onChange={::this.setMinutes}
             onKeyDown={::this.minutesOnKeyPress}
           />
         </div>

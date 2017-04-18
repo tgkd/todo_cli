@@ -7,37 +7,49 @@ export default class extends Component {
     super(props);
   }
 
-  toggleTaskWindow(id) {
+  toggleTaskWindow(id, day) {
     const { toggleTaskWindow } = this.props;
-    toggleTaskWindow(id);
+    toggleTaskWindow(id, day);
   }
 
-  getClassName() {
-    const { visible } = this.props;
-    return `cell__task ${visible ? '' : 'cell__task--invisible'}`
+  updateTask(task, day) {
+    const { updateTask } = this.props;
+    updateTask(task, day);
   }
+
 
   render() {
-    const { taskWindowVisible, currentId, task, updateTask } = this.props;
+    const {
+      taskWindowVisible,
+      currentId,
+      task,
+      dragStart,
+      dragEnd,
+      day
+    } = this.props;
+
     const time = moment.parseZone(task.end).format('HH:mm');
 
     return (
       <div
         id={task._id}
         draggable={true}
-        onClick={this.toggleTaskWindow.bind(this, task._id)}
-        className={::this.getClassName()}
+        onDragStart={dragStart}
+        onDragEnd={dragEnd}
+        className='cell__task'
         key={task._id}>
 
-        <div className='cell__task-name'>{task.title}</div>
+        <div className='cell__task-name' onClick={this.toggleTaskWindow.bind(this, task._id, day)}
+        >{task.title}</div>
         <div className='cell__task-time'>{time}</div>
         {
           taskWindowVisible && currentId === task._id
             ? <TaskCard
             title={task.title}
             _id={task._id}
-            updateTask={updateTask}
-            date={task.end}/>
+            updateTask={::this.updateTask}
+            date={task.end}
+            day={day}/>
             : null
         }
       </div>
