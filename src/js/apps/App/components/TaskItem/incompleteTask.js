@@ -18,7 +18,7 @@ export default class extends Component {
     const { task } = this.props;
     const taskDate = moment.parseZone(task.end);
     const dateNow = moment();
-    const diff = dateNow.diff(taskDate, 'days');
+    const diff = dateNow.diff(taskDate, 'days', true);
     return `${diff > 0 ? 'task__end--expired' : ''} task__end`
   }
 

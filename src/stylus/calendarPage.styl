@@ -96,7 +96,7 @@
     overflow hidden
     white-space nowrap
     text-overflow ellipsis
-    max-width 80px
+    max-width 68px
   &__task-time
     display inline-block
     font-size 11px
@@ -117,19 +117,21 @@
 .no-overflow
   overflow visible
 
-.drag-enter-cell
-  border-color black
-
 .drag-over-cell
-  border-color black
+  z-index 100
+  background-color rgba(195, 199, 205, 0.25)
+  transition background-color 100ms;
 
 .scroll
   position absolute
   bottom 0
   width 100%
-  background rgba(255, 255, 255, 0.85)
+  background #9a9ea4
+  opacity 0.2
+  &:hover
+    opacity 0.6
 
-@media all and (max-width: 768px)
+@media all and (max-width: 425px)
   .calendar-container
     &__cell--muted
       display none
@@ -164,10 +166,14 @@
   .cell__task
     margin 5px auto
     &-name
-      max-width 70%
+      max-width 70% !important
 
   .btn-more
     margin 5px auto
 
   .scroll
     display none
+
+@media all and (min-width: 500px) and (max-width: 768px)
+  .cell__task-name
+    max-width 40px !important
