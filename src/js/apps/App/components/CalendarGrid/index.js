@@ -144,72 +144,57 @@ export default class Weeks extends Component {
     }
   }
 
+
   toggleTaskWindow(id, day) {
     if (day) {
       const list = ReactDOM.findDOMNode(this.refs[`list-${day.format('DD')}`]);
       const btnHide = ReactDOM.findDOMNode(this.refs[`btn-hide-${day.format('DD')}`]);
       const btnMore = ReactDOM.findDOMNode(this.refs[`btn-show-${day.format('DD')}`]);
       const isNoOverflow = list.className.indexOf(this.classNames.noOverflow) < 0;
-      const { taskWindowVisible, taskWindowDay } = this.state;
-
-      if (taskWindowVisible) {
-        this.setState({ taskWindowVisible: false, currentId: null });
-        const oldList = ReactDOM.findDOMNode(this.refs[`list-${taskWindowDay.format('DD')}`]);
-        const oldBtn = ReactDOM.findDOMNode(this.refs[`btn-show-${taskWindowDay.format('DD')}`]);
-        list.scrollTop = 0;
-        let nodes = [
-          { item: oldList, style: 'noOverflow' },
-          { item: oldList, style: 'extendedList' },
-          { item: oldBtn, style: 'invisible' }];
-        if (btnHide) nodes.push({ item: btnHide, style: 'invisible' });
-        this.setStyleClass(nodes, 'remove');
+      const { currentId, taskWindowDay } = this.state;
+      if (currentId && id !== currentId) {
+        this.toggleTaskWindow(currentId, taskWindowDay);
         return;
       }
+      this.setState({
+        taskWindowVisible: !this.state.taskWindowVisible,
+        currentId: id !== currentId ? id : null,
+        taskWindowDay: day !== taskWindowDay ? day : null
+      });
 
       if (btnHide) {
         isNoOverflow
-          ? this.setStyleClass([{ item: list, style: 'noOverflow' }, { item: btnHide, style: 'invisible' }], 'add')
-          : this.setStyleClass([{ item: list, style: 'noOverflow' }, { item: btnHide, style: 'invisible' }], 'remove');
+          ? this.setStyleClass([{ item: list, style: 'noOverflow' }], 'add')
+          : this.setStyleClass([{ item: list, style: 'noOverflow' }], 'remove');
       } else {
         isNoOverflow
           ? this.setStyleClass([{ item: list, style: 'noOverflow' }, { item: btnMore, style: 'invisible' }], 'add')
           : this.setStyleClass([{ item: list, style: 'noOverflow' }, { item: btnMore, style: 'invisible' }], 'remove');
       }
-      this.setState({
-        taskWindowVisible: !this.state.taskWindowVisible,
-        currentId: id,
-        moreTasksVisible: false,
-        taskWindowDay: day
-      })
     }
   }
 
   toggleMoreTasks(day) {
     const list = ReactDOM.findDOMNode(this.refs[`list-${day.format('DD')}`]);
     const btn = ReactDOM.findDOMNode(this.refs[`btn-show-${day.format('DD')}`]);
-    const { moreTasksVisible, dayToShowMoreTasks } = this.state;
-    if (moreTasksVisible) {
-      this.setState({ dayToShowMoreTasks: null, moreTasksVisible: false });
-      const oldList = ReactDOM.findDOMNode(this.refs[`list-${dayToShowMoreTasks.format('DD')}`]);
-      const oldBtn = ReactDOM.findDOMNode(this.refs[`btn-show-${dayToShowMoreTasks.format('DD')}`]);
-      const oldBtnHide = ReactDOM.findDOMNode(this.refs[`btn-hide-${dayToShowMoreTasks.format('DD')}`]);
-      list.scrollTop = 0;
-      oldList.scrollTop = 0;
-      this.setStyleClass([
-        { item: oldList, style: 'extendedList' },
-        { item: oldBtn, style: 'invisible' },
-        { item: oldBtnHide, style: 'invisible' }
-      ], 'remove');
+    const { dayToShowMoreTasks } = this.state;
+
+    if (dayToShowMoreTasks && dayToShowMoreTasks !== day) {
+      this.toggleMoreTasks(dayToShowMoreTasks);
       return;
     }
 
-    if (list.className.indexOf(this.classNames.extendedList) < 0) {
-      this.setStyleClass([{ item: list, style: 'extendedList' }, { item: btn, style: 'invisible' }], 'add');
-    }
     this.setState({
-      dayToShowMoreTasks: day,
+      dayToShowMoreTasks: day !== dayToShowMoreTasks ? day : null,
       moreTasksVisible: !this.state.moreTasksVisible
     });
+
+    if (list.className.indexOf(this.classNames.extendedList) < 0) {
+      this.setStyleClass([{ item: list, style: 'extendedList' }, { item: btn, style: 'invisible' }], 'add');
+    } else {
+      list.scrollTop = 0;
+      this.setStyleClass([{ item: list, style: 'extendedList' }, { item: btn, style: 'invisible' }], 'remove');
+    }
   }
 
   sortTasksByDate(tasks) {
