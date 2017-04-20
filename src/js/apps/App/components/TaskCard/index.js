@@ -96,7 +96,7 @@ export default class extends Component {
   }
 
   disableClick(e) {
-    e.preventDefault();
+    e.stopPropagation();
   }
 
 

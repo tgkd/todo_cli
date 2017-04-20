@@ -37,10 +37,10 @@ export default class extends Component {
         onDragStart={dragStart}
         onDragEnd={dragEnd}
         className='cell__task'
-        key={task._id}>
+        key={task._id}
+        onClick={this.toggleTaskWindow.bind(this, task._id, day)}>
 
-        <div className='cell__task-name' onClick={this.toggleTaskWindow.bind(this, task._id, day)}
-        >{task.title}</div>
+        <div className='cell__task-name'>{task.title}</div>
         <div className='cell__task-time'>{time}</div>
         {
           taskWindowVisible && currentId === task._id

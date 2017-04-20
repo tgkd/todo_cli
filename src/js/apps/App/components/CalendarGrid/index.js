@@ -12,15 +12,16 @@ export default class Weeks extends Component {
       tasks: [],
       taskWindowVisible: false,
       moreTasksVisible: false,
-      dayToShowMoreTasks: null
+      dayToShowMoreTasks: null,
+      currentId: null
     };
 
     this.classNames = {
       extendedList: 'cell__tasks-list--extended',
       invisible: 'more-tasks-container--invisible',
       noOverflow: 'no-overflow',
-      dragEnter: 'drag-enter-cell',
-      dragOver: 'drag-over-cell'
+      dragOver: 'drag-over-cell',
+      activeTask: 'cell__task--active'
     }
   }
 
@@ -44,7 +45,7 @@ export default class Weeks extends Component {
   }
 
   componentDidUpdate() {
-    const { tasks, dayToShowMoreTasks, moreTasksVisible } = this.state;
+    const { tasks, dayToShowMoreTasks, moreTasksVisible, currentId, taskWindowVisible } = this.state;
     const { incompleteTasks } = this.props;
     if (incompleteTasks.length !== 0 && tasks.length === 0) {
       this.setState({
@@ -59,6 +60,7 @@ export default class Weeks extends Component {
         this.setStyleClass([{ item: scroll, style: 'invisible' }], 'add');
       }
     }
+
   }
 
   componentWillUnmount() {
@@ -86,6 +88,7 @@ export default class Weeks extends Component {
   }
 
   dragEnter(container, e) {
+
   }
 
   dragEnd(item, event) {
@@ -101,10 +104,14 @@ export default class Weeks extends Component {
   }
 
   dragOver(container, e) {
+    const { moreTasksVisible, dayToShowMoreTasks } = this.state;
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
     container.classList.add('drag-over-cell');
     container.childNodes[2].classList.add('drag-over-cell');
+    if (moreTasksVisible) {
+      this.toggleMoreTasks(dayToShowMoreTasks);
+    }
   }
 
   handleDrop(cell, event) {
@@ -150,18 +157,21 @@ export default class Weeks extends Component {
     }
   }
 
-
   toggleTaskWindow(id, day) {
     if (day) {
       const list = ReactDOM.findDOMNode(this.refs[`list-${day.format('DD')}`]);
       const btnHide = ReactDOM.findDOMNode(this.refs[`btn-hide-${day.format('DD')}`]);
       const btnMore = ReactDOM.findDOMNode(this.refs[`btn-show-${day.format('DD')}`]);
       const isNoOverflow = list.className.indexOf(this.classNames.noOverflow) < 0;
+      const taskItem = document.getElementById(id);
+
       const { currentId, taskWindowDay } = this.state;
+
       if (currentId && id !== currentId) {
         this.toggleTaskWindow(currentId, taskWindowDay);
         return;
       }
+
       this.setState({
         taskWindowVisible: !this.state.taskWindowVisible,
         currentId: id !== currentId ? id : null,
@@ -170,12 +180,21 @@ export default class Weeks extends Component {
 
       if (btnHide) {
         isNoOverflow
-          ? this.setStyleClass([{ item: list, style: 'noOverflow' }], 'add')
-          : this.setStyleClass([{ item: list, style: 'noOverflow' }], 'remove');
+          ? this.setStyleClass([{ item: list, style: 'noOverflow' }, { item: taskItem, style: 'activeTask' }], 'add')
+          : this.setStyleClass([{ item: list, style: 'noOverflow' }, {
+          item: taskItem,
+          style: 'activeTask'
+        }], 'remove');
       } else {
         isNoOverflow
-          ? this.setStyleClass([{ item: list, style: 'noOverflow' }, { item: btnMore, style: 'invisible' }], 'add')
-          : this.setStyleClass([{ item: list, style: 'noOverflow' }, { item: btnMore, style: 'invisible' }], 'remove');
+          ? this.setStyleClass([{ item: list, style: 'noOverflow' }, {
+          item: btnMore,
+          style: 'invisible'
+        }, { item: taskItem, style: 'activeTask' }], 'add')
+          : this.setStyleClass([{ item: list, style: 'noOverflow' }, {
+          item: btnMore,
+          style: 'invisible'
+        }, { item: taskItem, style: 'activeTask' }], 'remove');
       }
     }
   }
