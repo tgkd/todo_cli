@@ -44,12 +44,20 @@ export default class Weeks extends Component {
   }
 
   componentDidUpdate() {
-    const { tasks } = this.state;
+    const { tasks, dayToShowMoreTasks, moreTasksVisible } = this.state;
     const { incompleteTasks } = this.props;
     if (incompleteTasks.length !== 0 && tasks.length === 0) {
       this.setState({
         tasks: incompleteTasks
       });
+    }
+
+    if (moreTasksVisible) {
+      const list = ReactDOM.findDOMNode(this.refs[`list-${dayToShowMoreTasks.format('DD')}`]);
+      if (list && list.scrollHeight <= list.offsetHeight + list.scrollTop) {
+        const scroll = ReactDOM.findDOMNode(this.refs[`scroll-${dayToShowMoreTasks.format('DD')}`]);
+        this.setStyleClass([{ item: scroll, style: 'invisible' }], 'add');
+      }
     }
   }
 
@@ -87,10 +95,8 @@ export default class Weeks extends Component {
     const { moreTasksVisible, dayToShowMoreTasks } = this.state;
     container.classList.remove('drag-over-cell');
     container.childNodes[2].classList.remove('drag-over-cell');
-    const date = moment(container.id, 'DD-MM-YYYY');
-    const stateDate = moment(dayToShowMoreTasks).format('DD-MM-YYYY');
-    if (moreTasksVisible && stateDate === date.format('DD-MM-YYYY')) {
-      this.toggleMoreTasks(date);
+    if (moreTasksVisible) {
+      this.toggleMoreTasks(dayToShowMoreTasks);
     }
   }
 
@@ -291,7 +297,6 @@ export default class Weeks extends Component {
           const sortedTasks = this.sortTasksByDate(tasks);
           const tasksToday = this.getTasksForToday(day, sortedTasks);
           const tasksTemplatesForToday = tasksToday.length > 0 ? this.getTasksTemplatesByDay(tasksToday, day) : null;
-
           return (
             <div id={day.format('DD-MM-YYYY')} className={dayClasses} key={day.format('DD-MM-YYYY')}>
               <p className='calendar-container__date'>
@@ -333,7 +338,6 @@ export default class Weeks extends Component {
         )
       });
     }
-
     return weeks;
   }
 
