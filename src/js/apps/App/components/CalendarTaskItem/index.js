@@ -25,7 +25,8 @@ export default class extends Component {
       task,
       dragStart,
       dragEnd,
-      day
+      day,
+      list
     } = this.props;
 
     const time = moment.parseZone(task.end).format('HH:mm');
@@ -45,6 +46,7 @@ export default class extends Component {
         {
           taskWindowVisible && currentId === task._id
             ? <TaskCard
+            list={list}
             title={task.title}
             _id={task._id}
             updateTask={::this.updateTask}

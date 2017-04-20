@@ -101,12 +101,12 @@ export default class extends Component {
 
 
   render() {
-    const { date, title } = this.props;
+    const { date, title, _id } = this.props;
     const { hours, minutes } = this.state;
 
     const taskDate = moment(date).locale('ru').format('DD MMM YYYY');
     return (
-      <div className="task-card" onClick={::this.disableClick}>
+      <div className="task-card" onClick={::this.disableClick} id={`card-${_id}`}>
         <h1 className="task-card__header">{title}</h1>
         <p className="task-card__date">{taskDate}</p>
         <div className="task-card__inputs">

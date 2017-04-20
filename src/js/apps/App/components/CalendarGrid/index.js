@@ -20,16 +20,18 @@ export default class Weeks extends Component {
     this.classNames = {
       extendedList: 'cell__tasks-list--extended',
       invisible: 'more-tasks-container--invisible',
-      noOverflow: 'no-overflow',
+      staticList: 'static-list',
       dragOver: 'drag-over-cell',
       activeTask: 'cell__task--active'
-    }
+    };
+
+    this.scrollStep = 28;
   }
 
   setEventListeners() {
     const { month } = this.props;
-
     const containers = document.querySelectorAll('.calendar-container__cell');
+
     [].forEach.call(containers, (container) => {
       let dateCellMonth = moment(container.id, 'DD-MM-YYYY').month();
       if (dateCellMonth === month) {
@@ -53,7 +55,6 @@ export default class Weeks extends Component {
         tasks: incompleteTasks
       });
     }
-
     if (moreTasksVisible) {
       const list = ReactDOM.findDOMNode(this.refs[`list-${dayToShowMoreTasks.format('DD')}`]);
       if (list && list.scrollHeight <= list.offsetHeight + list.scrollTop) {
@@ -61,7 +62,6 @@ export default class Weeks extends Component {
         this.setStyleClass([{ item: scroll, style: 'invisible' }], 'add');
       }
     }
-
   }
 
   componentWillUnmount() {
@@ -162,9 +162,9 @@ export default class Weeks extends Component {
       const list = ReactDOM.findDOMNode(this.refs[`list-${day.format('DD')}`]);
       const btnHide = ReactDOM.findDOMNode(this.refs[`btn-hide-${day.format('DD')}`]);
       const btnMore = ReactDOM.findDOMNode(this.refs[`btn-show-${day.format('DD')}`]);
-      const isNoOverflow = list.className.indexOf(this.classNames.noOverflow) < 0;
+      const scroll = ReactDOM.findDOMNode(this.refs[`scroll-${day.format('DD')}`]);
+      const isStaticList = list.className.indexOf(this.classNames.staticList) < 0;
       const taskItem = document.getElementById(id);
-
       const { currentId, taskWindowDay } = this.state;
 
       if (currentId && id !== currentId) {
@@ -176,25 +176,33 @@ export default class Weeks extends Component {
         taskWindowVisible: !this.state.taskWindowVisible,
         currentId: id !== currentId ? id : null,
         taskWindowDay: day !== taskWindowDay ? day : null
+      }, () => {
+        const { taskWindowVisible, currentId, moreTasksVisible, dayToShowMoreTasks } = this.state;
+        if (taskWindowVisible) {
+          const taskCard = document.getElementById(`card-${currentId}`);
+          const list = dayToShowMoreTasks && ReactDOM.findDOMNode(this.refs[`list-${dayToShowMoreTasks.format('DD')}`]);
+          taskCard.style.top = !moreTasksVisible || (list && list.scrollTop === 0)
+            ? taskItem.offsetTop + this.scrollStep + 'px'
+            : taskItem.offsetTop - this.scrollStep + 'px';
+        }
       });
 
       if (btnHide) {
-        isNoOverflow
-          ? this.setStyleClass([{ item: list, style: 'noOverflow' }, { item: taskItem, style: 'activeTask' }], 'add')
-          : this.setStyleClass([{ item: list, style: 'noOverflow' }, {
+        isStaticList
+          ? this.setStyleClass([{ item: list, style: 'staticList' }, {
           item: taskItem,
           style: 'activeTask'
-        }], 'remove');
+        }, { item: scroll, style: 'invisible' }], 'add')
+          : this.setStyleClass([{ item: list, style: 'staticList' }, {
+          item: taskItem,
+          style: 'activeTask'
+        }, { item: scroll, style: 'invisible' }], 'remove');
       } else {
-        isNoOverflow
-          ? this.setStyleClass([{ item: list, style: 'noOverflow' }, {
-          item: btnMore,
-          style: 'invisible'
-        }, { item: taskItem, style: 'activeTask' }], 'add')
-          : this.setStyleClass([{ item: list, style: 'noOverflow' }, {
-          item: btnMore,
-          style: 'invisible'
-        }, { item: taskItem, style: 'activeTask' }], 'remove');
+        isStaticList
+          ? this.setStyleClass([{ item: list, style: 'staticList' }, { item: btnMore, style: 'invisible' },
+          { item: taskItem, style: 'activeTask' }], 'add')
+          : this.setStyleClass([{ item: list, style: 'staticList' }, { item: btnMore, style: 'invisible' },
+          { item: taskItem, style: 'activeTask' }], 'remove');
       }
     }
   }
@@ -237,6 +245,7 @@ export default class Weeks extends Component {
 
   getTasksTemplatesByDay(tasksToday, day) {
     const { taskWindowVisible, currentId } = this.state;
+
     return tasksToday.map((task) => {
       return <CalendarTaskItem
         dragStart={this.dragStart.bind(this, task)}
@@ -259,13 +268,12 @@ export default class Weeks extends Component {
   }
 
   scrollList(day) {
-    const step = 28;
     const list = ReactDOM.findDOMNode(this.refs[`list-${day.format('DD')}`]);
     const scroll = ReactDOM.findDOMNode(this.refs[`scroll-${day.format('DD')}`]);
-    const position = scroll.style.bottom === '' ? -step : parseInt(scroll.style.bottom) - step;
-    if (list.scrollHeight > list.offsetHeight + list.scrollTop) {
+    const position = scroll.style.bottom === '' ? -this.scrollStep : parseInt(scroll.style.bottom) - this.scrollStep;
+    if (list.scrollHeight - this.scrollStep > list.offsetHeight + list.scrollTop) {
       scroll.style.bottom = `${position}px`;
-      list.scrollTop += step;
+      list.scrollTop += this.scrollStep;
     } else {
       this.setStyleClass([{ item: scroll, style: 'invisible' }], 'add')
     }
