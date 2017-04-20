@@ -2,6 +2,7 @@ import moment from 'moment';
 import React, {Component} from 'react';
 import CalendarTaskItem from '../CalendarTaskItem';
 import * as ReactDOM from "react-dom";
+import {sortTasks} from 'libs/dateCreator';
 
 export default class Weeks extends Component {
   constructor(props) {
@@ -221,12 +222,6 @@ export default class Weeks extends Component {
     }
   }
 
-  sortTasksByDate(tasks) {
-    return tasks.sort(function (left, right) {
-      return moment.parseZone(left.end).diff(moment.parseZone(right.end), 'hours')
-    });
-  }
-
   getTasksForToday(day, sortedTasks) {
     const calendarDate = moment.parseZone(day).format('DD-MM-YYYY');
     let tasksToday = [];
@@ -312,7 +307,7 @@ export default class Weeks extends Component {
           if (!(day.month() === month)) {
             dayClasses += ' calendar-container__cell--muted';
           }
-          const sortedTasks = this.sortTasksByDate(tasks);
+          const sortedTasks = sortTasks(tasks, 'hours');
           const tasksToday = this.getTasksForToday(day, sortedTasks);
           const tasksTemplatesForToday = tasksToday.length > 0 ? this.getTasksTemplatesByDay(tasksToday, day) : null;
           return (

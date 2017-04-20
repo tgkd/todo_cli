@@ -3,8 +3,7 @@ import React, {Component} from 'react';
 
 import CalendarHeader from './header';
 import Weeks from './weeksTable';
-import getCalendar from 'libs/dateCreator';
-
+import {getCalendar} from 'libs/dateCreator';
 
 class DatePicker extends Component {
   constructor(props) {
@@ -26,7 +25,6 @@ class DatePicker extends Component {
       date: day
     });
     this.props.setDate(day)
-
   }
 
   nextMonth(e) {

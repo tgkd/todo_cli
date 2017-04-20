@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React, {Component} from 'react';
 
-import getCalendar from 'libs/dateCreator';
+import {getCalendar} from 'libs/dateCreator';
 import CalendarHeader from '../CalendarHeader';
 import CalendarGrid from '../CalendarGrid';
 

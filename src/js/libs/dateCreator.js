@@ -3,7 +3,7 @@ import {extendMoment} from 'moment-range';
 
 const moment = extendMoment(Moment);
 
-export default function getCalendar(year, month) {
+export function getCalendar(year, month) {
   let startDate = moment([year, month]).startOf('month');
 
   let calendar = [];
@@ -13,6 +13,11 @@ export default function getCalendar(year, month) {
     calendar.push(moment.range(first, end));
     startDate = moment(first).add(7, 'day')
   }
+  return calendar;
+}
 
-  return calendar
-};
+export function sortTasks(tasks, sortType) {
+  return tasks.sort(function (left, right) {
+    return moment.parseZone(left.end).diff(moment.parseZone(right.end), sortType);
+  });
+}

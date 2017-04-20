@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {CompletedTask, IncompleteTask} from './../TaskItem';
 import NewTask from '../NewTask';
+import {sortTasks} from 'libs/dateCreator';
 
 export default class extends Component {
   constructor(props) {
@@ -10,7 +11,6 @@ export default class extends Component {
       error: ''
     }
   }
-
 
   createTask(task) {
     const { createTask } = this.props;
@@ -22,7 +22,6 @@ export default class extends Component {
       })
   }
 
-
   updateTask(task) {
     const { updateTask } = this.props;
     updateTask(task)
@@ -32,7 +31,6 @@ export default class extends Component {
         })
       })
   }
-
 
   deleteTask(id) {
     const { deleteTask } = this.props;
@@ -44,7 +42,6 @@ export default class extends Component {
       })
   }
 
-
   componentDidMount() {
     const { getTasks } = this.props;
     getTasks()
@@ -55,11 +52,9 @@ export default class extends Component {
       })
   }
 
-  render() {
-
-    const { incompleteTasks, completedTasks } = this.props;
-
-    const incompleteList = incompleteTasks.map(item => {
+  getTasksTemplates(incompleteTasks, completedTasks) {
+    const templates = {};
+    templates.incomplete = incompleteTasks.map(item => {
       return (
         <div className='col-xs-10 col-sm-10 col-md-10' key={item._id}>
           <IncompleteTask task={item}
@@ -67,7 +62,7 @@ export default class extends Component {
         </div>
       )
     });
-    const completedList = completedTasks.map(item => {
+    templates.completed = completedTasks.map(item => {
       return (
         <div className='col-xs-10 col-sm-10 col-md-10' key={item._id}>
           <CompletedTask task={item}
@@ -75,6 +70,14 @@ export default class extends Component {
         </div>
       )
     });
+    return templates;
+  }
+
+  render() {
+    const { incompleteTasks, completedTasks } = this.props;
+    const incSortedList = sortTasks(incompleteTasks, 'hours');
+    const compSortedList = sortTasks(completedTasks, 'hours');
+    const { incomplete, completed } = this.getTasksTemplates(incSortedList, compSortedList);
 
     return (
       <div className='tasks-container col-xs-10 col-sm-10 col-md-10 col-lg-7'>
@@ -89,11 +92,11 @@ export default class extends Component {
         <br/>
         <hr/>
         <div className='row center-xs center-sm center-md tasks-container__incomplete-list'>
-          {incompleteList.length === 0 ? 'Нет незавершенных задач' : incompleteList}
+          {incomplete.length === 0 ? 'Нет незавершенных задач' : incomplete}
         </div>
         <hr/>
         <div className='row center-xs center-sm center-md tasks-container__completed-list'>
-          {completedList.length === 0 ? 'Нет завершенных задач' : completedList}
+          {completed.length === 0 ? 'Нет завершенных задач' : completed}
         </div>
       </div>
 
