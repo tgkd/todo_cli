@@ -15,70 +15,39 @@ class Task {
     });
   }
 
-  getList() {
-    return new Promise((resolve, reject) => {
-      return this.api.request({
-        method: this.task.list.method,
-        url: this.task.list.url
-      })
-        .then(task => {
-          resolve(task)
-        })
-        .catch(e => {
-          reject(e)
-        })
+  async getList() {
+    return await this.api.request({
+      method: this.task.list.method,
+      url: this.task.list.url
     })
   }
 
-  create(newTask) {
-    return new Promise((resolve, reject) => {
-      return this.api.request({
-        method: this.task.create.method,
-        url: this.task.create.url,
-        data: newTask
-      })
-        .then(task => {
-          resolve(task)
-        })
-        .catch(e => {
-          reject(e)
-        })
+  async create(newTask) {
+    return await this.api.request({
+      method: this.task.create.method,
+      url: this.task.create.url,
+      data: newTask
     })
   }
 
-  update(updatedTask) {
-    return new Promise((resolve, reject) => {
-      return this.api.request({
-        method: this.task.update.method,
-        url: this.task.update.url,
-        data: updatedTask
-      })
-        .then(task => {
-          resolve(task)
-        })
-        .catch(e => {
-          reject(e)
-        })
+  async update(updatedTask) {
+    return await this.api.request({
+      method: this.task.update.method,
+      url: this.task.update.url,
+      data: updatedTask
     })
   }
 
-  del(id) {
-    return new Promise((resolve, reject) => {
-      return this.api.request({
-        method: this.task.del.method,
-        url: this.task.del.url,
-        data: {
-          id: id
-        }
-      })
-        .then(task => {
-          resolve(task)
-        })
-        .catch(e => {
-          reject(e)
-        })
+  async del(id) {
+    return await this.api.request({
+      method: this.task.del.method,
+      url: this.task.del.url,
+      data: {
+        id: id
+      }
     })
   }
+
 }
 
 export default Task;

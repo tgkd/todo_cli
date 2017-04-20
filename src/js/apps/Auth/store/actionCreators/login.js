@@ -19,7 +19,7 @@ export function register(credentials, sessionInfo) {
 
 export function login(credentials, sessionInfo) {
   return async (dispatch) => {
-    const response = auth.login(credentials, sessionInfo)
+    const response = await auth.login(credentials, sessionInfo);
     dispatch(actions.login(response.data));
-    }
+  }
 }

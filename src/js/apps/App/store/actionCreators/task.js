@@ -4,41 +4,29 @@ import Task from 'libs/task';
 const task = new Task();
 
 export function getTasks() {
-  return (dispatch) => {
-    return task
-      .getList()
-      .then(response => {
-        dispatch(actions.getTasks(response.data));
-      })
+  return async (dispatch) => {
+    const response = await task.getList();
+    dispatch(actions.getTasks(response.data))
   }
 }
 
 export function updateTask(taskInfo) {
-  return (dispatch) => {
-    return task
-      .update(taskInfo)
-      .then(response => {
-        dispatch(actions.updateTask(response.data));
-      })
+  return async (dispatch) => {
+    const response = await task.update(taskInfo);
+    dispatch(actions.updateTask(response.data));
   }
 }
 
 export function createTask(newTask) {
-  return (dispatch) => {
-    return task
-      .create(newTask)
-      .then(response => {
-        dispatch(actions.createTask(response.data));
-      })
+  return async (dispatch) => {
+    const response = await task.create(newTask);
+    dispatch(actions.createTask(response.data));
   }
 }
 
 export function deleteTask(id) {
-  return (dispatch) => {
-    return task
-      .del(id)
-      .then(response => {
-        dispatch(actions.deleteTask(response.data));
-      })
+  return async (dispatch) => {
+    const response = await task.del(id);
+    dispatch(actions.deleteTask(response.data));
   }
 }

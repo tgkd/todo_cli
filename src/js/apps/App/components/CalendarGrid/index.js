@@ -45,7 +45,7 @@ export default class Weeks extends Component {
   }
 
   componentDidUpdate() {
-    const { tasks, dayToShowMoreTasks, moreTasksVisible, currentId, taskWindowVisible } = this.state;
+    const { tasks, dayToShowMoreTasks, moreTasksVisible } = this.state;
     const { incompleteTasks } = this.props;
     if (incompleteTasks.length !== 0 && tasks.length === 0) {
       this.setState({
@@ -88,7 +88,6 @@ export default class Weeks extends Component {
   }
 
   dragEnter(container, e) {
-
   }
 
   dragEnd(item, event) {

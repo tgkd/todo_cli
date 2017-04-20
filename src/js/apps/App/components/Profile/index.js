@@ -64,6 +64,7 @@ export default class extends Component {
   componentDidUpdate() {
     const { user, sessions } = this.props;
     const userState = this.state.user;
+    const stateSessions = this.state.sessions;
     if (user && !userState._id) {
       const birthday = moment(user.birthday);
       this.setState({
@@ -74,7 +75,7 @@ export default class extends Component {
         }
       })
     }
-    if (this.state.sessions.length === 0) {
+    if (stateSessions.length === 0 || stateSessions.length !== sessions.length) {
       this.setState({
         sessions: sessions
       })
@@ -151,7 +152,7 @@ export default class extends Component {
   }
 
   setUserBirthday(e) {
-    const date = moment(e.target.value);
+    const date = moment(e.target.value, 'DD.MM.YYYY');
     this.setState({
       user: {
         ...this.state.user,

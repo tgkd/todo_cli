@@ -15,77 +15,43 @@ class Auth {
     });
   }
 
-  login(credentials, session) {
-    return new Promise((resolve, reject) => {
-      return this.api.request({
-        method: this.auth.login.method,
-        url: this.auth.login.url,
-        data: {
-          ...credentials,
-          session: session
-        }
-      })
-        .then(user => {
-          resolve(user)
-        })
-        .catch(e => {
-          reject(e)
-        })
+  async login(credentials, session) {
+    return await this.api.request({
+      method: this.auth.login.method,
+      url: this.auth.login.url,
+      data: {
+        ...credentials,
+        session: session
+      }
+    });
+  }
+
+  async logout() {
+    return await this.api.request({
+      method: this.auth.logout.method,
+      url: this.auth.logout.url
+    });
+  }
+
+  async register(credentials, session) {
+    return await this.api.request({
+      method: this.auth.register.method,
+      url: this.auth.register.url,
+      data: {
+        ...credentials,
+        session: session
+      }
     })
   }
 
-  logout() {
-    return new Promise((resolve, reject) => {
-      return this.api.request({
-        method: this.auth.logout.method,
-        url: this.auth.logout.url
-      })
-        .then(logout => {
-          resolve(logout)
-        })
-        .catch(e => {
-          reject(e)
-        })
-    })
-
-
-  }
-
-  register(credentials, session) {
-    return new Promise((resolve, reject) => {
-      this.api.request({
-        method: this.auth.register.method,
-        url: this.auth.register.url,
-        data: {
-          ...credentials,
-          session: session
-        }
-      })
-        .then(user => {
-          resolve(user)
-        })
-        .catch(e => {
-          reject(e)
-        })
-    })
-  }
-
-  getUser(email) {
-    return new Promise((resolve, reject) => {
-      this.api.request({
-        method: this.auth.getUser.method,
-        url: this.auth.getUser.url,
-        data: {
-          'email': email
-        }
-      })
-        .then(user => {
-          resolve(user)
-        })
-        .catch(e => {
-          reject(e)
-        })
-    })
+  async getUser(email) {
+    return await this.api.request({
+      method: this.auth.getUser.method,
+      url: this.auth.getUser.url,
+      data: {
+        'email': email
+      }
+    });
   }
 
 }

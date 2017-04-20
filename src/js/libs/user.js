@@ -15,55 +15,29 @@ class User {
     });
   }
 
-  get() {
-    return new Promise((resolve, reject) => {
-      return this.api.request({
-        method: this.user.getInfo.method,
-        url: this.user.getInfo.url
-      })
-        .then(user => {
-          resolve(user)
-        })
-        .catch(e => {
-          reject(e)
-        })
+  async get() {
+    return await this.api.request({
+      method: this.user.getInfo.method,
+      url: this.user.getInfo.url
     })
   }
 
-  update(updatedInfo) {
-    return new Promise((resolve, reject) => {
-      return this.api.request({
-        method: this.user.updateInfo.method,
-        url: this.user.updateInfo.url,
-        data: updatedInfo
-      })
-        .then(user => {
-          resolve(user)
-        })
-        .catch(e => {
-          reject(e)
-        })
+  async update(updatedInfo) {
+    return await this.api.request({
+      method: this.user.updateInfo.method,
+      url: this.user.updateInfo.url,
+      data: updatedInfo
     })
-
   }
 
-  terminateSession(id) {
-    return new Promise((resolve, reject) => {
-      return this.api.request({
-        method: this.user.terminateSession.method,
-        url: this.user.terminateSession.url,
-        params: {
-          id: id
-        }
-      })
-        .then(user => {
-          resolve(user)
-        })
-        .catch(e => {
-          reject(e)
-        })
+  async terminateSession(id) {
+    return await this.api.request({
+      method: this.user.terminateSession.method,
+      url: this.user.terminateSession.url,
+      params: {
+        id: id
+      }
     })
-
   }
 
 }

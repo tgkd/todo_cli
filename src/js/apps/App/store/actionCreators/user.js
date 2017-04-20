@@ -6,41 +6,29 @@ const auth = new Auth();
 const user = new User();
 
 export function getUserInfo() {
-  return (dispatch) => {
-    return user
-      .get()
-      .then(response => {
-        dispatch(actions.getUserInfo(response.data));
-      })
-  }
+  return async (dispatch) => {
+    const response = await user.get();
+    dispatch(actions.getUserInfo(response.data))
+  };
 }
 
 export function updateUserInfo(userInfo) {
-  return (dispatch) => {
-    return user
-      .update(userInfo)
-      .then(response => {
-        dispatch(actions.updateUserInfo(response.data));
-      })
-  }
+  return async (dispatch) => {
+    const response = await user.update(userInfo);
+    dispatch(actions.updateUserInfo(response.data));
+  };
 }
 
 export function terminateSession(sessionId) {
-  return (dispatch) => {
-    return user
-      .terminateSession(sessionId)
-      .then(response => {
-        dispatch(actions.terminateSession(response.data));
-      })
-  }
+  return async (dispatch) => {
+    const response = await user.terminateSession(sessionId);
+    dispatch(actions.terminateSession(response.data));
+  };
 }
 
 export function logout() {
-  return (dispatch) => {
-    return auth
-      .logout()
-      .then(response => {
-        dispatch(actions.logout(response.data));
-      })
-  }
+  return async (dispatch) => {
+    const response = await auth.logout();
+    dispatch(actions.logout(response.data));
+  };
 }
