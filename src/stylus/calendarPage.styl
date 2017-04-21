@@ -134,6 +134,9 @@
 
 @media all and (max-width: 425px)
   .calendar-container
+    &__cell
+      max-height 100%
+      min-height 100%
     &__cell--muted
       display none
     &__cell--empty
@@ -160,20 +163,22 @@
   .cell__tasks-list
     display flex
     margin 0 auto
+    overflow visible
+    position relative
+    max-height 100%
+    margin-bottom 6px
     &--extended
       position relative
       background-color #fff
       padding-bottom 0
-      max-height 150px
-      box-shadow 0 1px 1px 0 rgba(0, 0, 0, 0.5)
 
   .cell__task
     margin 3px auto
     &-name
       max-width 70% !important
 
-  .btn-more
-    margin 5px auto
+  .more-tasks-container
+    display none
 
   .scroll
     display none

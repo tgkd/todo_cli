@@ -32,7 +32,6 @@ export default class Weeks extends Component {
   setEventListeners() {
     const { month } = this.props;
     const containers = document.querySelectorAll('.calendar-container__cell');
-
     [].forEach.call(containers, (container) => {
       let dateCellMonth = moment(container.id, 'DD-MM-YYYY').month();
       if (dateCellMonth === month) {
@@ -68,6 +67,7 @@ export default class Weeks extends Component {
     });
   }
 
+
   dragStart(task, event) {
     this.setState({
       transferTask: {
@@ -80,7 +80,12 @@ export default class Weeks extends Component {
   dragEnter(container, e) {
   }
 
-  dragEnd(item, event) {
+  dragEnd(task, event) {
+    this.setState({
+      transferTask: {
+        id: null
+      }
+    })
   }
 
   dragLeave(currentTarget) {
@@ -100,6 +105,7 @@ export default class Weeks extends Component {
     if (moreTasksVisible) {
       this.toggleMoreTasks(dayToShowMoreTasks);
     }
+    return false;
   }
 
   handleDrop(currentTarget, e) {

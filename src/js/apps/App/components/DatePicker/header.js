@@ -21,7 +21,7 @@ export default class CalendarHeader extends Component {
       <tr className="calendar__month-name">
         <td>
           <a href="#" className="calendar__nav calendar__nav--previous" onClick={ previousMonth }>
-            <span className="fa fa-angle-left"/>
+            <span className="calendar__nav--left fa fa-angle-left"/>
           </a>
         </td>
         <td colSpan="5"><span
@@ -29,7 +29,7 @@ export default class CalendarHeader extends Component {
         </td>
         <td>
           <a href="#" className="calendar__nav calendar__nav--next" onClick={ nextMonth }>
-            <span className="fa fa-angle-right"/>
+            <span className="calendar__nav--right fa fa-angle-right"/>
           </a>
         </td>
       </tr>
