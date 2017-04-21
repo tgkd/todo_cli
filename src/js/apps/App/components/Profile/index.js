@@ -27,6 +27,7 @@ export default class extends Component {
     this.incorrectUsername = 'Введите корректное имя';
     this.successMessage = 'Успешно сохранено';
     this.serverError = 'Ошибка, повторите попытку';
+
   }
 
   componentDidMount() {
@@ -42,24 +43,7 @@ export default class extends Component {
         }
       })
     }
-    document.getElementById('root').addEventListener('click', ::this.clickEvent);
   }
-
-  clickEvent(e) {
-    const target = e.target.className;
-    let calendar = -1;
-    let calendarNav = -1;
-    if (typeof target === 'string') {
-      calendar = target.indexOf('calendar');
-      calendarNav = target.indexOf('fa');
-    }
-    if (calendar < 0 && calendarNav < 0 && target !== '') {
-      this.setState({
-        calendarVisible: false
-      })
-    }
-  }
-
 
   componentDidUpdate() {
     const { user, sessions } = this.props;
@@ -80,10 +64,6 @@ export default class extends Component {
         sessions: sessions
       })
     }
-  }
-
-  componentWillUnmount() {
-    document.getElementById('root').removeEventListener('click', ::this.clickEvent);
   }
 
   updateUserInfo() {

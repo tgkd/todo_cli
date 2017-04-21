@@ -46,6 +46,7 @@ export default class extends Component {
         {
           taskWindowVisible && currentId === task._id
             ? <TaskCard
+            toggleWindow={::this.toggleTaskWindow}
             list={list}
             title={task.title}
             _id={task._id}

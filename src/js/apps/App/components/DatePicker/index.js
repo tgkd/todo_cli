@@ -16,7 +16,9 @@ class DatePicker extends Component {
       year: year,
       calendar: getCalendar(year, month),
       dayNames: ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС']
-    }
+    };
+
+    this.clickEvent = this.clickEvent.bind(this);
   }
 
   setDate(day, e) {
@@ -69,6 +71,7 @@ class DatePicker extends Component {
   componentDidMount() {
     const { date } = this.props;
     const newDate = moment(date, 'DD-MM-YYYY');
+    document.getElementById('root').addEventListener('click', this.clickEvent);
     if (newDate.isValid()) {
       this.setState({
         date: newDate,
@@ -80,6 +83,24 @@ class DatePicker extends Component {
       this.setState({
         date: moment()
       })
+    }
+  }
+
+  componentWillUnmount() {
+    document.getElementById('root').removeEventListener('click', this.clickEvent);
+  }
+
+  clickEvent(e) {
+    const { toggleCalendar } = this.props;
+    const target = e.target.className;
+    let calendar = -1;
+    let calendarNav = -1;
+    if (typeof target === 'string') {
+      calendar = target.indexOf('calendar__');
+      calendarNav = target.indexOf('fa');
+    }
+    if (calendar < 0 && calendarNav < 0 && target !== '') {
+      toggleCalendar();
     }
   }
 

@@ -74,10 +74,11 @@
     z-index 100
     box-sizing border-box
     position absolute
-    max-height 115px
+    max-height 150px
     box-shadow 0 1px 1px 0 rgba(0, 0, 0, 0.5)
     border-radius 3px
     padding-bottom 6px
+    overflow-y auto
   &__task
     background-color $calendar-cell-task
     position relative
@@ -111,6 +112,8 @@
     overflow hidden
     white-space nowrap
     text-overflow ellipsis
+  &--zIndex
+    z-index 100
 
 .more-tasks-container
   position absolute
@@ -126,22 +129,15 @@
 
 .drag-over-cell
   z-index 100
-  background-color rgba(195, 199, 205, 0.25)
+  background-color #e6e6e6
   transition background-color 100ms;
-
-.scroll
-  position absolute
-  bottom 0
-  width 100%
-  background #9a9ea4
-  opacity 0.2
-  &:hover
-    opacity 0.6
 
 @media all and (max-width: 425px)
   .calendar-container
     &__cell--muted
       display none
+    &__cell--empty
+      min-height auto
     &__daynames
       display none
     &__month
@@ -162,16 +158,17 @@
       flex-wrap wrap
 
   .cell__tasks-list
-    display block
+    display flex
     margin 0 auto
     &--extended
-      position static
-      box-shadow none
+      position relative
+      background-color #fff
       padding-bottom 0
-      max-height 200px
+      max-height 150px
+      box-shadow 0 1px 1px 0 rgba(0, 0, 0, 0.5)
 
   .cell__task
-    margin 5px auto
+    margin 3px auto
     &-name
       max-width 70% !important
 
@@ -180,6 +177,9 @@
 
   .scroll
     display none
+
+  .static-list
+    position static
 
 @media all and (min-width: 500px) and (max-width: 768px)
   .cell__task-name

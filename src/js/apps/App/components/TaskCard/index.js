@@ -1,13 +1,20 @@
 import moment from 'moment';
 import React, {Component} from 'react';
+import DatePicker from '../DatePicker';
 
 export default class extends Component {
   constructor(props) {
     super(props);
     this.state = {
       hours: '',
-      minutes: ''
-    }
+      minutes: '',
+      calendarVisible: false,
+      formattedDate: null,
+      taskDate: '',
+      error: false,
+      errorMessage: ''
+    };
+    this.clickEvent = this.clickEvent.bind(this);
   }
 
   setHours(e) {
@@ -26,13 +33,21 @@ export default class extends Component {
     })
   }
 
-
   saveNewTime() {
-    const { title, date, updateTask, _id, day } = this.props;
-    const { hours, minutes } = this.state;
-    const newDate = moment.parseZone(date)
-        .hour(parseInt(hours))
-        .minute(parseInt(minutes))
+    const { title, updateTask, _id, day } = this.props;
+    const { hours, minutes, formattedDate } = this.state;
+    if (!formattedDate.isValid()) {
+      this.setState({
+        error: true,
+        taskDate: '',
+        errorMessage: 'Неверный формат даты'
+      });
+      return;
+    }
+    const newDate = moment
+        .parseZone(formattedDate)
+        .hour(parseInt(hours, 10))
+        .minute(parseInt(minutes, 10))
         .seconds(0)
         .format('YYYY-MM-DD HH:mm:ss.000').toString() + 'Z';
     updateTask({
@@ -83,40 +98,116 @@ export default class extends Component {
     }
   }
 
-
   componentDidMount() {
     const { date } = this.props;
     const hours = moment.parseZone(date).format('HH');
     const minutes = moment.parseZone(date).format('mm');
+    const taskDate = moment(date).format('DD.MM.YYYY');
+
     this.setState({
       hours,
-      minutes
+      minutes,
+      taskDate,
+      formattedDate: moment(date)
     });
-    this.hoursInput.focus();
+
+    this.dateInput.focus();
+    document.getElementById('root').addEventListener('click', this.clickEvent);
   }
+
+  componentWillUnmount() {
+    document.getElementById('root').removeEventListener('click', this.clickEvent);
+  }
+
+  clickEvent(e) {
+    const { toggleWindow, _id, day } = this.props;
+    const className = e.target.className && e.target.className.length > 0;
+    const isCard = className ? e.target.className.indexOf('card') >= 0 : true;
+    const isCalendar = className ? e.target.className.indexOf('calendar__') >= 0 : true;
+    if (!isCard && !isCalendar) {
+      toggleWindow(_id, day);
+    }
+  };
 
   disableClick(e) {
     e.stopPropagation();
   }
 
+  setDate(date) {
+    if (date.isValid()) {
+      this.setState({
+        calendarVisible: false,
+        taskDate: date.format('DD.MM.YYYY'),
+        formattedDate: date,
+        error: false,
+        text: ''
+      })
+    } else {
+      this.setState({
+        formattedDate: date
+      })
+    }
+  }
+
+  setTaskDate(e) {
+    const date = moment(e.target.value, 'DD.MM.YYYY');
+    this.setState({
+      taskDate: e.target.value,
+      formattedDate: date
+    });
+  }
+
+  toggleCalendar(e) {
+    this.setState({
+      calendarVisible: !this.state.calendarVisible
+    })
+  }
+
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      this.saveNewTime();
+    }
+  }
 
   render() {
-    const { date, title, _id } = this.props;
-    const { hours, minutes } = this.state;
+    const { title, _id } = this.props;
+    const { hours, minutes, taskDate, error, errorMessage, calendarVisible, formattedDate } = this.state;
 
-    const taskDate = moment(date).locale('ru').format('DD MMM YYYY');
     return (
-      <div className="task-card" onClick={::this.disableClick} id={`card-${_id}`}>
+      <div className="task-card" onClick={::this.disableClick} id={`card-${_id}`} onKeyPress={::this.handleKeyPress}>
         <h1 className="task-card__header">{title}</h1>
-        <p className="task-card__date">{taskDate}</p>
+        <div className='input-container'>
+          <input
+            className={`input ${error ? 'input--red' : 'input--blue'} task-card__input-date`}
+            type='text'
+            placeholder={error ? errorMessage : 'Введите дату'}
+            onChange={::this.setTaskDate}
+            value={taskDate}
+            ref={(input) => {
+              this.dateInput = input
+            }}/>
+          <div
+            className='input-container__img task-card__datepicker row middle-xs middle-sm middle-md end-xs end-sm end-md'
+            onClick={::this.toggleCalendar}>
+            <svg
+              className='input-container__calendar-ico'
+              width='18' height='20' viewBox='0 0 18 20'
+              xmlns='http://www.w3.org/2000/svg'
+            >
+              <title>8F18FF8D-0089-4998-AECB-EA32DEACFFFF</title>
+              <path
+                d='M16 2h-1V0h-2v2H5V0H3v2H2C.89 2 .01 2.9.01 4L0 18a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 16H2V7h14v11zM4 9h5v5H4V9z'
+                fill='#566394'/>
+            </svg>
+          </div>
+          {calendarVisible &&
+          <DatePicker toggleCalendar={::this.toggleCalendar} date={formattedDate || null} setDate={::this.setDate}/>}
+        </div>
         <div className="task-card__inputs">
           <input
             className="input input--blue task-card__input"
             type="text"
             value={hours}
-            ref={(input) => {
-              this.hoursInput = input;
-            }}
             onKeyDown={::this.hoursOnKeyDown}
             onChange={::this.setHours}
           />

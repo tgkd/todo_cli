@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import DatePicker from '../DatePicker';
-
 import moment from 'moment';
 
 export default class extends Component {
@@ -17,23 +16,6 @@ export default class extends Component {
       errorMessage: ''
     }
   }
-
-  /*
-   clickEventListener(e) {
-   const target = e.target.className;
-   let calendar = -1;
-   let calendarNav = -1;
-   if (typeof target === 'string') {
-   calendar = target.indexOf('calendar');
-   calendarNav = target.indexOf('fa');
-   }
-   if (calendar < 0 && calendarNav < 0 && target !== '') {
-   this.setState({
-   calendarVisible: false
-   })
-   }
-   }*/
-
 
   toggleCalendar() {
     this.setState({
@@ -118,7 +100,8 @@ export default class extends Component {
                   fill="#566394"/>
               </svg>
             </div>
-            {calendarVisible && <DatePicker date={formattedDate} setDate={::this.setDate}/>}
+            {calendarVisible &&
+            <DatePicker toggleCalendar={::this.toggleCalendar} date={formattedDate} setDate={::this.setDate}/>}
           </div>
         </div>
         <div className='col-xs-12 col-sm-2 col-md-2'>
