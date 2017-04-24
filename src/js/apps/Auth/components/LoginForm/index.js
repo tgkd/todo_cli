@@ -14,26 +14,21 @@ export default class extends Component {
     };
   }
 
-  login(credentials) {
+  async login(credentials) {
     const { login, sessionInfo } = this.props;
-    login(credentials, sessionInfo)
-      .then(data => {
-        window.location.href = '/';
-      })
-      .catch(e => {
-        if (e.response && e.response.status === 400) {
-          this.setState({
-            error: true,
-            errorText: 'Неверный пароль',
-            password: ''
-          })
-        } else {
-          this.setState({
-            error: true,
-            errorText: 'Ошибка, повторите попытку'
-          })
-        }
-      });
+    try {
+      await login(credentials, sessionInfo);
+      window.location.href = '/';
+    } catch (e) {
+      const error = { error: true };
+      if (e.response && e.response.status === 400) {
+        error.errorText = 'Неверный пароль';
+        error.password = '';
+      } else {
+        error.errorText = 'Ошибка, повторите попытку';
+      }
+      this.setState({ ...error });
+    }
   }
 
   inputChangeHandler(e) {
@@ -83,7 +78,7 @@ export default class extends Component {
       backgroundImage: user.photo.length === 0 ? 'url(http://localhost:3001/assets/unknown.svg)' : `url(${user.photo})`
     };
     return (
-      <div className="login-container col-xs-4 col-sm-4 col-md-4">
+      <div className="login-container col-xs-4 col-sm-4 col-md-4 col-lg-3">
         <div className="row">
           <div className="col-md-2 col-sm-2 col-xs-2">
             <Link to='/find_by_email'>

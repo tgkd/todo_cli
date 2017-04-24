@@ -68,11 +68,13 @@ class DatePicker extends Component {
     })
   }
 
-  updateTask(task) {
+  async updateTask(task) {
     const { updateTask } = this.props;
-    updateTask(task)
-      .then()
-      .catch()
+    try {
+      await updateTask(task)
+    } catch (e) {
+      this.setState({ error: 'error' })
+    }
   }
 
   componentDidMount() {

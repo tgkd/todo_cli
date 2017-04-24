@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {CompletedTask, IncompleteTask} from './../TaskItem';
 import NewTask from '../NewTask';
 import {sortTasks} from 'libs/dateCreator';
@@ -12,34 +12,31 @@ export default class extends Component {
     }
   }
 
-  createTask(task) {
+  async createTask(task) {
     const { createTask } = this.props;
-    createTask(task)
-      .catch(e => {
-        this.setState({
-          error: 'Ошибка, повторите попытку'
-        })
-      })
+    try {
+      await createTask(task)
+    } catch (e) {
+      this.setState({ error: 'Ошибка, повторите попытку' })
+    }
   }
 
-  updateTask(task) {
+  async updateTask(task) {
     const { updateTask } = this.props;
-    updateTask(task)
-      .catch(e => {
-        this.setState({
-          error: 'Ошибка, повторите попытку'
-        })
-      })
+    try {
+      await updateTask(task)
+    } catch (e) {
+      this.setState({ error: 'Ошибка, повторите попытку' })
+    }
   }
 
-  deleteTask(id) {
+  async deleteTask(id) {
     const { deleteTask } = this.props;
-    deleteTask(id)
-      .catch(e => {
-        this.setState({
-          error: 'Ошибка, повторите попытку'
-        })
-      })
+    try {
+      await deleteTask(id)
+    } catch (e) {
+      this.setState({ error: 'Ошибка, повторите попытку' })
+    }
   }
 
   componentDidMount() {

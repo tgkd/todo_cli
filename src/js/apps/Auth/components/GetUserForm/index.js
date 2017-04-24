@@ -35,22 +35,21 @@ export default class extends Component {
     }
   }
 
-  getUser(email) {
+  async getUser(email) {
     const { goTo, getUser } = this.props;
-    getUser(email)
-      .then(data => {
-        goTo('/login')
-      })
-      .catch(e => {
-        if (e.response && e.response.status === 400) {
-          goTo('/register')
-        } else {
-          this.setState({
-            error: true,
-            errorText: 'Ошибка, повторите попытку'
-          })
-        }
-      })
+    try {
+      await getUser(email);
+      goTo('/login');
+    } catch (e) {
+      if (e.response && e.response.status === 400) {
+        goTo('/register')
+      } else {
+        this.setState({
+          error: true,
+          errorText: 'Ошибка, повторите попытку'
+        })
+      }
+    }
   }
 
   getUserClickHandler() {
@@ -89,7 +88,7 @@ export default class extends Component {
     const { error, errorText } = this.state;
 
     return (
-      <div className='email-container col-xs-4 col-sm-4 col-md-4'>
+      <div className='email-container col-xs-4 col-sm-4 col-md-4 col-lg-3'>
         <h1 className='email-container__header'>Войти в приложение</h1>
         <div className='row middle-md middle-sm middle-xs start-md start-sm start-xs'>
           <div className='col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1'>

@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 export default class extends Component {
   constructor(props) {
     super(props);
-
+    this.defaultAvatar = 'http://localhost:3001/assets/images/profile/unknown.svg';
   }
 
   handleFile(e) {
@@ -12,8 +12,11 @@ export default class extends Component {
 
   render() {
     const { photo } = this.props;
+
     const imageStyle = {
-      backgroundImage: photo.length === 0 ? 'url(http://localhost:3001/assets/profile/unknown.svg)' : `url(${photo})`
+      backgroundImage: photo && photo.length !== 0
+        ? `url(${photo})`
+        : `url(${this.defaultAvatar})`
     };
     return (
       <div className="row center-xs center-sm center-md">

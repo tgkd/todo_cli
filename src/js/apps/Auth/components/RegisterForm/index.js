@@ -13,17 +13,19 @@ export default class extends Component {
         error: false,
         message: ''
       },
-      email: {
-        value: '',
-        error: ''
-      },
-      password: {
-        value: '',
-        error: ''
-      },
-      confirmPassword: {
-        value: '',
-        error: ''
+      inputs: {
+        email: {
+          value: '',
+          error: ''
+        },
+        password: {
+          value: '',
+          error: ''
+        },
+        confirmPassword: {
+          value: '',
+          error: ''
+        }
       }
     };
     this.errorMessages = {
@@ -54,14 +56,12 @@ export default class extends Component {
   async register(credentials) {
     const { register, sessionInfo } = this.props;
     try {
-      const response = await register(credentials, sessionInfo);
-      if (response.status === 200) window.location.href = '/';
+      await register(credentials, sessionInfo);
+      window.location.href = '/';
     } catch (e) {
       let errorText = e.response && e.response.status === 400
-        ?
-        'Пользователь с таким e-mail уже существует'
-        :
-        'Ошибка, повторите попытку';
+        ? 'Пользователь с таким e-mail уже существует'
+        : 'Ошибка, повторите попытку';
       this.setState({
         apiError: {
           error: true,
@@ -77,39 +77,64 @@ export default class extends Component {
   }
 
   isSamePasswords(confirmPassword) {
-    const { password } = this.state;
+    const { password } = this.state.inputs;
     return password.value === confirmPassword;
   }
 
-  isRequiredPassLength(password){
+  isRequiredPassLength(password) {
     return password.length >= 6;
   }
 
   isValidInputs() {
-    const {email, confirmPassword, password} = this.state;
+    const { email, confirmPassword, password } = this.state.inputs;
     return this.isValidEmail(email.value) && this.isSamePasswords(confirmPassword.value) && this.isRequiredPassLength(password.value);
   }
 
   inputChangeHandler(inputName, value) {
-    this.setState({[inputName]: {value}});
+    const input = { [inputName]: { value } };
+    const test = { inputs: { ...this.state.inputs, ...input } };
+
+    this.setState({ inputs: { ...this.state.inputs, ...input } });
   }
 
   isNotEmptyInputs() {
-    const {email, password, confirmPassword} = this.state;
+    const { email, password, confirmPassword } = this.state.inputs;
     return email.value.length && password.value.length && confirmPassword.value.length;
   }
 
   setErrorText() {
-    const {email, password, confirmPassword} = this.state;
-    if(!this.isValidEmail(email.value)) this.setState({email: {...email, error: this.errorMessages.email}});
-    if(!this.isSamePasswords(confirmPassword.value)) this.setState({confirmPassword: {...confirmPassword, error: this.errorMessages.passDiff}});
-    if(!this.isRequiredPassLength(password.value)) this.setState({password: {...password, error: this.errorMessages.passLength}});
+    const { email, password, confirmPassword } = this.state.inputs;
+    if (!this.isValidEmail(email.value)) this.setState({
+      inputs: {
+        email: {
+          ...email,
+          error: this.errorMessages.email
+        }
+      }
+    });
+    if (!this.isSamePasswords(confirmPassword.value)) this.setState({
+      inputs: {
+        confirmPassword: {
+          ...confirmPassword,
+          error: this.errorMessages.passDiff
+        }
+      }
+    });
+    if (!this.isRequiredPassLength(password.value)) this.setState({
+      inputs: {
+        password: {
+          ...password,
+          error: this.errorMessages.passLength
+        }
+      }
+    });
   }
 
   submitClickHandler() {
+    const { email, password } = this.state.inputs;
     let credentials = {
-      email: this.state.email.value,
-      password: this.state.password.value
+      email: email.value,
+      password: password.value
     };
     if (this.isValidInputs() && this.isNotEmptyInputs()) {
       this.setState({
@@ -125,20 +150,21 @@ export default class extends Component {
   }
 
   getInputClass(inputName) {
-    const error = this.state[inputName].error;
+    const error = this.state.inputs[inputName].error;
     return `input ${error ? 'input--red' : 'input--blue'} register-container__input`;
   }
 
   getAlertClass(inputName) {
-    const error = this.state[inputName].error;
+    const error = this.state.inputs[inputName].error;
     return `alert-ico ${error ? '' : 'alert-ico--hidden'}`;
   }
 
   getErrorsList() {
-    return Object.keys(this.state).map(item => {
-      return(
-        <div className={ this.state[item].error ? '' : "alert-container--hidden"}>
-          <span className="alert-message">{ this.state[item].error }</span>
+    return Object.keys(this.state.inputs).map(item => {
+      const error = this.state.inputs[item].error;
+      return (
+        <div className={ error ? '' : "alert-container--hidden"}>
+          <span className="alert-message">{ error }</span>
           <br/>
         </div>
       )
@@ -168,7 +194,7 @@ export default class extends Component {
               onChange={(e) => ::this.inputChangeHandler(input.name, e.target.value)}
               placeholder={input.placeholder}
               name={input.name}
-              value={this.state[input.name].value}
+              value={this.state.inputs[input.name].value}
               ref={input.name === 'email' ? (input) => {
                 this.emailInput = input;
               } : null}
@@ -184,11 +210,9 @@ export default class extends Component {
   }
 
   render() {
-    //const inputList = this.getInputsTemplate();
-    const errorsList = this.getErrorsList();
-
+    const errors = this.getErrorsList();
     return (
-      <div className="register-container col-xs-4 col-sm-4 col-md-4">
+      <div className="register-container col-xs-4 col-sm-4 col-md-4 col-lg-3">
         <div className="row">
           <div className="col-md-2 col-sm-2 col-xs-2">
             <Link to='/find_by_email'>
@@ -203,10 +227,10 @@ export default class extends Component {
 
         <div className="row middle-md middle-sm middle-xs start-md start-sm start-xs">
           <div className="col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
-            <div className={ this.state.apiError.error ? '' : "alert-container--hidden"}>
-              <span className="alert-message">{ this.state.apiError.message}</span>
-            </div>
-            {errorsList}
+            <span className={`alert-message ${this.state.apiError.error ? '' : 'alert-container--hidden'}`}>
+              { this.state.apiError.message}
+            </span>
+            {errors}
           </div>
         </div>
 

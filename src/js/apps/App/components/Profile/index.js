@@ -59,14 +59,14 @@ export default class extends Component {
         }
       })
     }
-    if (stateSessions.length === 0 || stateSessions.length !== sessions.length) {
+    if (stateSessions.length === 0 || (sessions && stateSessions.length !== sessions.length)) {
       this.setState({
         sessions: sessions
       })
     }
   }
 
-  updateUserInfo() {
+  async updateUserInfo() {
     const { updateUserInfo } = this.props;
     const { user } = this.state;
     let name = user.name.trim();
@@ -81,45 +81,35 @@ export default class extends Component {
       return;
     }
 
-    const result = {
-      ...user,
-      name,
-      birthday: user.formattedDate.format('YYYY-MM-DD HH:mm:ss.000').toString() + 'Z'
-    };
-    updateUserInfo(result)
-      .then(user => {
-        this.setState({
-          user: {
-            ...this.state.user,
-            name: name
-          },
-          message: {
-            error: false,
-            text: this.successMessage
-          }
-        });
+    try {
+      await updateUserInfo({
+        ...user,
+        name,
+        birthday: user.formattedDate.format('YYYY-MM-DD HH:mm:ss.000').toString() + 'Z'
+      });
+      this.setState({
+        user: { ...this.state.user, name: name },
+        message: { error: false, text: this.successMessage }
+      });
+    } catch (e) {
+      this.setState({
+        message: { error: true, text: this.serverError }
       })
-      .catch(e => {
-        this.setState({
-          message: {
-            error: true,
-            text: this.serverError
-          }
-        })
-      })
+    }
   }
 
-  terminateUserSession(id) {
+  async terminateUserSession(id) {
     const { terminateUserSession } = this.props;
-    terminateUserSession(id)
-      .catch(e => {
-        this.setState({
-          message: {
-            error: true,
-            text: this.serverError
-          }
-        })
+    try {
+      await terminateUserSession(id)
+    } catch (e) {
+      this.setState({
+        message: {
+          error: true,
+          text: this.serverError
+        }
       })
+    }
   }
 
   setName(e) {
