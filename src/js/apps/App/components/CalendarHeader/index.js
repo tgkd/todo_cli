@@ -9,7 +9,6 @@ export default class CalendarHeader extends Component {
   render() {
     const { month, year, previousMonth, nextMonth } = this.props;
 
-
     return (
       <div>
         <div className='row center-sm center-xs center-md calendar-container__month'>
