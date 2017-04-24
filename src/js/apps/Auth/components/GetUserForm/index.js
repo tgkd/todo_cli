@@ -42,13 +42,13 @@ export default class extends Component {
       goTo('/login');
     } catch (e) {
       if (e.response && e.response.status === 400) {
-        goTo('/register')
-      } else {
-        this.setState({
-          error: true,
-          errorText: 'Ошибка, повторите попытку'
-        })
+        goTo('/register');
+        return;
       }
+      this.setState({
+        error: true,
+        errorText: 'Ошибка, повторите попытку'
+      })
     }
   }
 

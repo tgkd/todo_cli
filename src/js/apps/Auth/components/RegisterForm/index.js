@@ -104,8 +104,10 @@ export default class extends Component {
 
   setErrorText() {
     const { email, password, confirmPassword } = this.state.inputs;
+    const { inputs } = this.state;
     if (!this.isValidEmail(email.value)) this.setState({
       inputs: {
+        ...inputs,
         email: {
           ...email,
           error: this.errorMessages.email
@@ -114,6 +116,7 @@ export default class extends Component {
     });
     if (!this.isSamePasswords(confirmPassword.value)) this.setState({
       inputs: {
+        ...inputs,
         confirmPassword: {
           ...confirmPassword,
           error: this.errorMessages.passDiff
@@ -122,6 +125,7 @@ export default class extends Component {
     });
     if (!this.isRequiredPassLength(password.value)) this.setState({
       inputs: {
+        ...inputs,
         password: {
           ...password,
           error: this.errorMessages.passLength
