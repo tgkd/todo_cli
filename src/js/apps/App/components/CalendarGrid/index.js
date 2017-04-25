@@ -85,7 +85,7 @@ export default class Weeks extends Component {
       transferTask: {
         id: null
       }
-    })
+    });
   }
 
   dragLeave(currentTarget) {
@@ -118,8 +118,8 @@ export default class Weeks extends Component {
 
   setStyleClass(items, type) {
     items.forEach(obj => {
-      obj.item.classList[type](this.classNames[obj.style])
-    })
+      obj.item.classList[type](this.classNames[obj.style]);
+    });
   }
 
   setNewTaskDate(id) {
@@ -147,7 +147,7 @@ export default class Weeks extends Component {
         _id: oldTaskInfo._id,
         end: newDate,
         done: false
-      })
+      });
     }
   }
 
@@ -259,7 +259,7 @@ export default class Weeks extends Component {
         task={ task }
         day={day}
         taskWindowVisible={ taskWindowVisible }
-        currentId={ currentId }/>
+        currentId={ currentId }/>;
     });
   }
 
@@ -268,7 +268,7 @@ export default class Weeks extends Component {
                 onClick={this.toggleMoreTasks.bind(this, day)}>
       <span className='btn-more__text'>Скрыть</span>
       <span className='btn-more__icon fa fa-arrow-up'/>
-    </div>
+    </div>;
   }
 
 
@@ -278,7 +278,7 @@ export default class Weeks extends Component {
         <span className='btn-more__text'>Еще задачи</span>
         <span className='btn-more__icon fa fa-arrow-down'/>
       </div>
-    )
+    );
   }
 
   getCalendarTemplate() {
@@ -290,7 +290,7 @@ export default class Weeks extends Component {
         let dayList = [];
 
         for (let day of week.by('days')) {
-          dayList.push(day)
+          dayList.push(day);
         }
 
         let days = dayList.map((day) => {
@@ -327,14 +327,14 @@ export default class Weeks extends Component {
                 }
               </div>
             </div>
-          )
+          );
         });
 
         return (
           <div className='calendar-container__row' key={ id }>
             { days }
           </div>
-        )
+        );
       });
     }
     return weeks;
@@ -342,7 +342,7 @@ export default class Weeks extends Component {
 
   updateTask(task, day) {
     this.props.updateTask(task);
-    this.toggleTaskWindow(task._id, day || null)
+    this.toggleTaskWindow(task._id, day || null);
   }
 
 
@@ -353,7 +353,7 @@ export default class Weeks extends Component {
         <div className='dayname-container'>
           <span className='dayname-container__name'>{day}</span>
         </div>
-      )
+      );
     });
 
     return (
@@ -363,6 +363,6 @@ export default class Weeks extends Component {
         </div>
         {this.getCalendarTemplate()}
       </div>
-    )
+    );
   }
 }

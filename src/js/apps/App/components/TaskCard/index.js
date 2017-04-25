@@ -1,5 +1,5 @@
-import moment from 'moment';
 import React, {Component} from 'react';
+import moment from 'moment';
 import DatePicker from '../DatePicker';
 
 export default class extends Component {
@@ -22,7 +22,7 @@ export default class extends Component {
     let hours = inputValue > 23 ? '00' : inputValue < 0 ? '23' : inputValue;
     this.setState({
       hours: hours
-    })
+    });
   }
 
   setMinutes(e) {
@@ -30,7 +30,7 @@ export default class extends Component {
     let minutes = inputValue > 59 ? '00' : inputValue < 0 ? '59' : inputValue;
     this.setState({
       minutes: minutes
-    })
+    });
   }
 
   saveNewTime() {
@@ -55,7 +55,7 @@ export default class extends Component {
       _id,
       end: newDate,
       done: false
-    }, day)
+    }, day);
   }
 
   hoursOnKeyDown(event) {
@@ -66,7 +66,7 @@ export default class extends Component {
       nextHour = nextHour.toString();
       this.setState({
         hours: nextHour.length === 1 ? '0' + nextHour : nextHour
-      })
+      });
     } else if (event.keyCode === 40) {
       const { hours } = this.state;
       let hour = parseInt(hours);
@@ -74,7 +74,7 @@ export default class extends Component {
       nextHour = nextHour.toString();
       this.setState({
         hours: nextHour.length === 1 ? '0' + nextHour : nextHour
-      })
+      });
     }
   }
 
@@ -86,7 +86,7 @@ export default class extends Component {
       nextMin = nextMin.toString();
       this.setState({
         minutes: nextMin.length === 1 ? '0' + nextMin : nextMin
-      })
+      });
     } else if (event.keyCode === 40) {
       const { minutes } = this.state;
       let minute = parseInt(minutes);
@@ -94,7 +94,7 @@ export default class extends Component {
       nextMin = nextMin.toString();
       this.setState({
         minutes: nextMin.length === 1 ? '0' + nextMin : nextMin
-      })
+      });
     }
   }
 
@@ -141,11 +141,11 @@ export default class extends Component {
         formattedDate: date,
         error: false,
         text: ''
-      })
+      });
     } else {
       this.setState({
         formattedDate: date
-      })
+      });
     }
   }
 
@@ -157,10 +157,10 @@ export default class extends Component {
     });
   }
 
-  toggleCalendar(e) {
+  toggleCalendar() {
     this.setState({
       calendarVisible: !this.state.calendarVisible
-    })
+    });
   }
 
   handleKeyPress(e) {
@@ -184,7 +184,7 @@ export default class extends Component {
             onChange={::this.setTaskDate}
             value={taskDate}
             ref={(input) => {
-              this.dateInput = input
+              this.dateInput = input;
             }}/>
           <div
             className='input-container__img task-card__datepicker row middle-xs middle-sm middle-md end-xs end-sm end-md'
@@ -222,6 +222,6 @@ export default class extends Component {
         </div>
         <button className="btn btn-bordered task-card__btn" onClick={::this.saveNewTime}>Сохранить</button>
       </div>
-    )
+    );
   }
 }

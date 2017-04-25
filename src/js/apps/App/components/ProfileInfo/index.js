@@ -31,6 +31,6 @@ export default class extends Component {
           </form>
         </div>
       </div>
-    )
+    );
   }
 }

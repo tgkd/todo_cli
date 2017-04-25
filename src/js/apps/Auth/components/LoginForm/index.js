@@ -34,7 +34,7 @@ export default class extends Component {
   inputChangeHandler(e) {
     this.setState({
       password: e.target.value
-    })
+    });
   }
 
   submitClickHandler() {
@@ -46,7 +46,7 @@ export default class extends Component {
       this.setState({
         error: true,
         errorText: 'Введите пароль'
-      })
+      });
     } else {
       this.login(credentials);
     }
@@ -127,6 +127,6 @@ export default class extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }

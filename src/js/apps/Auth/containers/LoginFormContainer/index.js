@@ -23,14 +23,14 @@ export default class extends Component {
     const { user } = this.props.user;
     const { login } = this.props;
 
-    if(user && user.email) {
-      return(
+    if (user && user.email) {
+      return (
         <div className="row center-xs center-md center-md">
           <LoginForm login={login} user={user} sessionInfo={this.sessionInfo}/>
         </div>
       );
     } else {
-      return <Redirect to="/find_by_email" />
+      return <Redirect to="/find_by_email"/>;
     }
   }
 }

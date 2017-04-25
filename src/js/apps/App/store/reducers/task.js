@@ -8,7 +8,7 @@ export default function (state = {}, action) {
       return { taskList: [...state.taskList, action.payload] };
     case actions.updateTask:
       let updatedList = state.taskList.map(task => {
-        if(task._id === action.payload._id) {
+        if (task._id === action.payload._id) {
           task.done = action.payload.done;
           task.end = action.payload.end;
         }
@@ -18,6 +18,6 @@ export default function (state = {}, action) {
     case actions.deleteTask:
       return { taskList: action.payload };
     default:
-      return state
+      return state;
   }
 }

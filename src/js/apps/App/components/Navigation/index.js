@@ -15,8 +15,8 @@ export default class extends Component {
       .catch(e => {
         this.setState({
           error: 'Ошибка, повторите попытку'
-        })
-      })
+        });
+      });
   }
 
   render() {
@@ -39,6 +39,6 @@ export default class extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }

@@ -19,7 +19,7 @@ export default class extends Component {
   inputChangeHandler(e) {
     this.setState({
       email: e.target.value
-    })
+    });
   }
 
   isValidInput(email) {
@@ -48,7 +48,7 @@ export default class extends Component {
       this.setState({
         error: true,
         errorText: 'Ошибка, повторите попытку'
-      })
+      });
     }
   }
 
@@ -60,17 +60,17 @@ export default class extends Component {
         error: false,
         errorText: ''
       });
-      this.getUser(this.state.email)
+      this.getUser(this.state.email);
     }
   }
 
   getInputClass() {
     let { error } = this.state;
-    return `input ${error ? 'input--red' : 'input--blue'} email-container__input`
+    return `input ${error ? 'input--red' : 'input--blue'} email-container__input`;
   }
 
   getAlertClass() {
-    return `alert-ico ${this.state.error ? '' : 'alert-ico--hidden'}`
+    return `alert-ico ${this.state.error ? '' : 'alert-ico--hidden'}`;
   }
 
   onKeyPress(event) {
@@ -120,7 +120,7 @@ export default class extends Component {
           </div>
         </div>
       </div>
-    )
+    );
 
   }
 }

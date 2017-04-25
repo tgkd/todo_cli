@@ -11,7 +11,7 @@ export function getCalendar(year, month) {
     let first = moment(startDate).startOf('isoWeek');
     let end = moment(startDate).endOf('isoWeek');
     calendar.push(moment.range(first, end));
-    startDate = moment(first).add(7, 'day')
+    startDate = moment(first).add(7, 'day');
   }
   return calendar;
 }

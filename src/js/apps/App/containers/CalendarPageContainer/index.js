@@ -30,7 +30,7 @@ export default class extends Component {
     return {
       incompleteTasks,
       completedTasks
-    }
+    };
   }
 
 
@@ -52,6 +52,6 @@ export default class extends Component {
           />
         </div>
       </div>
-    )
+    );
   }
 }

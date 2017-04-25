@@ -19,7 +19,7 @@ export default class extends Component {
     const taskDate = moment.parseZone(task.end);
     const dateNow = moment().startOf('day');
     const diff = dateNow.diff(taskDate, 'days', true);
-    return `${diff > 0 ? 'task__end--expired' : ''} task__end`
+    return `${diff > 0 ? 'task__end--expired' : ''} task__end`;
   }
 
   render() {
@@ -27,7 +27,6 @@ export default class extends Component {
     const endDate = moment.parseZone(task.end);
     const date = endDate.isValid() ? endDate.locale('ru').format('D MMMM YYYY').toString() : '-';
     return (
-
       <div className='row middle-xs middle-sm middle-md tasks-container__task task task--incomplete'>
         <div className='col-xs-1 col-sm-1 col-md-1'>
           <Checkbox checked={false} changeState={::this.updateTask} disabled={false}/>
@@ -39,7 +38,6 @@ export default class extends Component {
           <span className={this.getDateClass()}>{date}</span>
         </div>
       </div>
-
-    )
+    );
   }
 }

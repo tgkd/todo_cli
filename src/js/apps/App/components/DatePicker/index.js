@@ -26,7 +26,7 @@ class DatePicker extends Component {
     this.setState({
       date: day
     });
-    this.props.setDate(day)
+    this.props.setDate(day);
   }
 
   nextMonth(e) {
@@ -46,7 +46,7 @@ class DatePicker extends Component {
       month: newMonth,
       year: newYear,
       calendar: getCalendar(newYear, newMonth)
-    })
+    });
   }
 
   previousMonth(e) {
@@ -65,7 +65,7 @@ class DatePicker extends Component {
       month: month,
       year: year,
       calendar: getCalendar(year, month)
-    })
+    });
   }
 
   componentDidMount() {
@@ -78,11 +78,11 @@ class DatePicker extends Component {
         month: moment(newDate).month(),
         year: moment(newDate).year(),
         calendar: getCalendar(moment(newDate).year(), moment(newDate).month())
-      })
+      });
     } else {
       this.setState({
         date: moment()
-      })
+      });
     }
   }
 
@@ -114,7 +114,7 @@ class DatePicker extends Component {
           <Weeks setDate={::this.setDate} calendar={calendar} month={month} date={date}/>
         </table>
       </div>
-    </div>
+    </div>;
   }
 }
 

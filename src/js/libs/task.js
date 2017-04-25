@@ -19,7 +19,7 @@ class Task {
     return await this.api.request({
       method: this.task.list.method,
       url: this.task.list.url
-    })
+    });
   }
 
   async create(newTask) {
@@ -27,7 +27,7 @@ class Task {
       method: this.task.create.method,
       url: this.task.create.url,
       data: newTask
-    })
+    });
   }
 
   async update(updatedTask) {
@@ -35,7 +35,7 @@ class Task {
       method: this.task.update.method,
       url: this.task.update.url,
       data: updatedTask
-    })
+    });
   }
 
   async del(id) {
@@ -45,7 +45,7 @@ class Task {
       data: {
         id: id
       }
-    })
+    });
   }
 
 }

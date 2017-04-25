@@ -50,7 +50,7 @@ export default class extends Component {
         type: 'password',
         placeholder: 'Повторите пароль'
       }
-    ]
+    ];
   }
 
   async register(credentials) {
@@ -67,7 +67,7 @@ export default class extends Component {
           error: true,
           message: errorText
         }
-      })
+      });
     }
   }
 
@@ -171,8 +171,8 @@ export default class extends Component {
           <span className="alert-message">{ error }</span>
           <br/>
         </div>
-      )
-    })
+      );
+    });
   }
 
 
@@ -209,7 +209,7 @@ export default class extends Component {
             <img className={::this.getAlertClass(input.name)} src="/assets/images/icons/alert.svg" alt="alert"/>
           </div>
         </div>
-      )
+      );
     });
   }
 
@@ -249,6 +249,6 @@ export default class extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }

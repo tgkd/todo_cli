@@ -1,40 +1,37 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import { Provider } from 'react-redux';
-
-import { Redirect, Route, Switch } from 'react-router';
-import { ConnectedRouter } from 'react-router-redux';
-
-import * as Routes from './routes';
+import {AppContainer} from 'react-hot-loader';
+import App from './app';
 import Store from './store';
 import * as actions from './store/constants/user';
 import * as taskActions from './store/constants/task';
 
-const { store, history } = Store;
+const { store } = Store;
 
-ReactDom.render(
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <Switch>
-        <Route path='/main' component={Routes.Main} />
-        <Route path='/profile' component={Routes.Profile} />
-        <Route path='/tasks' component={Routes.Tasks} />
-        <Route path='/calendar' component={Routes.Calendar} />
-        <Redirect from='*' to="/main" />
-      </Switch>
-    </ConnectedRouter>
-  </Provider>,
-  document.getElementById('root')
-);
+const render = (Component) => {
+  ReactDom.render(
+    <AppContainer>
+      <Component/>
+    </AppContainer>,
+    document.getElementById('root')
+  );
+};
+
+render(App);
 
 
+if (module.hot) {
+  module.hot.accept('./app.js', (arg) => {
+    const App = require('./app.js').default;
+    render(App);
+  });
+}
 
-export default function ({user, sessions, tasks}) {
+export default function ({ user, sessions, tasks }) {
   store.dispatch({
     type: actions.getUserInfo,
     payload: { user, sessions }
   });
-
 
   store.dispatch({
     type: taskActions.getTasks,

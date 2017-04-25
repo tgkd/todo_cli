@@ -41,7 +41,7 @@ export default class extends Component {
           birthday: birthday.isValid() ? birthday.locale('ru').format('DD.MM.YYYY').toString() : '',
           formattedDate: birthday.isValid() ? moment(user.birthday) : null
         }
-      })
+      });
     }
   }
 
@@ -57,12 +57,12 @@ export default class extends Component {
           birthday: birthday.isValid() ? birthday.locale('ru').format('DD.MM.YYYY').toString() : '',
           formattedDate: birthday.isValid() ? moment(user.birthday) : null
         }
-      })
+      });
     }
     if (stateSessions.length === 0 || (sessions && stateSessions.length !== sessions.length)) {
       this.setState({
         sessions: sessions
-      })
+      });
     }
   }
 
@@ -94,21 +94,21 @@ export default class extends Component {
     } catch (e) {
       this.setState({
         message: { error: true, text: this.serverError }
-      })
+      });
     }
   }
 
   async terminateUserSession(id) {
     const { terminateUserSession } = this.props;
     try {
-      await terminateUserSession(id)
+      await terminateUserSession(id);
     } catch (e) {
       this.setState({
         message: {
           error: true,
           text: this.serverError
         }
-      })
+      });
     }
   }
 
@@ -118,7 +118,7 @@ export default class extends Component {
         ...this.state.user,
         name: e.target.value
       }
-    })
+    });
   }
 
   setUserBirthday(e) {
@@ -146,11 +146,11 @@ export default class extends Component {
           error: false,
           text: message.text === this.incorrectDateMessage ? '' : message.text
         }
-      })
+      });
     } else {
       this.setState({
         formattedDate: date
-      })
+      });
     }
   }
 
@@ -174,12 +174,12 @@ export default class extends Component {
   toggleCalendar(e) {
     this.setState({
       calendarVisible: !this.state.calendarVisible
-    })
+    });
   }
 
 
   getAlertClass() {
-    return `alert-ico ${this.state.message.error ? '' : 'alert-ico--hidden'}`
+    return `alert-ico ${this.state.message.error ? '' : 'alert-ico--hidden'}`;
   }
 
 
@@ -191,8 +191,8 @@ export default class extends Component {
             <UserSession os={item.os} type={item.type} browser={item.browser} id={item._id}
                          terminateSession={::this.terminateUserSession}/>
           </div>
-        )
-      }))
+        );
+      }));
   }
 
   render() {
@@ -276,6 +276,6 @@ export default class extends Component {
           {sessionsList}
         </div>
       </div>
-    )
+    );
   }
 }

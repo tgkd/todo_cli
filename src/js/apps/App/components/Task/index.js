@@ -9,33 +9,33 @@ export default class extends Component {
 
     this.state = {
       error: ''
-    }
+    };
   }
 
   async createTask(task) {
     const { createTask } = this.props;
     try {
-      await createTask(task)
+      await createTask(task);
     } catch (e) {
-      this.setState({ error: 'Ошибка, повторите попытку' })
+      this.setState({ error: 'Ошибка, повторите попытку' });
     }
   }
 
   async updateTask(task) {
     const { updateTask } = this.props;
     try {
-      await updateTask(task)
+      await updateTask(task);
     } catch (e) {
-      this.setState({ error: 'Ошибка, повторите попытку' })
+      this.setState({ error: 'Ошибка, повторите попытку' });
     }
   }
 
   async deleteTask(id) {
     const { deleteTask } = this.props;
     try {
-      await deleteTask(id)
+      await deleteTask(id);
     } catch (e) {
-      this.setState({ error: 'Ошибка, повторите попытку' })
+      this.setState({ error: 'Ошибка, повторите попытку' });
     }
   }
 
@@ -45,8 +45,8 @@ export default class extends Component {
       .catch(e => {
         this.setState({
           error: 'Ошибка, повторите попытку'
-        })
-      })
+        });
+      });
   }
 
   getTasksTemplates(incompleteTasks, completedTasks) {
@@ -57,7 +57,7 @@ export default class extends Component {
           <IncompleteTask task={item}
                           updateTask={::this.updateTask}/>
         </div>
-      )
+      );
     });
     templates.completed = completedTasks.map(item => {
       return (
@@ -65,7 +65,7 @@ export default class extends Component {
           <CompletedTask task={item}
                          deleteTask={::this.deleteTask}/>
         </div>
-      )
+      );
     });
     return templates;
   }
@@ -97,6 +97,6 @@ export default class extends Component {
         </div>
       </div>
 
-    )
+    );
   }
 }

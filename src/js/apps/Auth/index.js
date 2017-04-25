@@ -1,29 +1,25 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import {Provider} from 'react-redux';
+import App from './app';
+import {AppContainer} from 'react-hot-loader';
 
-import {Redirect, Route, Switch} from 'react-router';
+const render = (Component) => {
+  ReactDom.render(
+    <AppContainer>
+      <Component/>
+    </AppContainer>,
+    document.getElementById('root')
+  );
+};
 
-import { ConnectedRouter } from 'react-router-redux';
-import * as Routes from './routes';
-import Store from './store';
+render(App);
 
-const { store, history } = Store;
+if (module.hot) {
+  module.hot.accept('./app.js', (arg) => {
+    const App = require('./app.js').default;
+    render(App);
+  });
+}
 
-ReactDom.render(
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <Switch>
-        <Route path='/find_by_email' component={Routes.GetUser}/>
-        <Route path='/login' component={Routes.Login}/>
-        <Route path='/register' component={Routes.Register}/>
-        <Redirect from='*' to="/find_by_email" />
-      </Switch>
-
-    </ConnectedRouter>
-  </Provider>,
-  document.getElementById('root')
-);
-
-
-export default function () {}
+export default function () {
+}

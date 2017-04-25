@@ -21,7 +21,7 @@ export default class extends Component {
     const {user} = this.props.user;
     const { goTo, getUser } = this.props;
 
-    return(
+    return (
       <div className="row center-sm center-xs center-md">
         <GetUserForm user={user} getUser={getUser} goTo={goTo}/>
       </div>

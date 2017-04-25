@@ -19,7 +19,7 @@ class User {
     return await this.api.request({
       method: this.user.getInfo.method,
       url: this.user.getInfo.url
-    })
+    });
   }
 
   async update(updatedInfo) {
@@ -27,7 +27,7 @@ class User {
       method: this.user.updateInfo.method,
       url: this.user.updateInfo.url,
       data: updatedInfo
-    })
+    });
   }
 
   async terminateSession(id) {
@@ -37,7 +37,7 @@ class User {
       params: {
         id: id
       }
-    })
+    });
   }
 
 }

@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React, {Component} from 'react';
-import TaskCard from '../TaskCard'
+import TaskCard from '../TaskCard';
 
 export default class extends Component {
   constructor(props) {
@@ -56,6 +56,6 @@ export default class extends Component {
             : null
         }
       </div>
-    )
+    );
   }
 }

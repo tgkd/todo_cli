@@ -17,7 +17,7 @@ class DatePicker extends Component {
       year: year,
       calendar: getCalendar(year, month),
       dayNames: ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС']
-    }
+    };
   }
 
   setDate(day, e) {
@@ -25,7 +25,7 @@ class DatePicker extends Component {
     this.setState({
       date: day
     });
-    this.props.setDate(day)
+    this.props.setDate(day);
 
   }
 
@@ -46,7 +46,7 @@ class DatePicker extends Component {
       month: newMonth,
       year: newYear,
       calendar: getCalendar(newYear, newMonth)
-    })
+    });
   }
 
   previousMonth(e) {
@@ -65,15 +65,15 @@ class DatePicker extends Component {
       month: month,
       year: year,
       calendar: getCalendar(year, month)
-    })
+    });
   }
 
   async updateTask(task) {
     const { updateTask } = this.props;
     try {
-      await updateTask(task)
+      await updateTask(task);
     } catch (e) {
-      this.setState({ error: 'error' })
+      this.setState({ error: 'error' });
     }
   }
 
@@ -86,17 +86,17 @@ class DatePicker extends Component {
         month: moment(newDate).month(),
         year: moment(newDate).year(),
         calendar: getCalendar(moment(newDate).year(), moment(newDate).month())
-      })
+      });
     } else {
       this.setState({
         date: moment()
-      })
+      });
     }
   }
 
   render() {
     const { month, year, date, dayNames, calendar } = this.state;
-    return(
+    return (
       <div className='calendar-container col-xs-10 col-sm-10 col-md-10 col-lg-7'>
           <div className='row center-xs center-sm center-md'>
             <div className='col-xs-12 col-sm-12 col-md-12'>

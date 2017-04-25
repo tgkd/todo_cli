@@ -3,14 +3,14 @@ import React, {Component} from 'react';
 
 export default class CalendarHeader extends Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   render() {
     const { dayNames, month, year, previousMonth, nextMonth } = this.props;
 
     const dayNamesRow = dayNames.map(day => {
-      return <td>{day}</td>
+      return <td>{day}</td>;
     });
 
     return (
@@ -34,6 +34,6 @@ export default class CalendarHeader extends Component {
         </td>
       </tr>
       </thead>
-    )
+    );
   }
 }

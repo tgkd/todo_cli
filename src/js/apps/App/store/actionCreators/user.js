@@ -8,7 +8,7 @@ const user = new User();
 export function getUserInfo() {
   return async (dispatch) => {
     const response = await user.get();
-    dispatch(actions.getUserInfo(response.data))
+    dispatch(actions.getUserInfo(response.data));
   };
 }
 

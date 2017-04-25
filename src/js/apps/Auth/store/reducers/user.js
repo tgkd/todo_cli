@@ -9,6 +9,6 @@ export default function (state = {}, action) {
     case actions.getUser:
       return {user: action.payload};
     default:
-      return state
+      return state;
   }
 }

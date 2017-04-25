@@ -23,6 +23,6 @@ export default class extends Component {
       <div className="row center-xs center-md center-md">
         <RegisterForm register={register} sessionInfo={this.sessionInfo}/>
       </div>
-    )
+    );
   }
 }

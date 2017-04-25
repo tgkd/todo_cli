@@ -6,6 +6,6 @@ export default function () {
     os: platform.os.toString(),
     browser: `${platform.name} ${version[0]}`,
     type: platform.product || 'PC'
-  }
+  };
 }
 

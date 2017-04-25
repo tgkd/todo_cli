@@ -1,23 +1,15 @@
-import path from 'path';
-import webpack from 'webpack';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
+const path = require('path');
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const merge = require('webpack-merge');
 
-const dev = process.env.NODE_ENV !== 'production';
-
-const watch = process.env.NODE_ENV === 'development';
-
+const { dev, build, entry } = require('./config');
 
 const config = {
-  devtool: dev ? 'inline-source-map' : null,
-  watch: watch,
-
-  entry: {
-    vendor: ['react', 'react-dom'],
-    app: './src/js/index.js'
-  },
+  entry,
   output: {
     filename: dev ? '[name].js' : '[chunkhash:12].js',
-    path: path.resolve(__dirname, 'public/js'),
+    path: build,
     publicPath: '/js/'
   },
   module: {
@@ -29,7 +21,7 @@ const config = {
       },
       {
         test: /\.styl$/,
-        exclude: [/node_modules/, /dist/],
+        exclude: [/node_modules/, /public/],
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: [
@@ -46,19 +38,16 @@ const config = {
     ]
   },
   resolve: {
-    modules: [
-      path.resolve(__dirname, 'src'),
-      'node_modules'
-    ],
-    extensions: ['.js', '.styl', '.css'],
+    modules: ['src', 'node_modules'],
+    extensions: ['.js', '.styl', '.css', '.jsx'],
     alias: {
-      libs: path.resolve(__dirname, 'src/js/libs/'),
-      apps: path.resolve(__dirname, 'src/js/apps/')
+      libs: path.resolve(__dirname, '../src/js/libs/'),
+      apps: path.resolve(__dirname, '../src/js/apps/')
     }
   },
   plugins: [
     new ExtractTextPlugin({
-      filename: '../css/[name].css',
+      filename: '../../css/[name].css',
       disable: false,
       allChunks: true
     }),
@@ -74,4 +63,6 @@ const config = {
   ]
 };
 
-export default config;
+module.exports = dev
+  ? merge(config, require('./webpack.dev.js'))
+  : merge(config, require('./webpack.build.js'));

@@ -20,7 +20,7 @@ export default class extends Component {
         name: 'Календарь',
         route: '/calendar'
       }
-    ]
+    ];
   }
 
   getLinksTemplates() {
@@ -41,7 +41,7 @@ export default class extends Component {
             </div>
           </div>
         </Link>
-      )
+      );
     });
   }
 
@@ -53,7 +53,7 @@ export default class extends Component {
     } catch (e) {
       this.setState({
         error: 'Ошибка, повторите попытку'
-      })
+      });
     }
   }
 
@@ -74,6 +74,6 @@ export default class extends Component {
         </div>
       </div>
 
-    )
+    );
   }
 }

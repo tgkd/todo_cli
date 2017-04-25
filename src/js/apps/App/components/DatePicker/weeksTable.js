@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 export default class Weeks extends Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   setDate(day, e) {
@@ -17,7 +17,7 @@ export default class Weeks extends Component {
         let dayList = [];
 
         for (let day of week.by('days')) {
-          dayList.push(day)
+          dayList.push(day);
         }
 
         let days = dayList.map((day) => {
@@ -34,9 +34,9 @@ export default class Weeks extends Component {
                 <span href="#" className='calendar__day-date'>{ day.format('D') }</span>
               </div>
             </td>
-          )
+          );
         });
-        return <tr key={ id }>{ days }</tr>
+        return <tr key={ id }>{ days }</tr>;
       });
     }
 
@@ -44,6 +44,6 @@ export default class Weeks extends Component {
       <tbody>
       {weeks}
       </tbody>
-    )
+    );
   }
 }

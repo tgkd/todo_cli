@@ -1,6 +1,6 @@
 import { any, isEqual, filter } from 'underscore';
 
-export default function difference (array){
+export default function difference(array) {
   const rest = [].concat.apply([], [].slice.call(arguments, 1));
 
   const containsEquals = (obj, target) => {

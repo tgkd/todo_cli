@@ -11,6 +11,6 @@ export default function (state = {}, action) {
     case actions.terminateSession:
       return { sessions: action.payload };
     default:
-      return state
+      return state;
   }
 }

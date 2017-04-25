@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react';
 
 export default class extends Component {
   constructor(props) {
     super(props);
   }
   getClassName() {
-    return `checkbox ${this.props.checked ? 'checkbox--checked' : 'checkbox--unchecked'}`
+    return `checkbox ${this.props.checked ? 'checkbox--checked' : 'checkbox--unchecked'}`;
   }
 
   render() {
@@ -18,6 +18,6 @@ export default class extends Component {
           checked ? <span className="fa fa-check checkbox__check"/> : null
         }
       </div>
-    )
+    );
   }
 }

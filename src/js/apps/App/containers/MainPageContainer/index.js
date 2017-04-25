@@ -20,8 +20,8 @@ export default class extends Component {
   render() {
     const { logout } = this.props;
 
-    return(
+    return (
       <MainPage logout={logout}/>
-    )
+    );
   }
 }

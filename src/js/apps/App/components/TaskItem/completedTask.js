@@ -25,6 +25,6 @@ export default class extends Component {
           <span className="icon-button__text">Удалить</span>
         </div>
       </div>
-    )
+    );
   }
 }

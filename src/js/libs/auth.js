@@ -41,7 +41,7 @@ class Auth {
         ...credentials,
         session: session
       }
-    })
+    });
   }
 
   async getUser(email) {

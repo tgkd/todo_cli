@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 export default class CalendarHeader extends Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   render() {
@@ -27,6 +27,6 @@ export default class CalendarHeader extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }

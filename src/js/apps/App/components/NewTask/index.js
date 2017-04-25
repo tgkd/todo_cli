@@ -14,13 +14,13 @@ export default class extends Component {
       formattedDate: now,
       error: false,
       errorMessage: ''
-    }
+    };
   }
 
   toggleCalendar() {
     this.setState({
       calendarVisible: !this.state.calendarVisible
-    })
+    });
   }
 
   isValidInput() {
@@ -42,13 +42,13 @@ export default class extends Component {
       this.props.createHandler(newTask);
       this.setState({
         title: ''
-      })
+      });
     } else {
       this.setState({
         title: '',
         error: true,
         errorMessage: 'Укажите название задачи'
-      })
+      });
     }
   }
 
@@ -56,7 +56,7 @@ export default class extends Component {
     this.setState({
       title: e.target.value,
       error: false
-    })
+    });
   }
 
   setDate(date) {
@@ -65,13 +65,13 @@ export default class extends Component {
       calendarVisible: false,
       end: endDate,
       formattedDate: date
-    })
+    });
   }
 
   getInputClass() {
     let { error } = this.state;
     let { apiError } = this.props;
-    return `input ${error || apiError ? 'input--red' : 'input--blue'} tasks-container__input`
+    return `input ${error || apiError ? 'input--red' : 'input--blue'} tasks-container__input`;
   }
 
   render() {
@@ -83,7 +83,7 @@ export default class extends Component {
             <input type='text'
                    className={::this.getInputClass()}
                    onChange={::this.setTaskTitle}
-                   placeholder={error ? errorMessage : 'Новое дело'}
+                   placeholder={error ? errorMessage : 'Новое дел'}
                    value={title}/>
             <div
               className="input-container__img tasks-container__datepicker row middle-xs middle-sm middle-md end-xs end-sm end-md"
@@ -110,6 +110,6 @@ export default class extends Component {
           </button>
         </div>
       </div>
-    )
+    );
   }
 }

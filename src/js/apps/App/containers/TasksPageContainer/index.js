@@ -31,14 +31,13 @@ export default class extends Component {
     return {
       incompleteTasks,
       completedTasks
-    }
+    };
   }
 
 
   render() {
     const { taskList } = this.props.taskList;
     const { getTasks, createTask, updateTask, deleteTask, logout } = this.props;
-    console.log(taskList)
     const { incompleteTasks, completedTasks } = this.filterTasks(taskList || []);
     return (
       <div>
@@ -53,6 +52,6 @@ export default class extends Component {
             deleteTask={deleteTask}/>
         </div>
       </div>
-    )
+    );
   }
 }
