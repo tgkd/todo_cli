@@ -1,6 +1,5 @@
 import platform from 'platform';
 export default function () {
-
   let version = platform.version.split('.');
   return {
     os: platform.os.toString(),
