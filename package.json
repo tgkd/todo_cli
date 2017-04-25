@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "gulp && node server.js",
+    "start": "node server.js",
     "prod": "NODE_ENV=production node server.js",
+    "build": "webpack -p",
     "postinstall": "webpack -p"
   },
   "author": "",
