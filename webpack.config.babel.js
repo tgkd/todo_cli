@@ -9,7 +9,7 @@ const watch = process.env.NODE_ENV === 'development';
 
 const config = {
   devtool: dev ? 'inline-source-map' : null,
-  watch: true,
+  watch: watch,
 
   entry: {
     vendor: ['react', 'react-dom'],

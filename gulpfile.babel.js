@@ -11,7 +11,7 @@ gulp.task('default', ['dist'], () => {
   console.log('default task');
 });
 
-gulp.task('dist', ['stylus', 'js', 'assets', 'fonts'], () => {
+gulp.task('dist', ['stylus', 'assets', 'fonts'], () => {
   return gulp.src(['./src/html/*.html'])
     .pipe(gulp.dest('./public'))
 });
@@ -34,10 +34,6 @@ gulp.task('fonts', () => {
     .pipe(gulp.dest('./public/css/fonts'))
 });
 
-/*
-* Finished 'js' after 33 s
- 'js' errored after 33 s
- Error: task completion callback called too many times*/
 gulp.task('js', (callback) => {
   return gulp.src('')
     .pipe(plumber())
