@@ -69,7 +69,7 @@ export default class extends Component {
   async updateUserInfo() {
     const { updateUserInfo } = this.props;
     const { user } = this.state;
-    let name = user.name.trim();
+    let name = user.name ? user.name.trim() : '';
     if (!user.formattedDate.isValid() || name === '') {
       let message = name !== '' ? this.incorrectDateMessage : this.incorrectUsername;
       this.setState({

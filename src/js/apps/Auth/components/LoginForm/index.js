@@ -14,7 +14,7 @@ export default class extends Component {
     };
 
     const host = PRODUCTION ? PRODUCTION_API_URL : 'http://localhost:3001/';
-    this.defaultAvatar = host + '/assets/images/profile/unknown.svg';
+    this.defaultAvatar = host + 'assets/images/profile/unknown.svg';
   }
 
   async login(credentials) {
