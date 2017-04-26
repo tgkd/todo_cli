@@ -6,4 +6,6 @@ const build = path.resolve(__dirname, '../public');
 const entry = [path.resolve(__dirname, '../src/js/index.js')];
 const indexPage = path.resolve(__dirname, '../src/html/index.html');
 
-module.exports = { dev, build, entry, indexPage };
+const apiUrl = 'https://infinite-reaches-86789.herokuapp.com/';
+
+module.exports = { dev, build, entry, indexPage, apiUrl };

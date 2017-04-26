@@ -4,7 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
 
-const { dev, build, entry, indexPage } = require('./config');
+const { dev, build, entry, indexPage, apiUrl } = require('./config');
 
 const config = {
   entry,
@@ -46,6 +46,10 @@ const config = {
     }
   },
   plugins: [
+    new webpack.DefinePlugin({
+      PRODUCTION: JSON.stringify(process.env.NODE_ENV),
+      PRODUCTION_API_URL: apiUrl
+    }),
     new ExtractTextPlugin({
       filename: '../../css/[name].css',
       disable: false,
