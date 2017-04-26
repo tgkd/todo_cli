@@ -12,6 +12,9 @@ export default class extends Component {
       errorText: '',
       user: this.props.user
     };
+
+    const host = PRODUCTION ? PRODUCTION_API_URL : 'http://localhost:3001/';
+    this.defaultAvatar = host + '/assets/images/profile/unknown.svg';
   }
 
   async login(credentials) {
@@ -75,7 +78,7 @@ export default class extends Component {
     const user = this.state.user;
     const { password, errorText } = this.state;
     const imageStyle = {
-      backgroundImage: user.photo.length === 0 ? 'url(http://localhost:3001/assets/unknown.svg)' : `url(${user.photo})`
+      backgroundImage: user.photo.length === 0 ? this.defaultAvatar : `url(${user.photo})`
     };
     return (
       <div className="login-container col-xs-4 col-sm-4 col-md-4 col-lg-3">
