@@ -87,7 +87,7 @@ export default class extends Component {
     const { photo, hideEditorModal } = this.props;
     const { width, height, scale, position } = this.state;
     return (
-      <div className='modal' onClick={::this.hideEditorModal}>
+      <div className='modal' onMouseDown={::this.hideEditorModal}>
         <div className="modal-content" onTouchStart={::this.touchStartHandler} onTouchMove={::this.touchMoveHandler}>
           <AvatarEditor
             ref={(editor) => {
@@ -117,7 +117,7 @@ export default class extends Component {
           </div>
           <div className="row center-sm center-md center-xs">
             <div className="col-xs-8 col-sm-8 col-md-8">
-              <button className="btn btn-enter btn--greyblue" onClick={::this.saveImage}>Сохранить</button>
+              <button className="btn btn-enter btn--greyblue" onClick={::this.saveImage}>Выбрать</button>
             </div>
           </div>
           <br/>

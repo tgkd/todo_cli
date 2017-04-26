@@ -45,7 +45,7 @@ gulp.task('js', (callback) => {
   return gulp.src('')
     .pipe(plumber())
     .pipe(webpackStream(options, webpack))
-    .pipe(gulp.dest('./public/js'))
+    .pipe(gulp.dest('./public'))
     .on('data', () => {
       if (!callback.called) {
         callback.called = true;

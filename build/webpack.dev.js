@@ -1,7 +1,7 @@
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const webpack = require('webpack');
 
-const { dev } = require('./config');
+const { dev, build } = require('./config');
 
 module.exports = {
   devtool: 'eval-source-map',
