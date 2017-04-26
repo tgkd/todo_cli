@@ -1,7 +1,7 @@
 .modal
   position fixed
   z-index 100
-  padding 50px
+  padding-top 80px
   left 0
   top 0
   background-color rgba(154, 158, 164, 0.36)
@@ -9,7 +9,19 @@
   width 100%
   display flex
   justify-content center
-  &__content
-    background #d0d0d0
-    border solid 1px #000000
-    width 50%
+
+.modal-content
+  background #fff
+  border solid 1px #9a9ea4
+  max-height 552px
+  padding 20px 10px
+  touch-action none
+  &__scale
+    width 100%
+    margin 15px 0 30px
+
+@media all and (max-width: 425px)
+  .modal
+    padding 50px 0
+    &-content
+      width 100%

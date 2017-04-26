@@ -7,7 +7,8 @@ export default class extends Component {
     this.defaultAvatar = 'http://localhost:3001/assets/images/profile/unknown.svg';
     this.state = {
       showImgEditor: false,
-      photo: null
+      photo: null,
+      croppedAvatar: null
     };
   }
 
@@ -29,28 +30,50 @@ export default class extends Component {
     });
   }
 
-  render() {
+  saveAvatar(image) {
+    this.setState({
+      croppedAvatar: image,
+      showImgEditor: false
+    }, () => {
+      const { saveNewPhoto } = this.props;
+      saveNewPhoto(this.state.croppedAvatar);
+    });
+  }
+
+  getImageStyle() {
     const { photo } = this.props;
+    const { croppedAvatar } = this.state;
+    let img = null;
+
+    if (croppedAvatar && croppedAvatar.length !== 0) {
+      img = croppedAvatar;
+    } else {
+      if ((photo && photo.length !== 0)) {
+        img = photo;
+      } else {
+        img = this.defaultAvatar;
+      }
+    }
+
+    return { backgroundImage: `url(${img})` };
+  }
+
+  render() {
     const { showImgEditor } = this.state;
     const newPhoto = this.state.photo;
-    const imageStyle = {
-      backgroundImage: photo && photo.length !== 0
-        ? `url(${photo})`
-        : `url(${this.defaultAvatar})`
-    };
+
     return (
       <div className="row center-xs center-sm center-md">
         {
           showImgEditor && newPhoto
-            ? <ImgEditorModal photo={newPhoto} hideEditorModal={::this.hideEditorModal}/>
+            ? <ImgEditorModal saveAvatar={::this.saveAvatar} photo={newPhoto} hideEditorModal={::this.hideEditorModal}/>
             : null
         }
         <div className="col-md-12 col-xs-12 col-sm-12 avatar-container">
-          <div className="profile-container__avatar" style={imageStyle}/>
+          <div className="profile-container__avatar" style={::this.getImageStyle()}/>
         </div>
         <div className="col-md-5 col-xs-5 col-sm-5">
           <form encType="multipart/form-data">
-
             <input type="file" name="file" id="file" className="profile-container__file" onChange={::this.handleFile}/>
             <label htmlFor="file" className="profile-container__loader btn-rounded">Загрузить</label>
           </form>

@@ -80,7 +80,6 @@ export default class extends Component {
       });
       return;
     }
-
     try {
       await updateUserInfo({
         ...user,
@@ -154,34 +153,20 @@ export default class extends Component {
     }
   }
 
-
-  handleFile(e) {
-    const reader = new FileReader();
-    const file = e.target.files[0];
-    reader.onload = (upload) => {
-      this.setState({
-        user: {
-          ...this.state.user,
-          photo: upload.target.result
-        }
-      });
-    };
-
-    reader.readAsDataURL(file);
+  saveNewPhoto(photo) {
+    this.setState({
+      user: {
+        ...this.state.user,
+        photo: photo
+      }
+    });
   }
-
 
   toggleCalendar(e) {
     this.setState({
       calendarVisible: !this.state.calendarVisible
     });
   }
-
-
-  getAlertClass() {
-    return `alert-ico ${this.state.message.error ? '' : 'alert-ico--hidden'}`;
-  }
-
 
   getSessionsTemplate(sessions) {
     return (
@@ -204,7 +189,7 @@ export default class extends Component {
           <div className='col-xs-12 col-sm-12 col-md-12'>
             <h1 className='profile-container__header'>Настройки профиля</h1>
           </div>
-          <ProfileInfo handleFile={::this.handleFile} photo={user.photo}/>
+          <ProfileInfo saveNewPhoto={::this.saveNewPhoto} photo={user.photo}/>
         </div>
         <div className='row center-xs center_sm center-md profile-container__input-name'>
           <div className='col-xs-9 col-sm-6 col-md-4'>
