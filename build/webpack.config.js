@@ -47,8 +47,8 @@ const config = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      PRODUCTION: JSON.stringify(process.env.NODE_ENV),
-      PRODUCTION_API_URL: apiUrl
+      PRODUCTION: JSON.stringify(!dev),
+      PRODUCTION_API_URL: JSON.stringify(apiUrl)
     }),
     new ExtractTextPlugin({
       filename: '../../css/[name].css',
