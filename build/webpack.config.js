@@ -1,23 +1,23 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
 
-const { dev, build, entry } = require('./config');
+const { dev, build, entry, indexPage } = require('./config');
 
 const config = {
   entry,
   output: {
-    filename: dev ? '[name].js' : '[chunkhash:12].js',
     path: build,
-    publicPath: '/js/'
+    publicPath: '/'
   },
   module: {
     rules: [
       {
         test: /\.jsx?$/,
         exclude: [/node_modules/, /public/],
-        use: [{loader: 'babel-loader'}]
+        use: ['react-hot-loader/webpack', 'babel-loader']
       },
       {
         test: /\.styl$/,
@@ -51,13 +51,10 @@ const config = {
       disable: false,
       allChunks: true
     }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChuncks: Infinity
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'commons',
-      minChuncks: 2
+    new HtmlWebpackPlugin({
+      template: indexPage,
+      filename: 'index.html',
+      inject: 'body'
     })
   ]
 };

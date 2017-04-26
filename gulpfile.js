@@ -8,10 +8,17 @@ const webpackStream = require('webpack-stream');
 const options = require('./build/webpack.config.js');
 
 gulp.task('default', ['dist'], () => {
-  console.log('default task');
 });
 
 gulp.task('dist', ['stylus', 'assets', 'fonts'], () => {
+  console.log('success build');
+});
+
+gulp.task('dev', ['html', 'js', 'dist'], () => {
+  console.log('success dev task');
+});
+
+gulp.task('html', () => {
   return gulp.src(['./src/html/*.html'])
     .pipe(gulp.dest('./public'));
 });

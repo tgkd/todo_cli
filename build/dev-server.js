@@ -5,7 +5,7 @@ const webpack = require('webpack');
 const path = require('path');
 const http = require('http');
 
-const { build, dist } = require('./config');
+const { build } = require('./config');
 
 const config = require('./webpack.config');
 const compiler = webpack(config);
@@ -26,11 +26,10 @@ const hotMiddleware = require('webpack-hot-middleware')(compiler, {
 app.use(devMiddleware);
 app.use(hotMiddleware);
 
-app.use(express.static(dist));
+app.use(express.static(build));
 
 app.use('/*', (req, res) => {
-  console.log(path.join(dist, 'index.html'));
-  res.sendFile(path.join(dist, 'index.html'));
+  res.sendFile(path.join(build, 'index.html'));
 });
 
 server.listen(process.env.PORT || 3001);
