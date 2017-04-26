@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "prod": "NODE_ENV=production node server.js",
-    "postinstall": "webpack --config ./build/webpack.config.js"
+    "postinstall": "gulp && webpack --config ./build/webpack.config.js"
   },
   "author": "",
   "license": "ISC",
