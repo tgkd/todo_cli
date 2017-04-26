@@ -17,7 +17,7 @@ export function getCalendar(year, month) {
 }
 
 export function sortTasks(tasks, sortType) {
-  return tasks.sort(function (left, right) {
+  return tasks.sort(function(left, right) {
     return moment.parseZone(left.end).diff(moment.parseZone(right.end), sortType);
   });
 }

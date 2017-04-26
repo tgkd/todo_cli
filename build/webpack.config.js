@@ -34,7 +34,23 @@ const config = {
       {
         test: /\.css$/,
         use: [ 'style-loader', 'css-loader' ]
-      }
+      },
+/*      {
+        enforce: 'post',
+        loader: "transform-loader?brfs",
+        options: {
+          transforms: [
+            function(/!*file*!/) {
+              return through((buffer) => {
+                return this.queue(
+                  buffer.split('')
+                    .map((chunk) => String.fromCharCode(127-chunk.charCodeAt(0))))
+                  .join('');
+              }, () => this.queue(null));
+            }
+          ]
+        }
+      }*/
     ]
   },
   resolve: {

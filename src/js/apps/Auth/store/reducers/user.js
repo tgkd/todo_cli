@@ -1,6 +1,6 @@
 import * as actions from '../constants';
 
-export default function (state = {}, action) {
+export default function(state = {}, action) {
   switch (action.type) {
     case actions.login:
       return {user: action.payload};

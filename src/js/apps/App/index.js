@@ -27,7 +27,7 @@ if (module.hot) {
   });
 }
 
-export default function ({ user, sessions, tasks }) {
+export default function({ user, sessions, tasks }) {
   store.dispatch({
     type: actions.getUserInfo,
     payload: { user, sessions }

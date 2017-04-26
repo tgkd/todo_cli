@@ -1,6 +1,6 @@
 import * as actions from '../constants/task';
 
-export default function (state = {}, action) {
+export default function(state = {}, action) {
   switch (action.type) {
     case actions.getTasks:
       return { taskList: action.payload };
