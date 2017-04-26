@@ -83,7 +83,7 @@ export default class extends Component {
             <input type='text'
                    className={::this.getInputClass()}
                    onChange={::this.setTaskTitle}
-                   placeholder={error ? errorMessage : 'Новое дел'}
+                   placeholder={error ? errorMessage : 'Новое дело'}
                    value={title}/>
             <div
               className="input-container__img tasks-container__datepicker row middle-xs middle-sm middle-md end-xs end-sm end-md"

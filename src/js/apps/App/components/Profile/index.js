@@ -5,7 +5,6 @@ import ProfileInfo from '../ProfileInfo';
 import UserSession from '../UserSession';
 import DatePicker from '../DatePicker';
 
-
 export default class extends Component {
   constructor(props) {
     super(props);
@@ -59,7 +58,7 @@ export default class extends Component {
         }
       });
     }
-    if (stateSessions.length === 0 || (sessions && stateSessions.length !== sessions.length)) {
+    if (stateSessions && stateSessions.length === 0 || (sessions && stateSessions.length !== sessions.length)) {
       this.setState({
         sessions: sessions
       });
