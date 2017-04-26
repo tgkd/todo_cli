@@ -11,7 +11,7 @@ gulp.task('default', ['dist'], () => {
   console.log('default task');
 });
 
-gulp.task('dist', ['stylus', 'js', 'assets', 'fonts'], () => {
+gulp.task('dist', ['stylus', 'assets', 'fonts'], () => {
   return gulp.src(['./src/html/*.html'])
     .pipe(gulp.dest('./public'));
 });
