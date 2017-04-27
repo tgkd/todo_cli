@@ -37,7 +37,8 @@ export default class extends Component {
   }
 
   setUserInfo() {
-    const { user } = this.props;
+    const { user, sessions } = this.props;
+    const stateSessions = this.state.sessions;
     const birthday = moment(user.birthday);
     this.setState({
       user: {
@@ -46,6 +47,11 @@ export default class extends Component {
         formattedDate: birthday.isValid() ? moment(user.birthday) : null
       }
     });
+    if (stateSessions && stateSessions.length === 0 || (sessions && stateSessions.length !== sessions.length)) {
+      this.setState({
+        sessions: sessions
+      });
+    }
   }
 
   componentDidMount() {

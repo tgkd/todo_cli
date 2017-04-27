@@ -7,3 +7,18 @@ module.exports = {
     filename: '[chunkhash:12].js'
   }
 };
+
+/*minify js plugin for production build*/
+/*
+ plugins: [
+ new webpack.optimize.UglifyJsPlugin({
+ compress: {
+ warnings: false
+ },
+ output: {
+ comments: false,
+ semicolons: true
+ },
+ sourceMap: true
+ })
+ ]*/
