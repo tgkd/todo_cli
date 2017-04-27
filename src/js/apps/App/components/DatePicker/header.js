@@ -9,8 +9,8 @@ export default class CalendarHeader extends Component {
   render() {
     const { dayNames, month, year, previousMonth, nextMonth } = this.props;
 
-    const dayNamesRow = dayNames.map(day => {
-      return <td>{day}</td>;
+    const dayNamesRow = dayNames.map((day, id) => {
+      return <td key={id}>{day}</td>;
     });
 
     return (

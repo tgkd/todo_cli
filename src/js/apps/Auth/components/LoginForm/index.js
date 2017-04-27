@@ -9,8 +9,7 @@ export default class extends Component {
     this.state = {
       password: '',
       error: false,
-      errorText: '',
-      user: this.props.user
+      errorText: ''
     };
 
     const host = PRODUCTION ? PRODUCTION_API_URL : 'http://localhost:3001/';
@@ -75,10 +74,10 @@ export default class extends Component {
   }
 
   render() {
-    const user = this.state.user;
+    const user = this.props.user;
     const { password, errorText } = this.state;
     const imageStyle = {
-      backgroundImage: user.photo.length === 0 ? this.defaultAvatar : `url(${user.photo})`
+      backgroundImage: !user.photo ? `url(${this.defaultAvatar})` : `url(${user.photo})`
     };
     return (
       <div className="login-container col-xs-4 col-sm-4 col-md-4 col-lg-3">
@@ -94,7 +93,7 @@ export default class extends Component {
                 <div className="profile-container__avatar" style={imageStyle}></div>
               </div>
               <div className="col-xs-12 col-sm-12 col-md-12">
-                <h1 className="login-container__header"> Hi, {user.name || 'unknown'} </h1>
+                <h1 className="login-container__header"> Hi, {user.name ? user.name : 'unknown'} </h1>
               </div>
             </div>
           </div>

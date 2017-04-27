@@ -26,8 +26,8 @@ export default class extends Component {
   getLinksTemplates() {
     return this.containers.map((item, id) => {
       return (
-        <Link className='main-container__link' to={item.route}>
-          <div key={id} className='main-container__item col-xs-3 col-md-3 col-sm-3'>
+        <Link key={id} className='main-container__link' to={item.route}>
+          <div className='main-container__item col-xs-3 col-md-3 col-sm-3'>
             <div className='row center-xs center-sm center-md'>
               <div
                 className={'main-container__item-icon col-md-12 col-xs-12 col-sm-12 main-container__item-icon-' + id}>

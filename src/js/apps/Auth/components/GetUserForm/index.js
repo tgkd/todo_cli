@@ -35,24 +35,8 @@ export default class extends Component {
     }
   }
 
-  async getUser(email) {
+  async getUser() {
     const { goTo, getUser } = this.props;
-    try {
-      await getUser(email);
-      goTo('/login');
-    } catch (e) {
-      if (e.response && e.response.status === 400) {
-        goTo('/register');
-        return;
-      }
-      this.setState({
-        error: true,
-        errorText: 'Ошибка, повторите попытку'
-      });
-    }
-  }
-
-  getUserClickHandler() {
     let { email } = this.state;
 
     if (this.isValidInput(email)) {
@@ -60,7 +44,22 @@ export default class extends Component {
         error: false,
         errorText: ''
       });
-      this.getUser(this.state.email);
+      try {
+        await getUser(email);
+        if (this.props.user.email) {
+          goTo('/login');
+          return;
+        }
+      } catch (e) {
+        if (e.response && e.response.status === 400) {
+          goTo('/register');
+          return;
+        }
+        this.setState({
+          error: true,
+          errorText: 'Ошибка, повторите попытку'
+        });
+      }
     }
   }
 
@@ -75,14 +74,15 @@ export default class extends Component {
 
   onKeyPress(event) {
     if (event.key === 'Enter') {
-      this.getUserClickHandler();
+      this.getUser();
     }
   }
 
   componentDidMount() {
-    this.emailInput.focus();
+    if (this.emailInput) {
+      this.emailInput.focus();
+    }
   }
-
 
   render() {
     const { error, errorText } = this.state;
@@ -115,7 +115,7 @@ export default class extends Component {
           <div className='col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1'>
             <button className='btn btn-enter btn--greyblue'
                     disabled={!this.state.email}
-                    onClick={::this.getUserClickHandler}>Продолжить
+                    onClick={::this.getUser}>Продолжить
             </button>
           </div>
         </div>

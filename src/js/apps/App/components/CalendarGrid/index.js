@@ -249,9 +249,9 @@ export default class Weeks extends Component {
 
   getTasksTemplatesByDay(tasksToday, day) {
     const { taskWindowVisible, currentId } = this.state;
-
-    return tasksToday.map((task) => {
+    return tasksToday.map((task, id) => {
       return <CalendarTaskItem
+        key={id}
         dragStart={this.dragStart.bind(this, task)}
         dragEnd={this.dragEnd.bind(this, task)}
         updateTask={ ::this.updateTask }
@@ -288,12 +288,11 @@ export default class Weeks extends Component {
     if (calendar) {
       weeks = calendar.map((week, id) => {
         let dayList = [];
-
         for (let day of week.by('days')) {
           dayList.push(day);
         }
 
-        let days = dayList.map((day) => {
+        let days = dayList.map((day, dayId) => {
           let dayClasses = 'calendar-container__cell';
           if (!(day.month() === month)) {
             dayClasses += ' calendar-container__cell--muted';
@@ -303,7 +302,7 @@ export default class Weeks extends Component {
           const tasksTemplatesForToday = tasksToday.length > 0 ? this.getTasksTemplatesByDay(tasksToday, day) : null;
           if (!tasksTemplatesForToday) dayClasses += ' calendar-container__cell--empty';
           return (
-            <div id={day.format('DD-MM-YYYY')} className={dayClasses} key={day.format('DD-MM-YYYY')}>
+            <div id={day.format('DD-MM-YYYY')} className={dayClasses} key={dayId}>
               <p className='calendar-container__date'>
                 { day.format('D') }
               </p>
@@ -345,21 +344,22 @@ export default class Weeks extends Component {
     this.toggleTaskWindow(task._id, day || null);
   }
 
-
-  render() {
+  getDayNamesTemplate() {
     const { dayNames } = this.props;
-    const dayNamesRow = dayNames.map(day => {
+    return dayNames.map((day, id) => {
       return (
-        <div className='dayname-container'>
+        <div key={id} className='dayname-container'>
           <span className='dayname-container__name'>{day}</span>
         </div>
       );
     });
+  }
 
+  render() {
     return (
       <div className='col-xs-12 col-sm-12 col-md-12' style={{ padding: 0 }}>
         <div className='calendar-container__daynames'>
-          {dayNamesRow}
+          {::this.getDayNamesTemplate()}
         </div>
         {this.getCalendarTemplate()}
       </div>

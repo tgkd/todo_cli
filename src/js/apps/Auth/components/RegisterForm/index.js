@@ -164,17 +164,16 @@ export default class extends Component {
   }
 
   getErrorsList() {
-    return Object.keys(this.state.inputs).map(item => {
+    return Object.keys(this.state.inputs).map((item, id) => {
       const error = this.state.inputs[item].error;
       return (
-        <div className={ error ? '' : "alert-container--hidden"}>
+        <div key={id} className={ error ? '' : "alert-container--hidden"}>
           <span className="alert-message">{ error }</span>
           <br/>
         </div>
       );
     });
   }
-
 
   onKeyPress(event) {
     if (event.key === 'Enter') {
@@ -189,11 +188,10 @@ export default class extends Component {
   getInputsTemplate() {
     return this.inputs.map((input, id) => {
       return (
-        <div className="row middle-md middle-sm middle-xs start-md start-sm start-xs">
+        <div key={id} className="row middle-md middle-sm middle-xs start-md start-sm start-xs">
           <div className="col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
             <input
               className={::this.getInputClass(input.name)}
-              key={id}
               type={input.type}
               onChange={(e) => ::this.inputChangeHandler(input.name, e.target.value)}
               placeholder={input.placeholder}
@@ -214,7 +212,6 @@ export default class extends Component {
   }
 
   render() {
-    const errors = this.getErrorsList();
     return (
       <div className="register-container col-xs-4 col-sm-4 col-md-4 col-lg-3">
         <div className="row">
@@ -227,14 +224,14 @@ export default class extends Component {
             <h1 className="register-container__header"> Регистрация e-mail</h1>
           </div>
         </div>
-        {::this.getInputsTemplate()}
+        { ::this.getInputsTemplate() }
 
         <div className="row middle-md middle-sm middle-xs start-md start-sm start-xs">
           <div className="col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
             <span className={`alert-message ${this.state.apiError.error ? '' : 'alert-container--hidden'}`}>
-              { this.state.apiError.message}
+              { this.state.apiError.message }
             </span>
-            {errors}
+            { ::this.getErrorsList() }
           </div>
         </div>
 
@@ -242,8 +239,7 @@ export default class extends Component {
           <div className="col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
             <button
               className="btn btn-enter btn--greyblue"
-              onClick={::this.submitClickHandler}
-            >
+              onClick={ ::this.submitClickHandler }>
               Войти
             </button>
           </div>
