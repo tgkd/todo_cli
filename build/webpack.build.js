@@ -4,7 +4,7 @@ module.exports = {
   devtool: false,
   watch: false,
   output: {
-    filename: '[chunkhash:12].js'
+    filename: '[chunkhash:12].min.js'
   },
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
