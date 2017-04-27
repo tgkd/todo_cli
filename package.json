@@ -6,7 +6,8 @@
   "scripts": {
     "prod": "NODE_ENV=production node server.js",
     "postinstall": "NODE_ENV=production webpack --config ./build/webpack.config.js && gulp",
-    "dev": "NODE_ENV=development gulp && node ./build/dev-server.js"
+    "dev": "NODE_ENV=development gulp && node ./build/dev-server.js",
+    "heroku": "git push heroku master"
   },
   "author": "",
   "license": "ISC",
