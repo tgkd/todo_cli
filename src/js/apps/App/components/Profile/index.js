@@ -29,18 +29,31 @@ export default class extends Component {
 
   }
 
+  async getUserInfo() {
+    const { getUserInfo } = this.props;
+
+    await getUserInfo();
+    this.setUserInfo();
+  }
+
+  setUserInfo() {
+    const { user } = this.props;
+    const birthday = moment(user.birthday);
+    this.setState({
+      user: {
+        ...user,
+        birthday: birthday.isValid() ? birthday.locale('ru').format('DD.MM.YYYY').toString() : '',
+        formattedDate: birthday.isValid() ? moment(user.birthday) : null
+      }
+    });
+  }
+
   componentDidMount() {
     const { user } = this.props;
     if (user) {
-      const birthday = moment(user.birthday);
-
-      this.setState({
-        user: {
-          ...user,
-          birthday: birthday.isValid() ? birthday.locale('ru').format('DD.MM.YYYY').toString() : '',
-          formattedDate: birthday.isValid() ? moment(user.birthday) : null
-        }
-      });
+      this.setUserInfo();
+    } else {
+      this.getUserInfo();
     }
   }
 

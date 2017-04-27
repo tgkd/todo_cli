@@ -19,13 +19,14 @@ export default class extends Component {
   render() {
 
     const { user, sessions } = this.props.user;
-    const { updateUserInfo, logout, terminateSession } = this.props;
+    const { getUserInfo, updateUserInfo, logout, terminateSession } = this.props;
 
     return (
       <div>
         <Navigation logout={logout}/>
         <div className='row center-xs center-sm center-md'>
           <Profile
+            getUserInfo={getUserInfo}
             updateUserInfo={updateUserInfo}
             terminateUserSession={terminateSession}
             user={user}
