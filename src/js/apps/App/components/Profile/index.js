@@ -47,7 +47,7 @@ export default class extends Component {
         formattedDate: birthday.isValid() ? moment(user.birthday) : null
       }
     });
-    if (stateSessions && stateSessions.length === 0 || (sessions && stateSessions.length !== sessions.length)) {
+    if (sessions && stateSessions.length !== sessions.length) {
       this.setState({
         sessions: sessions
       });
@@ -55,12 +55,7 @@ export default class extends Component {
   }
 
   componentDidMount() {
-    const { user } = this.props;
-    if (user) {
-      this.setUserInfo();
-    } else {
-      this.getUserInfo();
-    }
+    this.getUserInfo();
   }
 
   componentDidUpdate() {
@@ -120,6 +115,9 @@ export default class extends Component {
     try {
       await terminateUserSession(id);
     } catch (e) {
+      if (e.response && e.response.status === 403) {
+        window.location.href = '/';
+      }
       this.setState({
         message: {
           error: true,
