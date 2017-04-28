@@ -4,8 +4,8 @@ import ImgEditorModal from '../ImgEditorModal';
 export default class extends Component {
   constructor(props) {
     super(props);
-    const host = PRODUCTION ? PRODUCTION_API_URL : 'http://localhost:3001/';
-    this.defaultAvatar = host + 'assets/images/profile/unknown.svg';
+    const host = PRODUCTION ? window.location.origin : 'http://localhost:3001';
+    this.defaultAvatar = host + '/assets/images/profile/unknown.svg';
     this.state = {
       showImgEditor: false,
       photo: null,

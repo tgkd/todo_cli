@@ -12,7 +12,7 @@ export default class extends Component {
       errorText: ''
     };
 
-    const host = PRODUCTION ? PRODUCTION_API_URL : 'http://localhost:3001/';
+    const host = PRODUCTION ? window.location.origin : 'http://localhost:3001/';
     this.defaultAvatar = host + 'assets/images/profile/unknown.svg';
   }
 
