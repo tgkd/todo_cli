@@ -7,16 +7,28 @@ export default class extends Component {
     this.containers = [
       {
         img: '/assets/images/main_page/profile.svg',
+        imgStyle: {
+          width: '110px',
+          height: '110px'
+        },
         name: 'Профиль',
         route: '/profile'
       },
       {
         img: '/assets/images/main_page/todolist.svg',
+        imgStyle: {
+          width: '114px',
+          height: '114px'
+        },
         name: 'Дела',
         route: '/tasks'
       },
       {
         img: '/assets/images/main_page/calendar.svg',
+        imgStyle: {
+          width: '86px',
+          height: '95px'
+        },
         name: 'Календарь',
         route: '/calendar'
       }
@@ -31,7 +43,7 @@ export default class extends Component {
             <div className='row center-xs center-sm center-md'>
               <div
                 className={'main-container__item-icon col-md-12 col-xs-12 col-sm-12 main-container__item-icon-' + id}>
-                <img src={item.img} alt={item.name}/>
+                <img style={item.imgStyle} src={item.img} alt={item.name}/>
               </div>
             </div>
             <div className='row center-xs center-sm center-md'>
