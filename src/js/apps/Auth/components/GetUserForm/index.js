@@ -7,7 +7,9 @@ export default class extends Component {
     this.state = {
       email: '',
       error: false,
-      errorText: ''
+      errorText: '',
+      buttonText: 'Продолжить',
+      btnDisabled: false
     };
   }
 
@@ -42,13 +44,14 @@ export default class extends Component {
     if (this.isValidInput(email)) {
       this.setState({
         error: false,
-        errorText: ''
+        errorText: '',
+        buttonText: 'Вход ...',
+        btnDisabled: true
       });
       try {
         await getUser(email);
         if (this.props.user.email) {
           goTo('/login');
-          return;
         }
       } catch (e) {
         if (e.response && e.response.status === 400) {
@@ -57,7 +60,9 @@ export default class extends Component {
         }
         this.setState({
           error: true,
-          errorText: 'Ошибка, повторите попытку'
+          errorText: 'Ошибка, повторите попытку',
+          buttonText: 'Продолжить',
+          btnDisabled: false
         });
       }
     }
@@ -85,7 +90,7 @@ export default class extends Component {
   }
 
   render() {
-    const { error, errorText } = this.state;
+    const { error, errorText, email, btnDisabled, buttonText } = this.state;
 
     return (
       <div className='email-container col-xs-4 col-sm-4 col-md-4 col-lg-3'>
@@ -114,8 +119,8 @@ export default class extends Component {
         <div className='row middle-md middle-sm middle-xs'>
           <div className='col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1'>
             <button className='btn btn-enter btn--greyblue'
-                    disabled={!this.state.email}
-                    onClick={::this.getUser}>Продолжить
+                    disabled={!email || btnDisabled}
+                    onClick={::this.getUser}>{buttonText}
             </button>
           </div>
         </div>

@@ -73,7 +73,7 @@ export default class extends Component {
     return (
 
       <div className="main-container">
-        <div className='row around-xs around-sm around-md'>
+        <div className='row around-xs around-sm around-md main-container__row'>
           <div className="col-xs-12 col-sm-12 col-md-12">
             <div className="row end-md end-sm end-xs">
               <div className="main-container__logout" onClick={::this.logout}>

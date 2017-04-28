@@ -84,6 +84,9 @@ class DatePicker extends Component {
         date: moment()
       });
     }
+    if (this.datePicker) {
+      this.datePicker.scrollIntoView();
+    }
   }
 
   componentWillUnmount() {
@@ -107,7 +110,9 @@ class DatePicker extends Component {
   render() {
     const { month, year, date, dayNames, calendar } = this.state;
     return <div>
-      <div className="calendar">
+      <div className="calendar" ref={(datePicker) => {
+        this.datePicker = datePicker;
+      }}>
         <table className="calendar__table">
           <CalendarHeader nextMonth={::this.nextMonth} previousMonth={::this.previousMonth} year={year}
                           dayNames={dayNames} month={month}/>

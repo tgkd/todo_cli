@@ -4,6 +4,7 @@
   background-color #ffffff
   border-radius 2px
   padding 0
+  margin-bottom 85px
   &__header
     text-align center
     font-size 21px
@@ -48,10 +49,29 @@
     white-space nowrap
 
 .session-name
-  text-align left
-  white-space nowrap
-  overflow hidden
-  text-overflow ellipsis
+  position relative
+  &__text
+    text-align left
+    white-space nowrap
+    overflow hidden
+    text-overflow ellipsis
+    cursor default
+  &__title
+    display none
 
 .session-button
   overflow hidden
+
+@media all and (max-width: 425px)
+  .session-name
+    position relative
+    &__title
+      display block
+      position absolute
+      top 36px
+      background $blue
+      border-radius 2px
+      padding 4px
+      left 24px
+      white-space nowrap
+      color #ffffff

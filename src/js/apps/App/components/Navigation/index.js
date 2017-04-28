@@ -22,7 +22,7 @@ export default class extends Component {
   render() {
     return (
       <div className="row center-md center-sm center-xs">
-        <div className="col-xs-10 col-sm-10 col-md-10 col-lg-7 nav-links">
+        <div className="col-xs-10 col-sm-10 col-md-10 col-lg-10 nav-links">
           <div className="row between-xs between-sm between-md">
 
             <div className="col-md-1 col-sm-1 col-xs-1 nav-links__back">

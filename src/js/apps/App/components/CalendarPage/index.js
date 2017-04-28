@@ -97,7 +97,7 @@ class DatePicker extends Component {
   render() {
     const { month, year, date, dayNames, calendar } = this.state;
     return (
-      <div className='calendar-container col-xs-10 col-sm-10 col-md-10 col-lg-7'>
+      <div className='calendar-container col-xs-10 col-sm-10 col-md-10 col-lg-10'>
           <div className='row center-xs center-sm center-md'>
             <div className='col-xs-12 col-sm-12 col-md-12'>
               <h1 className='calendar-container__header'>Календарь</h1>

@@ -6,6 +6,13 @@ export default class extends Component {
     super(props);
   }
 
+  updateTask() {
+    this.props.updateTask({
+      ...this.props.task,
+      done: false
+    });
+  }
+
   deleteTask() {
     this.props.deleteTask(this.props.task._id);
   }
@@ -15,7 +22,7 @@ export default class extends Component {
     return (
       <div className="row middle-xs middle-sm middle-md tasks-container__task task task--completed">
         <div className="col-xs-1 col-sm-1 col-md-1">
-          <Checkbox checked={true} disabled={true}/>
+          <Checkbox checked={true} disabled={false} changeState={::this.updateTask}/>
         </div>
         <div className="col-xs-6 col-sm-8 col-md-9">
           <p className="task__name">{task.title}</p>

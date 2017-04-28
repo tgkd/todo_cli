@@ -9,7 +9,9 @@ export default class extends Component {
     this.state = {
       password: '',
       error: false,
-      errorText: ''
+      errorText: '',
+      buttonText: 'Войти',
+      btnDisabled: false
     };
 
     const host = PRODUCTION ? window.location.origin : 'http://localhost:3001/';
@@ -22,7 +24,7 @@ export default class extends Component {
       await login(credentials, sessionInfo);
       window.location.href = '/';
     } catch (e) {
-      const error = { error: true };
+      const error = { error: true, buttonText: 'Войти', btnDisabled: false };
       if (e.response && e.response.status === 400) {
         error.errorText = 'Неверный пароль';
         error.password = '';
@@ -50,6 +52,10 @@ export default class extends Component {
         errorText: 'Введите пароль'
       });
     } else {
+      this.setState({
+        buttonText: 'Вход...',
+        btnDisabled: true
+      });
       this.login(credentials);
     }
   }
@@ -123,8 +129,9 @@ export default class extends Component {
             <button
               className="btn btn-enter btn--greyblue"
               onClick={::this.submitClickHandler}
+              disabled={!this.state.password || this.state.btnDisabled}
             >
-              Войти
+              {this.state.buttonText}
             </button>
           </div>
         </div>

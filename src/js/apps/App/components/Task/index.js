@@ -63,6 +63,7 @@ export default class extends Component {
       return (
         <div className='col-xs-10 col-sm-10 col-md-10' key={item._id}>
           <CompletedTask task={item}
+                         updateTask={::this.updateTask}
                          deleteTask={::this.deleteTask}/>
         </div>
       );

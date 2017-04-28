@@ -17,14 +17,17 @@ export default class extends Component {
       },
       calendarVisible: false,
       sessions: [],
+      disabledBtn: false,
+      btnText: 'Сохранить',
       message: {
         error: false,
-        text: ''
+        text: '',
+        isSuccess: false
       }
     };
     this.incorrectDateMessage = 'Неверный формат даты';
     this.incorrectUsername = 'Введите корректное имя';
-    this.successMessage = 'Успешно сохранено';
+    this.successMessage = 'Сохранено';
     this.serverError = 'Ошибка, повторите попытку';
 
   }
@@ -94,6 +97,10 @@ export default class extends Component {
       return;
     }
     try {
+      this.setState({
+        disabledBtn: true,
+        btnText: 'Сохранение...'
+      });
       await updateUserInfo({
         ...user,
         name,
@@ -101,11 +108,21 @@ export default class extends Component {
       });
       this.setState({
         user: { ...this.state.user, name: name },
-        message: { error: false, text: this.successMessage }
+        message: { error: true, text: this.successMessage, isSuccess: true },
+        disabledBtn: false,
+        btnText: 'Сохранить'
+      }, () => {
+        setTimeout(() => {
+          this.setState({
+            message: { error: false, text: '', isSuccess: false }
+          });
+        }, 3000);
       });
     } catch (e) {
       this.setState({
-        message: { error: true, text: this.serverError }
+        message: { error: true, text: this.serverError },
+        disabledBtn: false,
+        btnText: 'Сохранить'
       });
     }
   }
@@ -132,6 +149,10 @@ export default class extends Component {
       user: {
         ...this.state.user,
         name: e.target.value
+      },
+      message: {
+        error: false,
+        text: ''
       }
     });
   }
@@ -143,6 +164,10 @@ export default class extends Component {
         ...this.state.user,
         birthday: e.target.value,
         formattedDate: date
+      },
+      message: {
+        error: false,
+        text: ''
       }
     });
   }
@@ -253,18 +278,24 @@ export default class extends Component {
                                               setDate={::this.setDate}/>}
             </div>
             <div
-              className={message.error ? 'col-xs-9 col-sm-6 col-md-4' : 'col-xs-9 col-sm-6 col-md-4 alert-container--hidden'}>
-              <span className='profile-container__message alert-message'>{ message.text }</span>
+              className={message.error
+                ? 'col-xs-9 col-sm-6 col-md-4'
+                : 'col-xs-9 col-sm-6 col-md-4 alert-container--hidden'}>
+              {
+                message.text === this.successMessage
+                  ? <span className='alert-message--success'>{ message.text }</span>
+                  : <span className='profile-container__message alert-message'>{ message.text }</span>
+              }
             </div>
           </div>
-
         </div>
         <div className='row center-md center-sm center-xs profile-container__btn'>
           <div className='col-xs-9 col-sm-6 col-md-4'>
-            <button className='btn btn-enter btn--greyblue' onClick={::this.updateUserInfo}>Сохранить</button>
-            <div className={!message.error && message.text === this.successMessage ? '' : 'alert-container--hidden'}>
-              <span className='alert-message--success'>{ message.text }</span>
-            </div>
+            <button className='btn btn-enter btn--greyblue'
+                    disabled={this.state.disabledBtn}
+                    onClick={::this.updateUserInfo}>
+              {this.state.btnText}
+            </button>
           </div>
         </div>
 

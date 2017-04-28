@@ -10,7 +10,6 @@ export default class Weeks extends Component {
 
     this.state = {
       transferTask: null,
-      tasks: [],
       taskWindowVisible: false,
       moreTasksVisible: false,
       dayToShowMoreTasks: null,
@@ -26,47 +25,30 @@ export default class Weeks extends Component {
       zIndex: 'cell--zIndex'
     };
 
-    this.scrollStep = 28;
+    this.taskBoxHeight = 28;
   }
 
-  setEventListeners() {
+  actionWithEventListeners(action = true) {
+    const actionName = action ? 'addEventListener' : 'removeEventListener';
     const { month } = this.props;
     const containers = document.querySelectorAll('.calendar-container__cell');
     [].forEach.call(containers, (container) => {
       let dateCellMonth = moment(container.id, 'DD-MM-YYYY').month();
       if (dateCellMonth === month) {
-        container.addEventListener('dragenter', this.dragEnter.bind(this, container), false);
-        container.addEventListener('dragover', this.dragOver.bind(this, container), false);
-        container.addEventListener('dragleave', this.dragLeave.bind(this, container), false);
-        container.addEventListener('drop', this.handleDrop.bind(this, container), false);
+        container[actionName]('dragover', this.dragOver.bind(this, container), false);
+        container[actionName]('dragleave', this.dragLeave.bind(this, container), false);
+        container[actionName]('drop', this.handleDrop.bind(this, container), false);
       }
     });
   }
 
   componentDidMount() {
-    this.setEventListeners();
-  }
-
-  componentDidUpdate() {
-    const { tasks } = this.state;
-    const { incompleteTasks } = this.props;
-    if (incompleteTasks.length !== 0 && tasks.length === 0) {
-      this.setState({
-        tasks: incompleteTasks
-      });
-    }
+    this.actionWithEventListeners();
   }
 
   componentWillUnmount() {
-    const containers = document.querySelectorAll('.calendar-container__cell');
-    [].forEach.call(containers, (container) => {
-      container.removeEventListener('dragenter', this.dragEnter.bind(this, container), false);
-      container.removeEventListener('dragover', this.dragOver.bind(this, container), false);
-      container.removeEventListener('dragleave', this.dragLeave.bind(this, container), false);
-      container.removeEventListener('drop', this.handleDrop.bind(this, container), false);
-    });
+    this.actionWithEventListeners(false);
   }
-
 
   dragStart(task, event) {
     this.setState({
@@ -77,10 +59,7 @@ export default class Weeks extends Component {
     event.dataTransfer.effectAllowed = 'move';
   }
 
-  dragEnter(container, e) {
-  }
-
-  dragEnd(task, event) {
+  dragEnd() {
     this.setState({
       transferTask: {
         id: null
@@ -181,13 +160,14 @@ export default class Weeks extends Component {
           const list = dayToShowMoreTasks && ReactDOM.findDOMNode(this.refs[`list-${dayToShowMoreTasks.format('DD')}`]);
           const listVisible = !moreTasksVisible;
           const isListStart = list && list.scrollTop === 0;
-          const offsetTop = taskItem.offsetTop + this.scrollStep;
+          const offsetTop = taskItem.offsetTop + this.taskBoxHeight;
 
           taskCard.style.top = listVisible || isListStart
             ? offsetTop + 'px'
             : !listVisible || !isListStart
-              ? offsetTop - this.scrollStep + 'px'
+              ? offsetTop - this.taskBoxHeight + 'px'
               : -offsetTop + 'px';
+          taskCard.scrollIntoView();
         }
       });
 
@@ -282,8 +262,8 @@ export default class Weeks extends Component {
   }
 
   getCalendarTemplate() {
-    const { tasks, moreTasksVisible, dayToShowMoreTasks } = this.state;
-    const { calendar, month } = this.props;
+    const { moreTasksVisible, dayToShowMoreTasks } = this.state;
+    const { calendar, month, incompleteTasks } = this.props;
     let weeks = [];
     if (calendar) {
       weeks = calendar.map((week, id) => {
@@ -297,7 +277,7 @@ export default class Weeks extends Component {
           if (!(day.month() === month)) {
             dayClasses += ' calendar-container__cell--muted';
           }
-          const sortedTasks = sortTasks(tasks, 'hours');
+          const sortedTasks = sortTasks(incompleteTasks, 'hours');
           const tasksToday = this.getTasksForToday(day, sortedTasks);
           const tasksTemplatesForToday = tasksToday.length > 0 ? this.getTasksTemplatesByDay(tasksToday, day) : null;
           if (!tasksTemplatesForToday) dayClasses += ' calendar-container__cell--empty';

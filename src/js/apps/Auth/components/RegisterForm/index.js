@@ -13,6 +13,8 @@ export default class extends Component {
         error: false,
         message: ''
       },
+      buttonText: 'Войти',
+      btnDisabled: false,
       inputs: {
         email: {
           value: '',
@@ -63,6 +65,8 @@ export default class extends Component {
         ? 'Пользователь с таким e-mail уже существует'
         : 'Ошибка, повторите попытку';
       this.setState({
+        buttonText: 'Войти',
+        btnDisabled: false,
         apiError: {
           error: true,
           message: errorText
@@ -92,8 +96,6 @@ export default class extends Component {
 
   inputChangeHandler(inputName, value) {
     const input = { [inputName]: { value } };
-    const test = { inputs: { ...this.state.inputs, ...input } };
-
     this.setState({ inputs: { ...this.state.inputs, ...input } });
   }
 
@@ -144,7 +146,9 @@ export default class extends Component {
       this.setState({
         apiError: {
           error: false,
-          message: ''
+          message: '',
+          buttonText: 'Регистрация...',
+          btnDisabled: true
         }
       });
       this.register(credentials);
@@ -239,8 +243,9 @@ export default class extends Component {
           <div className="col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
             <button
               className="btn btn-enter btn--greyblue"
+              disabled={this.state.btnDisabled}
               onClick={ ::this.submitClickHandler }>
-              Войти
+              {this.state.buttonText}
             </button>
           </div>
         </div>
