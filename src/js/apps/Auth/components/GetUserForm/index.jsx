@@ -45,7 +45,7 @@ export default class extends Component {
       this.setState({
         error: false,
         errorText: '',
-        buttonText: 'Вход ...',
+        buttonText: 'Вход...',
         btnDisabled: true
       });
       try {

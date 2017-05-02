@@ -75,7 +75,8 @@ export default class extends Component {
         </div>
         <div className="col-md-5 col-xs-5 col-sm-5">
           <form encType="multipart/form-data">
-            <input type="file" name="file" id="file" className="profile-container__file" onChange={::this.handleFile}/>
+            <input type="file" name="file" multiple={false} accept="image/*" id="file"
+                   className="profile-container__file" onChange={::this.handleFile}/>
             <label htmlFor="file" className="profile-container__loader btn-rounded">Загрузить</label>
           </form>
         </div>

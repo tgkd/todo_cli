@@ -51,6 +51,11 @@ export default class Weeks extends Component {
   }
 
   dragStart(task, event) {
+    const { taskWindowVisible } = this.state;
+    if (taskWindowVisible) {
+      event.preventDefault();
+      return;
+    }
     this.setState({
       transferTask: {
         id: task._id
