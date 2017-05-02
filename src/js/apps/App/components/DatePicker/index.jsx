@@ -84,9 +84,9 @@ class DatePicker extends Component {
         date: moment()
       });
     }
-    if (this.datePicker) {
+    /*if (this.datePicker) {
       this.datePicker.scrollIntoView();
-    }
+     }*/
   }
 
   componentWillUnmount() {
