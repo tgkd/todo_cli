@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import Loader from 'components/Loader';
 import Auth from 'libs/auth';
 import {Link} from "react-router-dom";
 
@@ -146,10 +146,10 @@ export default class extends Component {
       this.setState({
         apiError: {
           error: false,
-          message: '',
-          buttonText: 'Регистрация...',
-          btnDisabled: true
-        }
+          message: ''
+        },
+        buttonText: 'Регистрация...',
+        btnDisabled: true
       });
       this.register(credentials);
     } else {
@@ -216,8 +216,9 @@ export default class extends Component {
   }
 
   render() {
+    const { btnDisabled, buttonText } = this.state;
     return (
-      <div className="register-container col-xs-4 col-sm-4 col-md-4 col-lg-3">
+      <div className="register-container col-xs-4 col-sm-4 col-md-4 col-lg-4">
         <div className="row">
           <div className="col-md-2 col-sm-2 col-xs-2">
             <Link to='/find_by_email'>
@@ -242,10 +243,11 @@ export default class extends Component {
         <div className="row middle-md middle-sm middle-xs">
           <div className="col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
             <button
-              className="btn btn-enter btn--greyblue"
-              disabled={this.state.btnDisabled}
+              className="btn btn-enter btn--greyblue btn-preload"
+              disabled={btnDisabled}
               onClick={ ::this.submitClickHandler }>
-              {this.state.buttonText}
+              { btnDisabled ? <Loader /> : null }
+              {buttonText}
             </button>
           </div>
         </div>

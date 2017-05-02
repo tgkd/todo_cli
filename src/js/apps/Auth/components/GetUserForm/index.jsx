@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Loader from 'components/Loader';
 
 export default class extends Component {
   constructor(props) {
@@ -90,10 +91,10 @@ export default class extends Component {
   }
 
   render() {
-    const { error, errorText, email, btnDisabled, buttonText } = this.state;
+    const { error, errorText, btnDisabled, buttonText } = this.state;
 
     return (
-      <div className='email-container col-xs-4 col-sm-4 col-md-4 col-lg-3'>
+      <div className='email-container col-xs-4 col-sm-4 col-md-4 col-lg-4'>
         <h1 className='email-container__header'>Войти в приложение</h1>
         <div className='row middle-md middle-sm middle-xs start-md start-sm start-xs'>
           <div className='col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1'>
@@ -118,9 +119,11 @@ export default class extends Component {
         </div>
         <div className='row middle-md middle-sm middle-xs'>
           <div className='col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1'>
-            <button className='btn btn-enter btn--greyblue'
-                    disabled={!email || btnDisabled}
-                    onClick={::this.getUser}>{buttonText}
+            <button className='btn btn-enter btn--greyblue btn-preload'
+                    disabled={ btnDisabled }
+                    onClick={::this.getUser}>
+              { btnDisabled ? <Loader /> : null }
+              {buttonText}
             </button>
           </div>
         </div>

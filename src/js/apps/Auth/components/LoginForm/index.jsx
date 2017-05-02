@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Auth from 'libs/auth';
 import {Link} from "react-router-dom";
+import Loader from 'components/Loader';
 
 export default class extends Component {
   constructor(props) {
@@ -81,12 +82,12 @@ export default class extends Component {
 
   render() {
     const user = this.props.user;
-    const { password, errorText } = this.state;
+    const { password, errorText, btnDisabled } = this.state;
     const imageStyle = {
       backgroundImage: !user.photo ? `url(${this.defaultAvatar})` : `url(${user.photo})`
     };
     return (
-      <div className="login-container col-xs-4 col-sm-4 col-md-4 col-lg-3">
+      <div className="login-container col-xs-4 col-sm-4 col-md-4 col-lg-4">
         <div className="row">
           <div className="col-md-2 col-sm-2 col-xs-2">
             <Link to='/find_by_email'>
@@ -96,7 +97,7 @@ export default class extends Component {
           <div className="col-md-8 col-sm-8 col-xs-8">
             <div className="row center-md center-sm center-xs">
               <div className="col-xs-12 col-sm-12 col-md-12 avatar-container">
-                <div className="profile-container__avatar" style={imageStyle}></div>
+                <div className="profile-container__avatar" style={imageStyle}/>
               </div>
               <div className="col-xs-12 col-sm-12 col-md-12">
                 <h1 className="login-container__header"> Hi, {user.name ? user.name : 'unknown'} </h1>
@@ -127,10 +128,11 @@ export default class extends Component {
         <div className="row middle-md middle-sm middle-xs">
           <div className="col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
             <button
-              className="btn btn-enter btn--greyblue"
+              className="btn btn-enter btn--greyblue btn-preload"
               onClick={::this.submitClickHandler}
               disabled={!this.state.password || this.state.btnDisabled}
             >
+              { btnDisabled ? <Loader /> : null }
               {this.state.buttonText}
             </button>
           </div>

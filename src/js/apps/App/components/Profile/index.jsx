@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React, {Component} from 'react';
-
+import Loader from 'components/Loader';
 import ProfileInfo from '../ProfileInfo';
 import UserSession from '../UserSession';
 import DatePicker from '../DatePicker';
@@ -17,7 +17,7 @@ export default class extends Component {
       },
       calendarVisible: false,
       sessions: [],
-      disabledBtn: false,
+      btnDisabled: false,
       btnText: 'Сохранить',
       message: {
         error: false,
@@ -98,7 +98,7 @@ export default class extends Component {
     }
     try {
       this.setState({
-        disabledBtn: true,
+        btnDisabled: true,
         btnText: 'Сохранение...'
       });
       await updateUserInfo({
@@ -109,7 +109,7 @@ export default class extends Component {
       this.setState({
         user: { ...this.state.user, name: name },
         message: { error: true, text: this.successMessage, isSuccess: true },
-        disabledBtn: false,
+        btnDisabled: false,
         btnText: 'Сохранить'
       }, () => {
         setTimeout(() => {
@@ -121,7 +121,7 @@ export default class extends Component {
     } catch (e) {
       this.setState({
         message: { error: true, text: this.serverError },
-        disabledBtn: false,
+        btnDisabled: false,
         btnText: 'Сохранить'
       });
     }
@@ -222,7 +222,7 @@ export default class extends Component {
   }
 
   render() {
-    const { sessions, user, calendarVisible, message } = this.state;
+    const { sessions, user, calendarVisible, message, btnDisabled, btnText } = this.state;
     let sessionsList = sessions ? this.getSessionsTemplate(sessions) : null;
     return (
       <div className='profile-container col-xs-10 col-sm-10 col-md-10 col-lg-10'>
@@ -291,10 +291,11 @@ export default class extends Component {
         </div>
         <div className='row center-md center-sm center-xs profile-container__btn'>
           <div className='col-xs-9 col-sm-6 col-md-4'>
-            <button className='btn btn-enter btn--greyblue'
-                    disabled={this.state.disabledBtn}
+            <button className='btn btn-enter btn--greyblue btn-preload'
+                    disabled={btnDisabled}
                     onClick={::this.updateUserInfo}>
-              {this.state.btnText}
+              { btnDisabled ? <Loader /> : null }
+              {btnText}
             </button>
           </div>
         </div>

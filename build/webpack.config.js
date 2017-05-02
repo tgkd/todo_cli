@@ -42,7 +42,8 @@ const config = {
     extensions: ['.js', '.styl', '.css', '.jsx'],
     alias: {
       libs: path.resolve(__dirname, '../src/js/libs/'),
-      apps: path.resolve(__dirname, '../src/js/apps/')
+      apps: path.resolve(__dirname, '../src/js/apps/'),
+      components: path.resolve(__dirname, '../src/js/commonComponents/')
     }
   },
   plugins: [

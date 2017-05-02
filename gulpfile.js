@@ -55,7 +55,5 @@ gulp.task('js', (callback) => {
 });
 
 gulp.task('watch', () => {
-  gulp.watch('./src/*.html', ['dist']);
   gulp.watch('./src/stylus/**/*.styl', ['stylus']);
-  gulp.watch('./src/assets/**/*', ['assets']);
 });
