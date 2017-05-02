@@ -24,7 +24,7 @@ export default class extends Component {
     return (
       <div>
         <Navigation logout={logout}/>
-        <div className='row center-xs center-sm center-md'>
+        <div className='row center-xs center-sm center-md profile-row'>
           <Profile
             getUserInfo={getUserInfo}
             updateUserInfo={updateUserInfo}
