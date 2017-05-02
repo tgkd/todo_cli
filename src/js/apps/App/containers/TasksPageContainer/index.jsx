@@ -6,7 +6,6 @@ import * as userActions from '../../store/actionCreators/user';
 
 import Task from '../../components/Task';
 import Navigation from '../../components/Navigation';
-import difference from '../../../../libs/utils';
 
 @connect(
   ({ taskList, user }) => ({ taskList, user }),
