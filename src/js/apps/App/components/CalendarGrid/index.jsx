@@ -137,9 +137,9 @@ export default class Weeks extends Component {
 
   toggleTaskWindow(id, day) {
     if (day) {
-      const list = ReactDOM.findDOMNode(this.refs[`list-${day.format('DD')}`]);
-      const btnHide = ReactDOM.findDOMNode(this.refs[`btn-hide-${day.format('DD')}`]);
-      const btnMore = ReactDOM.findDOMNode(this.refs[`btn-show-${day.format('DD')}`]);
+      const list = ReactDOM.findDOMNode(this.refs[`list-${day.format('DD-MM')}`]);
+      const btnHide = ReactDOM.findDOMNode(this.refs[`btn-hide-${day.format('DD-MM')}`]);
+      const btnMore = ReactDOM.findDOMNode(this.refs[`btn-show-${day.format('DD-MM')}`]);
       const isStaticList = list.className.indexOf(this.classNames.staticList) < 0;
       const taskItem = document.getElementById(id);
       const cell = document.getElementById(day.format('DD-MM-YYYY'));
@@ -162,7 +162,7 @@ export default class Weeks extends Component {
         const { taskWindowVisible, currentId, moreTasksVisible, dayToShowMoreTasks } = this.state;
         if (taskWindowVisible) {
           const taskCard = document.getElementById(`card-${currentId}`);
-          const list = dayToShowMoreTasks && ReactDOM.findDOMNode(this.refs[`list-${dayToShowMoreTasks.format('DD')}`]);
+          const list = dayToShowMoreTasks && ReactDOM.findDOMNode(this.refs[`list-${dayToShowMoreTasks.format('DD-MM')}`]);
           const listVisible = !moreTasksVisible;
           const isListStart = list && list.scrollTop === 0;
           const offsetTop = taskItem.offsetTop + this.taskBoxHeight;
@@ -197,13 +197,21 @@ export default class Weeks extends Component {
   }
 
   toggleMoreTasks(day) {
-    const list = ReactDOM.findDOMNode(this.refs[`list-${day.format('DD')}`]);
-    const btn = ReactDOM.findDOMNode(this.refs[`btn-show-${day.format('DD')}`]);
+    const list = ReactDOM.findDOMNode(this.refs[`list-${day.format('DD-MM')}`]);
+    const btn = ReactDOM.findDOMNode(this.refs[`btn-show-${day.format('DD-MM')}`]);
+    const cellDayName = document.getElementById(day.format('DD-MM-YYYY')).firstElementChild;
+
     const { dayToShowMoreTasks } = this.state;
 
     if (dayToShowMoreTasks && dayToShowMoreTasks !== day) {
       this.toggleMoreTasks(dayToShowMoreTasks);
       return;
+    }
+
+    if (!dayToShowMoreTasks) {
+      cellDayName.style.removeProperty('float');
+    } else {
+      cellDayName.style.float = 'right';
     }
 
     this.setState({
@@ -249,7 +257,7 @@ export default class Weeks extends Component {
   }
 
   getHideBtnTemplate(day) {
-    return <div ref={`btn-hide-${day.format('DD')}`} className='btn-more'
+    return <div ref={`btn-hide-${day.format('DD-MM')}`} className='btn-more'
                 onClick={this.toggleMoreTasks.bind(this, day)}>
       <span className='btn-more__text'>Скрыть</span>
       <span className='btn-more__icon fa fa-arrow-up'/>
@@ -288,13 +296,13 @@ export default class Weeks extends Component {
           if (!tasksTemplatesForToday) dayClasses += ' calendar-container__cell--empty';
           return (
             <div id={day.format('DD-MM-YYYY')} className={dayClasses} key={dayId}>
-              <p className='calendar-container__date'>
+              <p style={{ float: 'right' }} className='calendar-container__date'>
                 { day.format('D') }
               </p>
               <p className='calendar-container__date--extended'>
                 { day.locale('ru').format('dd').toString().toUpperCase()}
               </p>
-              <div className="cell__tasks-list" ref={`list-${day.format('DD')}`}>
+              <div className="cell__tasks-list" ref={`list-${day.format('DD-MM')}`}>
                 {tasksTemplatesForToday}
                 {
                   moreTasksVisible && day.format('DD-MM') === dayToShowMoreTasks.format('DD-MM') &&
@@ -303,7 +311,7 @@ export default class Weeks extends Component {
                     : null
                 }
               </div>
-              <div className="more-tasks-container" ref={`btn-show-${day.format('DD')}`}>
+              <div className="more-tasks-container" ref={`btn-show-${day.format('DD-MM')}`}>
                 {
                   tasksTemplatesForToday && tasksTemplatesForToday.length > 2
                     ? this.getMoreBtn(day)
