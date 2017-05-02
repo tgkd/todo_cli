@@ -78,7 +78,7 @@ export default class extends Component {
     const { incomplete, completed } = this.getTasksTemplates(incSortedList, compSortedList);
 
     return (
-      <div className='tasks-container col-xs-10 col-sm-10 col-md-10 col-lg-7'>
+      <div className='tasks-container col-xs-10 col-sm-10 col-md-10 col-lg-10'>
         <div className='row center-xs center-sm center-md'>
           <div className='col-xs-12 col-sm-12 col-md-12'>
             <h1 className='tasks-container__header'>Дела</h1>

@@ -225,7 +225,7 @@ export default class extends Component {
     const { sessions, user, calendarVisible, message } = this.state;
     let sessionsList = sessions ? this.getSessionsTemplate(sessions) : null;
     return (
-      <div className='profile-container col-xs-10 col-sm-10 col-md-10 col-lg-7'>
+      <div className='profile-container col-xs-10 col-sm-10 col-md-10 col-lg-10'>
         <div className='row center-xs center-sm center-md'>
           <div className='col-xs-12 col-sm-12 col-md-12'>
             <h1 className='profile-container__header'>Настройки профиля</h1>
