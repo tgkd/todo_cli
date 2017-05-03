@@ -73,19 +73,16 @@ export default class extends Component {
     return (
 
       <div className="main-container">
-        <div className='row around-xs around-sm around-md main-container__row'>
-          <div className="col-xs-12 col-sm-12 col-md-12">
-            <div className="row end-md end-sm end-xs">
-              <div className="main-container__logout" onClick={::this.logout}>
-                <img src="/assets/images/icons/exit.svg" alt="exit"/>
-                <span>&nbsp;Выйти</span>
-              </div>
-            </div>
+        <div className="row end-md end-sm end-xs main-container__nav">
+          <div className="main-container__logout" onClick={::this.logout}>
+            <img src="/assets/images/icons/exit.svg" alt="exit"/>
+            <span>&nbsp;Выйти</span>
           </div>
+        </div>
+        <div className='row center-xs center-sm center-md main-container__links'>
           {::this.getLinksTemplates()}
         </div>
       </div>
-
     );
   }
 }

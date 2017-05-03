@@ -1,9 +1,7 @@
 .main-container
   height 100%
-  display flex
-  justify-content center
-  &__row
-    padding-bottom 60px
+  max-width 940px
+  margin auto
   &__item
     background-color #ffffff
     border-radius 2px
@@ -19,19 +17,24 @@
     margin 15px 7px
     max-height 420px
   &__nav
-    padding-bottom 50px
+    padding 40px 14px 0 0
+    margin-bottom 90px
   &__item-icon-0
     padding 2px
   &__item-icon-2
     padding 9px
   &__logout
-    color #fff
     height 20px
     display flex
-    margin 20px 20px 0 0
     cursor pointer
+    color #fff
 
-@media all and (max-width: 425px)
+@media all and (max-width: 1024px)
   .main-container
-    &__link:last-child
-      padding-bottom 30px
+    &__links
+      display flex
+      flex-direction column !important
+      align-items center
+    &__nav
+      padding-right 18px
+      margin-bottom 50px
