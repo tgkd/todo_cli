@@ -8,8 +8,10 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
+      comments: false,
       compress: {
-        warnings: false
+        warnings: false,
+        drop_console: true
       },
       output: {
         comments: false,
