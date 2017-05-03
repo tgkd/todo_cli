@@ -41,9 +41,9 @@ export default class extends Component {
     const { updateTask, getTasks, logout } = this.props;
 
     return (
-      <div>
+      <div className="pagecontent">
         <Navigation logout={logout}/>
-        <div className='row center-xs center-sm center-md container-row'>
+        <div className='row center-xs center-sm center-md'>
           <CalendarPage
             incompleteTasks={incompleteTasks}
             completedTasks={completedTasks}

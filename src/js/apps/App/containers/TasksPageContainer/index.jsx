@@ -39,9 +39,9 @@ export default class extends Component {
     const { getTasks, createTask, updateTask, deleteTask, logout } = this.props;
     const { incompleteTasks, completedTasks } = this.filterTasks(taskList || []);
     return (
-      <div>
+      <div className="pagecontent">
         <Navigation logout={logout}/>
-        <div className='row center-xs center-sm center-md container-row'>
+        <div className='row center-xs center-sm center-md'>
           <Task
             getTasks={getTasks}
             incompleteTasks={incompleteTasks}
