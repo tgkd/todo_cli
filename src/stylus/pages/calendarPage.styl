@@ -103,7 +103,7 @@
     overflow hidden
     white-space nowrap
     text-overflow ellipsis
-    max-width 68px
+    max-width 6vw
   &__task-time
     display inline-block
     font-size 11px
@@ -111,6 +111,7 @@
     overflow hidden
     white-space nowrap
     text-overflow ellipsis
+    max-width 3vw
   &--zIndex
     z-index 100
 
@@ -131,7 +132,7 @@
   background-color #e6e6e6
   transition background-color 100ms;
 
-@media all and (max-width: 425px)
+@media all and (max-width: 500px)
   .calendar-container
     &__cell
       max-height 100%
@@ -182,11 +183,3 @@
 
   .static-list
     position static
-
-@media all and (min-width: 425px) and (max-width: 1024px)
-  .cell__task
-    &-name
-      max-width 40px
-      margin-right 0
-    &-time
-      margin-left 0
