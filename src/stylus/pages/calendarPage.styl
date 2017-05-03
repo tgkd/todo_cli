@@ -141,8 +141,6 @@
       min-height 100%
     &__cell--muted
       display none
-    &__cell--empty
-      min-height auto
     &__daynames
       display none
     &__month
@@ -154,7 +152,7 @@
     &__nav
       font-size 26px
     &__date
-      float left
+      float left !important
     &__date--extended
       display block
       float left
@@ -177,7 +175,7 @@
   .cell__task
     margin 3px auto
     &-name
-      max-width 70% !important
+      max-width 70%
 
   .more-tasks-container
     display none
@@ -191,7 +189,7 @@
 @media all and (min-width: 425px) and (max-width: 1024px)
   .cell__task
     &-name
-      max-width 40px !important
+      max-width 40px
       margin-right 0
     &-time
       margin-left 0

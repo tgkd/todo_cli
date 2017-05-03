@@ -29,10 +29,11 @@ export default class extends Component {
     return (
       <div className='row middle-xs middle-sm middle-md profile-container__session'>
         <div className='col-xs-5 col-sm-8 col-md-9 session-name'>
-          <p onClick={::this.showMore} className='session-name__text'
+          <p onClick={::this.showMore} className='session-name__text noselect'
              title={`${type}, ${os}, ${browser}`}>{type}, {os}, {browser}</p>
         </div>
         <div className='col-xs-7 col-sm-4 col-md-3 icon-button' onClick={this.terminateSession.bind(this, id)}>
+
           <span className='fa fa-ban icon-button__ico'/>
           <span className="icon-button__text">Завершить</span>
         </div>
