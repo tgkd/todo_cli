@@ -99,7 +99,7 @@
   &__task-name
     display inline-block
     font-size 11px
-    margin 5px
+    margin 5px 0 5px 5px
     overflow hidden
     white-space nowrap
     text-overflow ellipsis
@@ -107,11 +107,10 @@
   &__task-time
     display inline-block
     font-size 11px
-    margin 5px
+    margin 5px 5px 5px 0
     overflow hidden
     white-space nowrap
     text-overflow ellipsis
-    max-width 3vw
   &--zIndex
     z-index 100
 
@@ -173,7 +172,7 @@
   .cell__task
     margin 3px auto
     &-name
-      max-width 70%
+      max-width 70% !important
     &-time
       max-width 30px
 
@@ -189,4 +188,7 @@
 @media all and (max-width: 768px)
   .cell__task
     &-name
+      margin 5px 0 5px 2px
       max-width 4vw
+    &-time
+      margin 5px 2px 5px 0
