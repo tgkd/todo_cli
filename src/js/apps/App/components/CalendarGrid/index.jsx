@@ -135,7 +135,7 @@ export default class Weeks extends Component {
     }
   }
 
-  toggleTaskWindow(id, day) {
+  toggleTaskWindow(id, day, e) {
     if (day) {
       const list = ReactDOM.findDOMNode(this.refs[`list-${day.format('DD-MM')}`]);
       const btnHide = ReactDOM.findDOMNode(this.refs[`btn-hide-${day.format('DD-MM')}`]);

@@ -111,13 +111,8 @@ export default class extends Component {
         message: { error: true, text: this.successMessage, isSuccess: true },
         btnDisabled: false,
         btnText: 'Сохранить'
-      }, () => {
-        setTimeout(() => {
-          this.setState({
-            message: { error: false, text: '', isSuccess: false }
-          });
-        }, 3000);
       });
+
     } catch (e) {
       this.setState({
         message: { error: true, text: this.serverError },
@@ -152,7 +147,8 @@ export default class extends Component {
       },
       message: {
         error: false,
-        text: ''
+        text: '',
+        isSuccess: false
       }
     });
   }
@@ -167,7 +163,8 @@ export default class extends Component {
       },
       message: {
         error: false,
-        text: ''
+        text: '',
+        isSuccess: false
       }
     });
   }
@@ -277,26 +274,29 @@ export default class extends Component {
               {calendarVisible && <DatePicker toggleCalendar={::this.toggleCalendar} date={user.formattedDate || null}
                                               setDate={::this.setDate}/>}
             </div>
-            <div
-              className={message.error
-                ? 'col-xs-9 col-sm-6 col-md-4'
-                : 'col-xs-9 col-sm-6 col-md-4 alert-container--hidden'}>
-              {
-                message.text === this.successMessage
-                  ? <span className='alert-message--success'>{ message.text }</span>
-                  : <span className='profile-container__message alert-message'>{ message.text }</span>
-              }
+            <div className='col-xs-9 col-sm-6 col-md-4'>
+              { <p className='message alert-message'>{ !message.isSuccess && message.text }</p> }
             </div>
           </div>
         </div>
         <div className='row center-md center-sm center-xs profile-container__btn'>
           <div className='col-xs-9 col-sm-6 col-md-4'>
-            <button className='btn btn-enter btn--greyblue btn-preload'
+            <button className={`btn btn-enter btn--greyblue btn-preload ${btnDisabled && 'btn--disabled'}`}
                     disabled={btnDisabled}
                     onClick={::this.updateUserInfo}>
               { btnDisabled ? <Loader /> : null }
               {btnText}
             </button>
+            <div className="row">
+              <div className='col-xs-9 col-sm-6 col-md-4'>
+                {
+                  <p className='message alert-message alert-message--success'>
+                    { message.isSuccess && message.text }
+                  </p>
+                }
+              </div>
+
+            </div>
           </div>
         </div>
 

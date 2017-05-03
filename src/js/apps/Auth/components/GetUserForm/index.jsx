@@ -21,7 +21,9 @@ export default class extends Component {
 
   inputChangeHandler(e) {
     this.setState({
-      email: e.target.value
+      email: e.target.value,
+      error: false,
+      errorText: ''
     });
   }
 
@@ -109,8 +111,8 @@ export default class extends Component {
               }}
               onKeyPress={::this.onKeyPress}
             />
-            <div className={error ? '' : 'alert-container--hidden'}>
-              <span className='alert-message'>{ errorText }</span>
+            <div className='col-md-8 col-sm-8 col-xs-10'>
+              { <p className='message alert-message'>{ error && errorText }</p> }
             </div>
           </div>
           <div className='col-md-1 col-sm-1 col-xs-1 email-container__alert'>
@@ -119,7 +121,7 @@ export default class extends Component {
         </div>
         <div className='row middle-md middle-sm middle-xs'>
           <div className='col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1'>
-            <button className='btn btn-enter btn--greyblue btn-preload'
+            <button className={`btn btn-enter btn--greyblue btn-preload ${btnDisabled && 'btn--disabled'}`}
                     disabled={ btnDisabled }
                     onClick={::this.getUser}>
               { btnDisabled ? <Loader /> : null }

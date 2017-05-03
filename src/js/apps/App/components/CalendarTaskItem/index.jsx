@@ -7,9 +7,9 @@ export default class extends Component {
     super(props);
   }
 
-  toggleTaskWindow(id, day) {
+  toggleTaskWindow(id, day, e) {
     const { toggleTaskWindow } = this.props;
-    toggleTaskWindow(id, day);
+    toggleTaskWindow(id, day, e);
   }
 
   updateTask(task, day) {

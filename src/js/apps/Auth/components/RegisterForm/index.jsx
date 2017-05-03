@@ -172,7 +172,7 @@ export default class extends Component {
       const error = this.state.inputs[item].error;
       return (
         <div key={id} className={ error ? '' : "alert-container--hidden"}>
-          <span className="alert-message">{ error }</span>
+          <span className="message alert-message">{ error }</span>
           <br/>
         </div>
       );
@@ -243,7 +243,7 @@ export default class extends Component {
         <div className="row middle-md middle-sm middle-xs">
           <div className="col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
             <button
-              className="btn btn-enter btn--greyblue btn-preload"
+              className={`btn btn-enter btn--greyblue btn-preload ${btnDisabled && 'btn--disabled'}`}
               disabled={btnDisabled}
               onClick={ ::this.submitClickHandler }>
               { btnDisabled ? <Loader /> : null }
