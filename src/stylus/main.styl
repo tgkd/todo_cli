@@ -1,6 +1,10 @@
 @import "base/colors.styl"
 @import "base/fonts.styl"
 @import '../assets/fonts/font-awesome.styl'
+flex-version = flex
+support-for-ie = false
+vendor-prefixes = official
+@import "./../../node_modules/nib/index.styl"
 
 @import "elements/button.styl"
 @import "elements/input.styl"
@@ -30,7 +34,7 @@ body
   padding 0
   display flex
   font-family "Roboto Thin"
-  background-image: linear-gradient(top right, $gradient_1, $gradient_2);
+  background-image linear-gradient(top right, $gradient_1, $gradient_2);
   background-repeat no-repeat
   background-attachment fixed
 
