@@ -213,7 +213,7 @@ export default class extends Component {
     return (
       sessions.map(item => {
         return (
-          <div className='col-xs-8 col-sm-8 col-md-8' key={item._id}>
+          <div className='col-xs-10 col-sm-9 col-md-8' key={item._id}>
             <UserSession os={item.os} type={item.type} browser={item.browser} id={item._id}
                          terminateSession={::this.terminateUserSession}/>
           </div>

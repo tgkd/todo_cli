@@ -25,15 +25,15 @@ export default class extends Component {
         <div className="col-xs-10 col-sm-10 col-md-10 col-lg-10 nav-links">
           <div className="row between-xs between-sm between-md">
 
-            <div className="col-md-1 col-sm-1 col-xs-1 nav-links__back">
+            <div className="nav-links__back">
               <Link to='/find_by_email'>
                 <img src="/assets/images/icons/back.svg" alt="exit"/>
               </Link>
             </div>
 
-            <div onClick={::this.logout} className="nav-links__logout col-md-2 col-sm-2 col-xs-2">
+            <div onClick={::this.logout} className="nav-links__logout">
               <img src="/assets/images/icons/exit.svg" alt="exit"/>
-              <span>&nbsp;Выйти</span>
+              <span className="noselect">&nbsp;Выйти</span>
             </div>
 
           </div>

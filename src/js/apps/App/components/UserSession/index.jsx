@@ -35,7 +35,7 @@ export default class extends Component {
         <div className='col-xs-7 col-sm-4 col-md-3 icon-button' onClick={this.terminateSession.bind(this, id)}>
 
           <span className='fa fa-ban icon-button__ico'/>
-          <span className="icon-button__text">Завершить</span>
+          <span className="icon-button__text noselect">Завершить</span>
         </div>
       </div>
     );
