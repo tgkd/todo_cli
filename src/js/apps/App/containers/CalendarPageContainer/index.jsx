@@ -43,7 +43,7 @@ export default class extends Component {
     return (
       <div>
         <Navigation logout={logout}/>
-        <div className='row center-xs center-sm center-md calendar-row'>
+        <div className='row center-xs center-sm center-md container-row'>
           <CalendarPage
             incompleteTasks={incompleteTasks}
             completedTasks={completedTasks}
