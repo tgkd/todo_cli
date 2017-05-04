@@ -84,9 +84,6 @@ class DatePicker extends Component {
         date: moment()
       });
     }
-    if (this.datePicker && window.location.pathname === '/calendar') {
-      this.datePicker.scrollIntoView();
-    }
   }
 
   componentWillUnmount() {

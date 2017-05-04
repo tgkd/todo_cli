@@ -15,7 +15,7 @@ export default class extends Component {
       errorMessage: ''
     };
     this.clickEvent = this.clickEvent.bind(this);
-    this.containerHeight = 900;
+    this.navHeight = 100;
   }
 
   setHours(e) {
@@ -159,24 +159,25 @@ export default class extends Component {
   }
 
   toggleCalendar(e) {
-    const cliX = e && e.clientY;
+    const cliX = e && e.pageY;
+    let containerHeight = document.getElementsByClassName('calendar-container');
+    containerHeight = containerHeight[0].clientHeight + this.navHeight;
+
     this.setState({
       calendarVisible: !this.state.calendarVisible
-    }, (clickPosition = cliX) => {
+    }, (clickPosition = cliX, maxHeight = containerHeight) => {
       if (this.state.calendarVisible) {
         const calendar = document.getElementsByClassName('calendar');
         const datePicker = calendar[0];
 
         datePicker.style.fontSize = '12px';
-        datePicker.style.top = '35px';
-        datePicker.style.right = '-60px';
         const datePickerHeight = datePicker.clientHeight;
 
-        if (clickPosition + datePickerHeight > this.containerHeight) {
+        if (clickPosition + datePickerHeight > maxHeight) {
           datePicker.style.top = -datePickerHeight + 'px';
         }
+        datePicker.scrollIntoView();
       }
-
     });
   }
 

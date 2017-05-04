@@ -26,7 +26,7 @@ export default class Weeks extends Component {
     };
 
     this.taskBoxHeight = 28;
-    this.containerHeight = 900;
+    this.navHeight = 100;
   }
 
   actionWithEventListeners(action = true) {
@@ -144,7 +144,11 @@ export default class Weeks extends Component {
       const taskItem = document.getElementById(id);
       const cell = document.getElementById(day.format('DD-MM-YYYY'));
       const { currentId, taskWindowDay, moreTasksVisible, dayToShowMoreTasks } = this.state;
-      const cliY = e && e.clientY;
+
+      const cliY = e && e.pageY;
+
+      let containerHeight = document.getElementsByClassName('calendar-container');
+      containerHeight = containerHeight[0].clientHeight + this.navHeight;
 
       if (moreTasksVisible && dayToShowMoreTasks.format('DD-MM-YYYY') !== day.format('DD-MM-YYYY')) {
         this.toggleMoreTasks(dayToShowMoreTasks);
@@ -159,7 +163,7 @@ export default class Weeks extends Component {
         taskWindowVisible: !this.state.taskWindowVisible,
         currentId: id !== currentId ? id : null,
         taskWindowDay: day !== taskWindowDay ? day : null
-      }, (clickPosition = cliY) => {
+      }, (clickPosition = cliY, maxHeight = containerHeight) => {
         const { taskWindowVisible, currentId, moreTasksVisible, dayToShowMoreTasks } = this.state;
         if (taskWindowVisible) {
           const taskCard = document.getElementById(`card-${currentId}`);
@@ -169,7 +173,7 @@ export default class Weeks extends Component {
           let offsetTop = taskItem.offsetTop + this.taskBoxHeight;
           const cardHeight = taskCard.clientHeight;
 
-          if (clickPosition + cardHeight > this.containerHeight) {
+          if (clickPosition + cardHeight > maxHeight) {
             offsetTop = -cardHeight + this.taskBoxHeight;
           }
 
