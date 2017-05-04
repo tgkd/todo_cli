@@ -123,9 +123,13 @@ export default class extends Component {
   clickEvent(e) {
     const { toggleWindow, _id, day } = this.props;
     const className = e.target.className && e.target.className.length > 0;
-    const isCard = className ? e.target.className.indexOf('card') >= 0 : true;
-    const isCalendar = className ? e.target.className.indexOf('calendar__') >= 0 : true;
-    if (!isCard && !isCalendar) {
+    let isCard = true;
+    let isCalendar = true;
+    if (className) {
+      isCard = e.target.className.indexOf('card') >= 0;
+      isCalendar = e.target.className.indexOf('calendar__') >= 0;
+    }
+    if ((!isCard && !isCalendar) || className.length === 0) {
       toggleWindow(_id, day);
     }
   };

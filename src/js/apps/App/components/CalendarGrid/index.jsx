@@ -24,8 +24,6 @@ export default class Weeks extends Component {
       activeTask: 'cell__task--active',
       zIndex: 'cell--zIndex'
     };
-
-    this.taskBoxHeight = 29;
     this.navHeight = 100;
   }
 
@@ -169,19 +167,20 @@ export default class Weeks extends Component {
           const taskCard = document.getElementById(`card-${currentId}`);
           const list = dayToShowMoreTasks && ReactDOM.findDOMNode(this.refs[`list-${dayToShowMoreTasks.format('DD-MM')}`]);
           const listIsInvisible = !moreTasksVisible;
+          const taskBoxHeight = document.getElementById(currentId).clientHeight;
           const isListStart = list && list.scrollTop === 0;
-          let offsetTop = taskItem.offsetTop + this.taskBoxHeight;
+          let offsetTop = taskItem.offsetTop + taskBoxHeight;
           const cardHeight = taskCard.clientHeight;
           let top;
 
           if (!(clickPosition + cardHeight > maxHeight)) {
             top = listIsInvisible || isListStart
               ? offsetTop + 'px'
-              : offsetTop - this.taskBoxHeight + 'px';
+              : offsetTop - taskBoxHeight + 'px';
           } else {
             top = listIsInvisible || isListStart
-              ? offsetTop - cardHeight - this.taskBoxHeight + 'px'
-              : -cardHeight + offsetTop - this.taskBoxHeight * 2 + 'px';
+              ? offsetTop - cardHeight - taskBoxHeight + 'px'
+              : -cardHeight + offsetTop - taskBoxHeight * 2 + 'px';
           }
           taskCard.style.top = top;
         }
