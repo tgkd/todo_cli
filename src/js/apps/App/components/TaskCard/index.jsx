@@ -103,7 +103,7 @@ export default class extends Component {
     const { date } = this.props;
     const hours = moment.parseZone(date).format('HH');
     const minutes = moment.parseZone(date).format('mm');
-    const taskDate = moment(date).format('DD.MM.YYYY');
+    const taskDate = moment.parseZone(date).format('DD.MM.YYYY');
 
     this.setState({
       hours,
