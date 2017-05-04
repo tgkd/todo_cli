@@ -15,6 +15,7 @@ export default class extends Component {
       errorMessage: ''
     };
     this.clickEvent = this.clickEvent.bind(this);
+    this.containerHeight = 900;
   }
 
   setHours(e) {
@@ -157,9 +158,25 @@ export default class extends Component {
     });
   }
 
-  toggleCalendar() {
+  toggleCalendar(e) {
+    const cliX = e && e.clientY;
     this.setState({
       calendarVisible: !this.state.calendarVisible
+    }, (clickPosition = cliX) => {
+      if (this.state.calendarVisible) {
+        const calendar = document.getElementsByClassName('calendar');
+        const datePicker = calendar[0];
+
+        datePicker.style.fontSize = '12px';
+        datePicker.style.top = '35px';
+        datePicker.style.right = '-60px';
+        const datePickerHeight = datePicker.clientHeight;
+
+        if (clickPosition + datePickerHeight > this.containerHeight) {
+          datePicker.style.top = -datePickerHeight + 'px';
+        }
+      }
+
     });
   }
 

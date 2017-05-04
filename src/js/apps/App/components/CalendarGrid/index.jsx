@@ -26,6 +26,7 @@ export default class Weeks extends Component {
     };
 
     this.taskBoxHeight = 28;
+    this.containerHeight = 900;
   }
 
   actionWithEventListeners(action = true) {
@@ -139,11 +140,11 @@ export default class Weeks extends Component {
     if (day) {
       const list = ReactDOM.findDOMNode(this.refs[`list-${day.format('DD-MM')}`]);
       const btnHide = ReactDOM.findDOMNode(this.refs[`btn-hide-${day.format('DD-MM')}`]);
-      const btnMore = ReactDOM.findDOMNode(this.refs[`btn-show-${day.format('DD-MM')}`]);
       const isStaticList = list.className.indexOf(this.classNames.staticList) < 0;
       const taskItem = document.getElementById(id);
       const cell = document.getElementById(day.format('DD-MM-YYYY'));
       const { currentId, taskWindowDay, moreTasksVisible, dayToShowMoreTasks } = this.state;
+      const cliY = e && e.clientY;
 
       if (moreTasksVisible && dayToShowMoreTasks.format('DD-MM-YYYY') !== day.format('DD-MM-YYYY')) {
         this.toggleMoreTasks(dayToShowMoreTasks);
@@ -158,14 +159,19 @@ export default class Weeks extends Component {
         taskWindowVisible: !this.state.taskWindowVisible,
         currentId: id !== currentId ? id : null,
         taskWindowDay: day !== taskWindowDay ? day : null
-      }, () => {
+      }, (clickPosition = cliY) => {
         const { taskWindowVisible, currentId, moreTasksVisible, dayToShowMoreTasks } = this.state;
         if (taskWindowVisible) {
           const taskCard = document.getElementById(`card-${currentId}`);
           const list = dayToShowMoreTasks && ReactDOM.findDOMNode(this.refs[`list-${dayToShowMoreTasks.format('DD-MM')}`]);
           const listVisible = !moreTasksVisible;
           const isListStart = list && list.scrollTop === 0;
-          const offsetTop = taskItem.offsetTop + this.taskBoxHeight;
+          let offsetTop = taskItem.offsetTop + this.taskBoxHeight;
+          const cardHeight = taskCard.clientHeight;
+
+          if (clickPosition + cardHeight > this.containerHeight) {
+            offsetTop = -cardHeight + this.taskBoxHeight;
+          }
 
           taskCard.style.top = listVisible || isListStart
             ? offsetTop + 'px'
@@ -188,9 +194,9 @@ export default class Weeks extends Component {
         }], 'remove');
       } else {
         isStaticList
-          ? this.setStyleClass([{ item: list, style: 'staticList' }, { item: btnMore, style: 'invisible' },
+          ? this.setStyleClass([{ item: list, style: 'staticList' },
           { item: taskItem, style: 'activeTask' }], 'add')
-          : this.setStyleClass([{ item: list, style: 'staticList' }, { item: btnMore, style: 'invisible' },
+          : this.setStyleClass([{ item: list, style: 'staticList' },
           { item: taskItem, style: 'activeTask' }], 'remove');
       }
     }
@@ -239,7 +245,6 @@ export default class Weeks extends Component {
     return tasksToday;
   }
 
-
   getTasksTemplatesByDay(tasksToday, day) {
     const { taskWindowVisible, currentId } = this.state;
     return tasksToday.map((task, id) => {
@@ -263,7 +268,6 @@ export default class Weeks extends Component {
       <span className='btn-more__icon fa fa-arrow-up'/>
     </div>;
   }
-
 
   getMoreBtn(day) {
     return (
