@@ -281,7 +281,7 @@ export default class extends Component {
         </div>
         <div className='row center-md center-sm center-xs profile-container__btn'>
           <div className='col-xs-9 col-sm-6 col-md-4'>
-            <button className={`btn btn-enter btn--greyblue btn-preload ${btnDisabled && 'btn--disabled'}`}
+            <button className={`btn btn-enter btn--greyblue btn-preload ${btnDisabled ? 'btn--disabled' : ''}`}
                     disabled={btnDisabled}
                     onClick={::this.updateUserInfo}>
               { btnDisabled ? <Loader /> : null }

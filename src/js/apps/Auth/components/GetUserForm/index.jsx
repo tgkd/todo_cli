@@ -121,7 +121,7 @@ export default class extends Component {
         </div>
         <div className='row middle-md middle-sm middle-xs'>
           <div className='col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1'>
-            <button className={`btn btn-enter btn--greyblue btn-preload ${btnDisabled && 'btn--disabled'}`}
+            <button className={`btn btn-enter btn--greyblue btn-preload ${btnDisabled ? 'btn--disabled' : ''}`}
                     disabled={ btnDisabled }
                     onClick={::this.getUser}>
               { btnDisabled ? <Loader /> : null }

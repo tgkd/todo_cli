@@ -130,7 +130,7 @@ export default class extends Component {
         <div className="row middle-md middle-sm middle-xs">
           <div className="col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
             <button
-              className={`btn btn-enter btn--greyblue btn-preload ${btnDisabled && 'btn--disabled'}`}
+              className={`btn btn-enter btn--greyblue btn-preload ${btnDisabled ? 'btn--disabled' : ''}`}
               onClick={::this.submitClickHandler}
               disabled={!this.state.password || this.state.btnDisabled}
             >

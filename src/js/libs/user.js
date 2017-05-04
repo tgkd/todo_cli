@@ -6,7 +6,7 @@ class User {
     this.user = api.methods.user;
     this.api = axios.create({
       baseURL: api.backendUrl,
-      timeout: 10000,
+      timeout: 15000,
       withCredentials: true,
       headers: {
         'Accept': 'application/json',

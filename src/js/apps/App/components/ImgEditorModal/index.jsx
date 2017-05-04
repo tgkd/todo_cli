@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
+import Loader from 'components/Loader';
 import AvatarEditor from 'react-avatar-editor';
 
 export default class extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      btnDisabled: false,
+      btnText: 'Сохранить',
       width: null,
       height: null,
       scale: 1.2,
@@ -32,8 +35,13 @@ export default class extends Component {
 
   saveImage() {
     const { saveAvatar } = this.props;
-    const canvas = this.editor.getImage().toDataURL();
-    saveAvatar(canvas);
+    this.setState({
+      btnDisabled: true,
+      btnText: 'Сохранение...'
+    }, () => {
+      const canvas = this.editor.getImage().toDataURL();
+      saveAvatar(canvas);
+    });
   }
 
   touchStartHandler(e) {
@@ -85,7 +93,7 @@ export default class extends Component {
 
   render() {
     const { photo, hideEditorModal } = this.props;
-    const { width, height, scale, position } = this.state;
+    const { width, height, scale, position, btnDisabled, btnText } = this.state;
     return (
       <div className='modal' onMouseDown={::this.hideEditorModal}>
         <div className="modal-content" onTouchStart={::this.touchStartHandler} onTouchMove={::this.touchMoveHandler}>
@@ -117,7 +125,12 @@ export default class extends Component {
           </div>
           <div className="row center-sm center-md center-xs">
             <div className="col-xs-8 col-sm-8 col-md-8">
-              <button className="btn btn-enter btn--greyblue" onClick={::this.saveImage}>Выбрать</button>
+              <button className={`btn btn-enter btn--greyblue btn-preload ${btnDisabled ? 'btn--disabled' : ''}`}
+                      disabled={btnDisabled}
+                      onClick={::this.saveImage}>
+                { btnDisabled ? <Loader /> : null }
+                {btnText}
+              </button>
             </div>
           </div>
           <br/>
@@ -126,8 +139,8 @@ export default class extends Component {
               <button className="btn btn-enter btn--greyblue" onClick={hideEditorModal}>Закрыть</button>
             </div>
           </div>
+        </div>
       </div>
-    </div>
     );
   }
 }
