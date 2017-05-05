@@ -92,14 +92,14 @@ class DatePicker extends Component {
 
   clickEvent(e) {
     const { toggleCalendar } = this.props;
-    const className = e.target.className && e.target.className.length > 0;
+    const targetClass = e.target.className;
     let isCalendar = true;
     let isCalendarNav = true;
-    if (className) {
-      isCalendar = target.indexOf('calendar__') >= 0;
-      isCalendarNav = target.indexOf('fa') >= 0;
+    if (targetClass && targetClass.length > 0) {
+      isCalendar = targetClass.indexOf('calendar__') >= 0;
+      isCalendarNav = targetClass.indexOf('fa') >= 0;
     }
-    if ((!isCalendar && !isCalendarNav) || className.length === 0) {
+    if ((!isCalendar && !isCalendarNav) || targetClass.length === 0) {
       toggleCalendar();
     }
   }
