@@ -25,6 +25,7 @@ export default class Weeks extends Component {
       zIndex: 'cell--zIndex'
     };
     this.navHeight = 100;
+    this.cardIndent = 6;
   }
 
   actionWithEventListeners(action = true) {
@@ -162,27 +163,29 @@ export default class Weeks extends Component {
         currentId: id !== currentId ? id : null,
         taskWindowDay: day !== taskWindowDay ? day : null
       }, (clickPosition = cliY, maxHeight = containerHeight) => {
-        const { taskWindowVisible, currentId, moreTasksVisible, dayToShowMoreTasks } = this.state;
+        const { taskWindowVisible, currentId } = this.state;
         if (taskWindowVisible) {
           const taskCard = document.getElementById(`card-${currentId}`);
-          const list = dayToShowMoreTasks && ReactDOM.findDOMNode(this.refs[`list-${dayToShowMoreTasks.format('DD-MM')}`]);
-          const listIsInvisible = !moreTasksVisible;
-          const taskBoxHeight = document.getElementById(currentId).clientHeight;
-          const isListStart = list && list.scrollTop === 0;
-          let offsetTop = taskItem.offsetTop + taskBoxHeight;
+          const taskBoxHeight = taskItem.clientHeight;
+          const listScroll = list && list.scrollTop;
           const cardHeight = taskCard.clientHeight;
-          let top;
+          const showCardOnTop = clickPosition + cardHeight > maxHeight;
+          const offsetTop = taskItem.offsetTop +
+            taskBoxHeight +
+            (showCardOnTop ? -this.cardIndent : this.cardIndent);
 
-          if (!(clickPosition + cardHeight > maxHeight)) {
-            top = listIsInvisible || isListStart
-              ? offsetTop + 'px'
-              : offsetTop - taskBoxHeight + 'px';
+          let top;
+          if (!showCardOnTop) {
+            top = listScroll
+              ? offsetTop - list.scrollTop + 'px'
+              : offsetTop + 'px';
           } else {
-            top = listIsInvisible || isListStart
-              ? offsetTop - cardHeight - taskBoxHeight + 'px'
-              : -cardHeight + offsetTop - taskBoxHeight * 2 + 'px';
+            top = listScroll
+              ? offsetTop - cardHeight - taskBoxHeight - list.scrollTop + 'px'
+              : offsetTop - cardHeight - taskBoxHeight + 'px';
           }
           taskCard.style.top = top;
+          taskCard.scrollIntoView();
         }
       });
 
