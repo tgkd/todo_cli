@@ -27,7 +27,7 @@ export default class extends Component {
   render() {
     const { os, type, id, browser } = this.props;
     return (
-      <div className='row middle-xs middle-sm middle-md profile-container__session'>
+      <div className='row middle-xs profile-container__session'>
         <div className='col-xs-5 col-sm-8 col-md-9 session-name'>
           <p onClick={::this.showMore} className='session-name__text noselect'
              title={`${type}, ${os}, ${browser}`}>{type}, {os}, {browser}</p>

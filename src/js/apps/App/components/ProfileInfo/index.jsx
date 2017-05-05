@@ -64,16 +64,16 @@ export default class extends Component {
     const newPhoto = this.state.photo;
 
     return (
-      <div className="row center-xs center-sm center-md">
+      <div className="row center-xs">
         {
           showImgEditor && newPhoto
             ? <ImgEditorModal saveAvatar={::this.saveAvatar} photo={newPhoto} hideEditorModal={::this.hideEditorModal}/>
             : null
         }
-        <div className="col-md-12 col-xs-12 col-sm-12 avatar-container">
+        <div className="col-xs-12 avatar-container">
           <div className="profile-container__avatar" style={::this.getImageStyle()}/>
         </div>
-        <div className="col-md-5 col-xs-5 col-sm-5">
+        <div className="col-xs-5">
           <form encType="multipart/form-data">
             <input type="file" name="file" multiple={false} accept="image/*" id="file"
                    className="profile-container__file" onChange={::this.handleFile}/>

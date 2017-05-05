@@ -8,16 +8,32 @@ export default class extends Component {
     super(props);
 
     this.state = {
-      error: ''
+      error: '',
+      btnDisabled: false,
+      btnText: 'Добавить'
     };
   }
 
   async createTask(task) {
     const { createTask } = this.props;
     try {
+      this.setState({
+        btnText: '',
+        btnDisabled: true
+      });
+
       await createTask(task);
+
+      this.setState({
+        btnText: 'Добавить',
+        btnDisabled: false
+      });
     } catch (e) {
-      this.setState({ error: 'Ошибка, повторите попытку' });
+      this.setState({
+        error: 'Ошибка, повторите попытку',
+        btnText: 'Добавить',
+        btnDisabled: false
+      });
     }
   }
 
@@ -53,7 +69,7 @@ export default class extends Component {
     const templates = {};
     templates.incomplete = incompleteTasks.map(item => {
       return (
-        <div className='col-xs-10 col-sm-10 col-md-10' key={item._id}>
+        <div className='col-xs-10' key={item._id}>
           <IncompleteTask task={item}
                           updateTask={::this.updateTask}/>
         </div>
@@ -61,7 +77,7 @@ export default class extends Component {
     });
     templates.completed = completedTasks.map(item => {
       return (
-        <div className='col-xs-10 col-sm-10 col-md-10' key={item._id}>
+        <div className='col-xs-10' key={item._id}>
           <CompletedTask task={item}
                          updateTask={::this.updateTask}
                          deleteTask={::this.deleteTask}/>
@@ -73,27 +89,28 @@ export default class extends Component {
 
   render() {
     const { incompleteTasks, completedTasks } = this.props;
+    const { btnText, btnDisabled } = this.state;
     const incSortedList = sortTasks(incompleteTasks, 'hours');
     const compSortedList = sortTasks(completedTasks, 'hours');
     const { incomplete, completed } = this.getTasksTemplates(incSortedList, compSortedList);
 
     return (
-      <div className='tasks-container col-xs-10 col-sm-10 col-md-10 col-lg-10'>
-        <div className='row center-xs center-sm center-md'>
-          <div className='col-xs-12 col-sm-12 col-md-12'>
+      <div className='tasks-container col-xs-10'>
+        <div className='row center-xs'>
+          <div className='col-xs-12'>
             <h1 className='tasks-container__header'>Дела</h1>
           </div>
-          <div className='col-xs-10 col-sm-10 col-md-10'>
-            <NewTask createHandler={::this.createTask}/>
+          <div className='col-xs-10'>
+            <NewTask btnText={btnText} btnDisabled={btnDisabled} createHandler={::this.createTask}/>
           </div>
         </div>
         <br/>
         <hr/>
-        <div className='row center-xs center-sm center-md tasks-container__incomplete-list'>
+        <div className='row center-xs tasks-container__incomplete-list'>
           {incomplete.length === 0 ? 'Нет незавершенных задач' : incomplete}
         </div>
         <hr/>
-        <div className='row center-xs center-sm center-md tasks-container__completed-list'>
+        <div className='row center-xs tasks-container__completed-list'>
           {completed.length === 0 ? 'Нет завершенных задач' : completed}
         </div>
       </div>

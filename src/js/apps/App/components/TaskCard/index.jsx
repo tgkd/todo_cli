@@ -209,7 +209,7 @@ export default class extends Component {
               this.dateInput = input;
             }}/>
           <div
-            className='input-container__img task-card__datepicker row middle-xs middle-sm middle-md end-xs end-sm end-md'
+            className='input-container__img task-card__datepicker row middle-xs end-xs'
             onClick={::this.toggleCalendar}>
             <svg
               className='input-container__calendar-ico'

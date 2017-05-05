@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Auth from 'libs/auth';
-import {Link} from "react-router-dom";
+import {Link} from 'react-router-dom';
 import Loader from 'components/Loader';
 
 export default class extends Component {
@@ -89,31 +89,31 @@ export default class extends Component {
       backgroundImage: !user.photo ? `url(${this.defaultAvatar})` : `url(${user.photo})`
     };
     return (
-      <div className="login-container col-xs-4 col-sm-4 col-md-4 col-lg-4">
-        <div className="row">
-          <div className="col-md-2 col-sm-2 col-xs-2">
+      <div className='login-container col-xs-4'>
+        <div className='row'>
+          <div className='col-xs-2'>
             <Link to='/find_by_email'>
-              <img src="/assets/images/icons/back-grey.svg" className="login-container__link" alt="exit"/>
+              <img src='/assets/images/icons/back-grey.svg' className='login-container__link' alt='exit'/>
             </Link>
           </div>
-          <div className="col-md-8 col-sm-8 col-xs-8">
-            <div className="row center-md center-sm center-xs">
-              <div className="col-xs-12 col-sm-12 col-md-12 avatar-container">
-                <div className="profile-container__avatar" style={imageStyle}/>
+          <div className='col-xs-8'>
+            <div className='row center-xs'>
+              <div className='col-xs-12 avatar-container'>
+                <div className='profile-container__avatar' style={imageStyle}/>
               </div>
-              <div className="col-xs-12 col-sm-12 col-md-12">
-                <h1 className="login-container__header"> Hi, {user.name ? user.name : 'unknown'} </h1>
+              <div className='col-xs-12'>
+                <h1 className='login-container__header'> Hi, {user.name ? user.name : 'unknown'} </h1>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="row middle-md middle-sm middle-xs start-md start-sm start-xs">
-          <div className="col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
+        <div className='row middle-xs start-xs'>
+          <div className='col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1'>
             <input
               className={::this.getInputClass()}
-              placeholder={errorText || "Введите пароль"}
-              type="password"
+              placeholder={errorText || 'Введите пароль'}
+              type='password'
               value={password}
               onChange={::this.inputChangeHandler}
               ref={(input) => {
@@ -122,13 +122,13 @@ export default class extends Component {
               onKeyPress={::this.onKeyPress}
             />
           </div>
-          <div className="col-md-1 col-sm-1 col-xs-1 login-container__alert">
-            <img className={::this.getAlertClass()} src="/assets/images/icons/alert.svg" alt="alert"/>
+          <div className='col-xs-1 login-container__alert'>
+            <img className={::this.getAlertClass()} src='/assets/images/icons/alert.svg' alt='alert'/>
           </div>
         </div>
 
-        <div className="row middle-md middle-sm middle-xs">
-          <div className="col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
+        <div className='row middle-xs'>
+          <div className='col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1'>
             <button
               className={`btn btn-enter btn--greyblue btn-preload ${btnDisabled ? 'btn--disabled' : ''}`}
               onClick={::this.submitClickHandler}

@@ -34,7 +34,6 @@ export default class extends Component {
 
   async getUserInfo() {
     const { getUserInfo } = this.props;
-
     await getUserInfo();
     this.setUserInfo();
   }
@@ -222,14 +221,14 @@ export default class extends Component {
     const { sessions, user, calendarVisible, message, btnDisabled, btnText } = this.state;
     let sessionsList = sessions ? this.getSessionsTemplate(sessions) : null;
     return (
-      <div className='profile-container col-xs-10 col-sm-10 col-md-10 col-lg-10'>
-        <div className='row center-xs center-sm center-md'>
-          <div className='col-xs-12 col-sm-12 col-md-12'>
+      <div className='profile-container col-xs-10'>
+        <div className='row center-xs'>
+          <div className='col-xs-12'>
             <h1 className='profile-container__header'>Настройки профиля</h1>
           </div>
           <ProfileInfo saveNewPhoto={::this.saveNewPhoto} photo={user.photo}/>
         </div>
-        <div className='row center-xs center_sm center-md profile-container__input-name'>
+        <div className='row center-xs profile-container__input-name'>
           <div className='col-xs-9 col-sm-6 col-md-4'>
             <input
               className={
@@ -242,7 +241,7 @@ export default class extends Component {
               value={user.name} onChange={::this.setName}/>
           </div>
         </div>
-        <div className='row center-xs center_sm center-md'>
+        <div className='row center-xs'>
 
           <div className='col-xs-9 col-sm-6 col-md-4'>
 
@@ -274,12 +273,12 @@ export default class extends Component {
               {calendarVisible && <DatePicker toggleCalendar={::this.toggleCalendar} date={user.formattedDate || null}
                                               setDate={::this.setDate}/>}
             </div>
-            <div className='col-xs-9 col-sm-6 col-md-4'>
-              { <p className='message alert-message'>{ !message.isSuccess && message.text }</p> }
+            <div className='col-xs-9 col-sm-6 col-md-4 profile-container__alert'>
+              { <span className='message alert-message'>{ !message.isSuccess && message.text }</span> }
             </div>
           </div>
         </div>
-        <div className='row center-md center-sm center-xs profile-container__btn'>
+        <div className='row center-xs profile-container__btn'>
           <div className='col-xs-9 col-sm-6 col-md-4'>
             <button className={`btn btn-enter btn--greyblue btn-preload ${btnDisabled ? 'btn--disabled' : ''}`}
                     disabled={btnDisabled}
@@ -287,7 +286,7 @@ export default class extends Component {
               { btnDisabled ? <Loader /> : null }
               {btnText}
             </button>
-            <div className="row">
+            <div className="row center-xs">
               <div className='col-xs-9 col-sm-6 col-md-4'>
                 {
                   <p className='message alert-message alert-message--success'>
@@ -302,8 +301,8 @@ export default class extends Component {
 
         <hr/>
 
-        <div className='row center-xs center-sm center-md profile-container__sessions'>
-          <div className='col-md-12 col-xs-12 col-sm-12'>
+        <div className='row center-xs profile-container__sessions'>
+          <div className='col-xs-12'>
             <h1 className='profile-container__header'>Ваши сессии</h1>
           </div>
           {sessionsList}

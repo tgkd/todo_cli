@@ -123,8 +123,8 @@ export default class extends Component {
                      onChange={::this.setScale}/>
             </div>
           </div>
-          <div className="row center-sm center-md center-xs">
-            <div className="col-xs-8 col-sm-8 col-md-8">
+          <div className="row center-xs">
+            <div className="col-xs-8">
               <button className={`btn btn-enter btn--greyblue btn-preload ${btnDisabled ? 'btn--disabled' : ''}`}
                       disabled={btnDisabled}
                       onClick={::this.saveImage}>
@@ -134,8 +134,8 @@ export default class extends Component {
             </div>
           </div>
           <br/>
-          <div className="row center-sm center-md center-xs">
-            <div className="col-xs-8 col-sm-8 col-md-8">
+          <div className="row center-xs">
+            <div className="col-xs-8">
               <button className="btn btn-enter btn--greyblue" onClick={hideEditorModal}>Закрыть</button>
             </div>
           </div>

@@ -20,7 +20,7 @@ export default class extends Component {
   render() {
     const { register } = this.props;
     return (
-      <div className="row center-xs center-md center-md container-padding">
+      <div className="row center-xs container-padding">
         <RegisterForm register={register} sessionInfo={this.sessionInfo}/>
       </div>
     );

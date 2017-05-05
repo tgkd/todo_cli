@@ -29,10 +29,7 @@ export default class extends Component {
 
   isValidInput(email) {
     email = email.trim();
-    if (!email) {
-      this.setState({ error: true });
-      return false;
-    } else if (!this.isValidEmail(email)) {
+    if (!email || !this.isValidEmail(email)) {
       this.setState({ errorText: 'Введите действительный e-mail', error: true });
       return false;
     } else {
@@ -52,7 +49,7 @@ export default class extends Component {
         btnDisabled: true
       });
       try {
-        await getUser(email);
+        await getUser(email.trim());
         if (this.props.user.email) {
           goTo('/login');
         }
@@ -96,9 +93,9 @@ export default class extends Component {
     const { error, errorText, btnDisabled, buttonText } = this.state;
 
     return (
-      <div className='email-container col-xs-4 col-sm-4 col-md-4 col-lg-4'>
+      <div className='email-container col-xs-4'>
         <h1 className='email-container__header'>Войти в приложение</h1>
-        <div className='row middle-md middle-sm middle-xs start-md start-sm start-xs'>
+        <div className='row middle-xs start-xs'>
           <div className='col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1'>
             <input
               className={::this.getInputClass()}
@@ -111,19 +108,20 @@ export default class extends Component {
               }}
               onKeyPress={::this.onKeyPress}
             />
-            <div className='col-md-8 col-sm-8 col-xs-10'>
+            <div className='email-container__alert col-md-8 col-sm-8 col-xs-10'>
               { <p className='message alert-message'>{ error && errorText }</p> }
             </div>
           </div>
-          <div className='col-md-1 col-sm-1 col-xs-1 email-container__alert'>
+          <div className='col-xs-1 email-container__alert'>
             <img className={::this.getAlertClass()} src='/assets/images/icons/alert.svg' alt='alert'/>
           </div>
         </div>
-        <div className='row middle-md middle-sm middle-xs'>
+        <div className='row middle-xs'>
           <div className='col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1'>
-            <button className={`btn btn-enter btn--greyblue btn-preload ${btnDisabled ? 'btn--disabled' : ''}`}
-                    disabled={ btnDisabled }
-                    onClick={::this.getUser}>
+            <button
+              className={`btn btn-enter btn--greyblue email-container__btn btn-preload ${btnDisabled ? 'btn--disabled' : ''}`}
+              disabled={ btnDisabled }
+              onClick={::this.getUser}>
               { btnDisabled ? <Loader /> : null }
               {buttonText}
             </button>

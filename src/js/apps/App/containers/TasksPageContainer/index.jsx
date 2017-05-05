@@ -41,7 +41,7 @@ export default class extends Component {
     return (
       <div className="pagecontent">
         <Navigation logout={logout}/>
-        <div className='row center-xs center-sm center-md'>
+        <div className='row center-xs'>
           <Task
             getTasks={getTasks}
             incompleteTasks={incompleteTasks}

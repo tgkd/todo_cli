@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import DatePicker from '../DatePicker';
+import Loader from 'components/Loader';
 import moment from 'moment';
 
 export default class extends Component {
@@ -39,9 +40,10 @@ export default class extends Component {
       done
     };
     if (this.isValidInput()) {
-      this.props.createHandler(newTask);
       this.setState({
         title: ''
+      }, () => {
+        this.props.createHandler(newTask);
       });
     } else {
       this.setState({
@@ -75,9 +77,18 @@ export default class extends Component {
   }
 
   render() {
-    const { title, calendarVisible, end, error, errorMessage, formattedDate } = this.state;
+    const {
+      title,
+      calendarVisible,
+      end,
+      error,
+      errorMessage,
+      formattedDate
+    } = this.state;
+    const { btnDisabled, btnText } = this.props;
+
     return (
-      <div className='row middle-xs middle-sm middle-md'>
+      <div className='row middle-xs'>
         <div className='col-xs-12 col-sm-10 col-md-10'>
           <div className='input-container'>
             <input type='text'
@@ -86,18 +97,18 @@ export default class extends Component {
                    placeholder={error ? errorMessage : 'Новое дело'}
                    value={title}/>
             <div
-              className="input-container__img tasks-container__datepicker row middle-xs middle-sm middle-md end-xs end-sm end-md"
+              className='input-container__img tasks-container__datepicker row middle-xs end-xs'
               onClick={::this.toggleCalendar}>
               <span className='input-container__date'>{end}</span>
               <svg
                 className='input-container__calendar-ico'
-                width="18" height="20" viewBox="0 0 18 20"
-                xmlns="http://www.w3.org/2000/svg"
+                width='18' height='20' viewBox='0 0 18 20'
+                xmlns='http://www.w3.org/2000/svg'
               >
                 <title>8F18FF8D-0089-4998-AECB-EA32DEACFFFF</title>
                 <path
-                  d="M16 2h-1V0h-2v2H5V0H3v2H2C.89 2 .01 2.9.01 4L0 18a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 16H2V7h14v11zM4 9h5v5H4V9z"
-                  fill="#566394"/>
+                  d='M16 2h-1V0h-2v2H5V0H3v2H2C.89 2 .01 2.9.01 4L0 18a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 16H2V7h14v11zM4 9h5v5H4V9z'
+                  fill='#566394'/>
               </svg>
             </div>
             {calendarVisible &&
@@ -105,8 +116,12 @@ export default class extends Component {
           </div>
         </div>
         <div className='col-xs-12 col-sm-2 col-md-2'>
-          <button className='btn btn-default btn--greyblue tasks-container__btn-add' onClick={::this.createTask}>
-            Добавить
+          <button
+            className={`btn btn-enter btn--greyblue btn-preload tasks-container__btn-add ${btnDisabled ? 'btn--disabled' : ''}`}
+            onClick={::this.createTask}
+            disabled={btnDisabled}>
+            { btnDisabled ? <Loader size='20'/> : null }
+            {btnText}
           </button>
         </div>
       </div>

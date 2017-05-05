@@ -1,6 +1,7 @@
 import moment from 'moment';
 import React, {Component} from 'react';
 import TaskCard from '../TaskCard';
+import Loader from 'components/Loader';
 
 export default class extends Component {
   constructor(props) {
@@ -17,6 +18,13 @@ export default class extends Component {
     updateTask(task, day);
   }
 
+  getDisabledTemplate() {
+    return (
+      <div className="task--disabled">
+        <Loader/>
+      </div>
+    );
+  }
 
   render() {
     const {
@@ -26,7 +34,9 @@ export default class extends Component {
       dragStart,
       dragEnd,
       day,
-      list
+      list,
+      disabledTask,
+      transferTask
     } = this.props;
 
     const time = moment.parseZone(task.end).format('HH:mm');
@@ -40,7 +50,11 @@ export default class extends Component {
         className='cell__task'
         key={task._id}
         onClick={this.toggleTaskWindow.bind(this, task._id, day)}>
-
+        {
+          disabledTask && transferTask === task._id
+            ? this.getDisabledTemplate()
+            : null
+        }
         <div className='cell__task-name'>{task.title}</div>
         <div className='cell__task-time'>{time}</div>
         {

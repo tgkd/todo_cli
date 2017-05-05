@@ -1,17 +1,34 @@
 import React, {Component} from 'react';
 import moment from 'moment';
 import Checkbox from '../Checkbox';
+import Loader from 'components/Loader';
 
 export default class extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      disabledTask: false
+    };
   }
 
   updateTask() {
-    this.props.updateTask({
-      ...this.props.task,
-      done: true
+    this.setState({
+      disabledTask: true
+    }, () => {
+      this.props.updateTask({
+        ...this.props.task,
+        done: true
+      });
     });
+  }
+
+  getDisabledTemplate() {
+    return (
+      <div className="task--disabled">
+        <Loader size='20'/>
+      </div>
+    );
   }
 
   getDateClass() {
@@ -24,11 +41,13 @@ export default class extends Component {
 
   render() {
     const { task } = this.props;
+    const { disabledTask } = this.state;
     const endDate = moment.parseZone(task.end);
     const date = endDate.isValid() ? endDate.locale('ru').format('D MMMM YYYY').toString() : '-';
     return (
-      <div className='row middle-xs middle-sm middle-md tasks-container__task task task--incomplete'>
-        <div className='col-xs-1 col-sm-1 col-md-1'>
+      <div className='row middle-xs tasks-container__task task task--incomplete'>
+        { disabledTask ? this.getDisabledTemplate() : null}
+        <div className='col-xs-1'>
           <Checkbox checked={false} changeState={::this.updateTask} disabled={false}/>
         </div>
 

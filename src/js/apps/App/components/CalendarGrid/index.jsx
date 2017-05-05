@@ -57,18 +57,14 @@ export default class Weeks extends Component {
       return;
     }
     this.setState({
-      transferTask: {
-        id: task._id
-      }
+      transferTask: task._id
     });
     event.dataTransfer.effectAllowed = 'move';
   }
 
   dragEnd() {
     this.setState({
-      transferTask: {
-        id: null
-      }
+      transferTask: null
     });
   }
 
@@ -112,7 +108,7 @@ export default class Weeks extends Component {
 
     let oldTaskInfo = null;
     incompleteTasks.forEach(task => {
-      if (task._id === transferTask.id) {
+      if (task._id === transferTask) {
         oldTaskInfo = task;
       }
     });
@@ -143,9 +139,7 @@ export default class Weeks extends Component {
       const taskItem = document.getElementById(id);
       const cell = document.getElementById(day.format('DD-MM-YYYY'));
       const { currentId, taskWindowDay, moreTasksVisible, dayToShowMoreTasks } = this.state;
-
       const cliY = e && e.pageY;
-
       let containerHeight = document.getElementsByClassName('calendar-container');
       containerHeight = containerHeight[0].clientHeight + this.navHeight;
 
@@ -253,10 +247,13 @@ export default class Weeks extends Component {
   }
 
   getTasksTemplatesByDay(tasksToday, day) {
-    const { taskWindowVisible, currentId } = this.state;
+    const { taskWindowVisible, currentId, transferTask } = this.state;
+    const { disabledTask } = this.props;
     return tasksToday.map((task, id) => {
       return <CalendarTaskItem
+        transferTask={ currentId || transferTask }
         key={id}
+        disabledTask={disabledTask}
         dragStart={this.dragStart.bind(this, task)}
         dragEnd={this.dragEnd.bind(this, task)}
         updateTask={ ::this.updateTask }
@@ -361,7 +358,7 @@ export default class Weeks extends Component {
 
   render() {
     return (
-      <div className='col-xs-12 col-sm-12 col-md-12' style={{ padding: 0 }}>
+      <div className='col-xs-12' style={{ padding: 0 }}>
         <div className='calendar-container__daynames'>
           {::this.getDayNamesTemplate()}
         </div>

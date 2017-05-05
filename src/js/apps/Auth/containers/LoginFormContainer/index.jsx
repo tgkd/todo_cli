@@ -25,7 +25,7 @@ export default class extends Component {
 
     if (user && user.email) {
       return (
-        <div className="row center-xs center-md center-md container-padding">
+        <div className="row center-xs container-padding">
           <LoginForm login={login} user={user} sessionInfo={this.sessionInfo}/>
         </div>
       );

@@ -39,15 +39,15 @@ export default class extends Component {
     return this.containers.map((item, id) => {
       return (
         <Link key={id} className='main-container__link' to={item.route}>
-          <div className='main-container__item col-xs-3 col-md-3 col-sm-3'>
-            <div className='row center-xs center-sm center-md'>
+          <div className='main-container__item col-xs-3'>
+            <div className='row center-xs'>
               <div
-                className={'main-container__item-icon col-md-12 col-xs-12 col-sm-12 main-container__item-icon-' + id}>
+                className={'main-container__item-icon col-xs-12 main-container__item-icon-' + id}>
                 <img style={item.imgStyle} src={item.img} alt={item.name}/>
               </div>
             </div>
-            <div className='row center-xs center-sm center-md'>
-              <div className='col-md-12 col-xs-12 col-sm-12'>
+            <div className='row center-xs'>
+              <div className='col-xs-12'>
                 <h1 className="main-container__item-name">{item.name}</h1>
               </div>
             </div>
@@ -73,13 +73,13 @@ export default class extends Component {
     return (
 
       <div className="main-container">
-        <div className="row end-md end-sm end-xs main-container__nav">
+        <div className="row end-xs main-container__nav">
           <div className="main-container__logout" onClick={::this.logout}>
             <img src="/assets/images/icons/exit.svg" alt="exit"/>
             <span>&nbsp;Выйти</span>
           </div>
         </div>
-        <div className='row center-xs center-sm center-md main-container__links'>
+        <div className='row center-xs main-container__links'>
           {::this.getLinksTemplates()}
         </div>
       </div>

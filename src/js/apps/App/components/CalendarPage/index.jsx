@@ -16,7 +16,8 @@ class DatePicker extends Component {
       month: month,
       year: year,
       calendar: getCalendar(year, month),
-      dayNames: ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС']
+      dayNames: ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'],
+      disabledTask: false
     };
   }
 
@@ -71,9 +72,15 @@ class DatePicker extends Component {
   async updateTask(task) {
     const { updateTask } = this.props;
     try {
+      this.setState({
+        disabledTask: true
+      });
       await updateTask(task);
+      this.setState({
+        disabledTask: false
+      });
     } catch (e) {
-      this.setState({ error: 'error' });
+      this.setState({ error: 'api error', disabledTask: false });
     }
   }
 
@@ -95,14 +102,14 @@ class DatePicker extends Component {
   }
 
   render() {
-    const { month, year, date, dayNames, calendar } = this.state;
+    const { month, year, date, dayNames, calendar, disabledTask } = this.state;
     return (
-      <div className='calendar-container col-xs-10 col-sm-10 col-md-10 col-lg-10'>
-          <div className='row center-xs center-sm center-md'>
-            <div className='col-xs-12 col-sm-12 col-md-12'>
+      <div className='calendar-container col-xs-10'>
+        <div className='row center-xs'>
+          <div className='col-xs-12'>
               <h1 className='calendar-container__header'>Календарь</h1>
             </div>
-            <div className='col-xs-12 col-sm-12 col-md-12'>
+          <div className='col-xs-12'>
               <CalendarHeader nextMonth={::this.nextMonth}
                               previousMonth={::this.previousMonth}
                               year={year}
@@ -113,7 +120,8 @@ class DatePicker extends Component {
                           updateTask={::this.updateTask}
                           month={month}
                           date={date}
-                          incompleteTasks={this.props.incompleteTasks}/>
+                          incompleteTasks={this.props.incompleteTasks}
+                          disabledTask={disabledTask}/>
           </div>
         </div>
       );
