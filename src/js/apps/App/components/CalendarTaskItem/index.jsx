@@ -19,11 +19,12 @@ export default class extends Component {
   }
 
   getDisabledTemplate() {
-    return (
-      <div className="task--disabled">
+    const { task, transferTask } = this.props;
+    if (task._id === transferTask) {
+      return <div className="task--disabled">
         <Loader/>
-      </div>
-    );
+      </div>;
+    }
   }
 
   render() {
@@ -32,11 +33,9 @@ export default class extends Component {
       currentId,
       task,
       dragStart,
-      dragEnd,
       day,
       list,
-      disabledTask,
-      transferTask
+      disabledTask
     } = this.props;
 
     const time = moment.parseZone(task.end).format('HH:mm');
@@ -46,12 +45,11 @@ export default class extends Component {
         id={task._id}
         draggable={true}
         onDragStart={dragStart}
-        onDragEnd={dragEnd}
         className='cell__task'
         key={task._id}
         onClick={this.toggleTaskWindow.bind(this, task._id, day)}>
         {
-          disabledTask && transferTask === task._id
+          disabledTask
             ? this.getDisabledTemplate()
             : null
         }

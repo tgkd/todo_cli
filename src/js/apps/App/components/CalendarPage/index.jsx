@@ -16,8 +16,7 @@ class DatePicker extends Component {
       month: month,
       year: year,
       calendar: getCalendar(year, month),
-      dayNames: ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'],
-      disabledTask: false
+      dayNames: ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС']
     };
   }
 
@@ -72,13 +71,7 @@ class DatePicker extends Component {
   async updateTask(task) {
     const { updateTask } = this.props;
     try {
-      this.setState({
-        disabledTask: true
-      });
       await updateTask(task);
-      this.setState({
-        disabledTask: false
-      });
     } catch (e) {
       this.setState({ error: 'api error', disabledTask: false });
     }
@@ -102,7 +95,7 @@ class DatePicker extends Component {
   }
 
   render() {
-    const { month, year, date, dayNames, calendar, disabledTask } = this.state;
+    const { month, year, date, dayNames, calendar } = this.state;
     return (
       <div className='calendar-container col-xs-10'>
         <div className='row center-xs'>
@@ -120,8 +113,7 @@ class DatePicker extends Component {
                           updateTask={::this.updateTask}
                           month={month}
                           date={date}
-                          incompleteTasks={this.props.incompleteTasks}
-                          disabledTask={disabledTask}/>
+                          incompleteTasks={this.props.incompleteTasks}/>
           </div>
         </div>
       );

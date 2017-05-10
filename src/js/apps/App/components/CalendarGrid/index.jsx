@@ -13,7 +13,8 @@ export default class Weeks extends Component {
       taskWindowVisible: false,
       moreTasksVisible: false,
       dayToShowMoreTasks: null,
-      currentId: null
+      currentId: null,
+      disabledTask: false
     };
 
     this.classNames = {
@@ -63,9 +64,7 @@ export default class Weeks extends Component {
   }
 
   dragEnd() {
-    this.setState({
-      transferTask: null
-    });
+
   }
 
   dragLeave(currentTarget) {
@@ -248,14 +247,13 @@ export default class Weeks extends Component {
 
   getTasksTemplatesByDay(tasksToday, day) {
     const { taskWindowVisible, currentId, transferTask } = this.state;
-    const { disabledTask } = this.props;
+    const { disabledTask } = this.state;
     return tasksToday.map((task, id) => {
       return <CalendarTaskItem
-        transferTask={ currentId || transferTask }
+        transferTask={ transferTask }
         key={id}
         disabledTask={disabledTask}
         dragStart={this.dragStart.bind(this, task)}
-        dragEnd={this.dragEnd.bind(this, task)}
         updateTask={ ::this.updateTask }
         toggleTaskWindow={ ::this.toggleTaskWindow }
         task={ task }
@@ -341,7 +339,15 @@ export default class Weeks extends Component {
   }
 
   updateTask(task, day) {
-    this.props.updateTask(task);
+    this.setState({
+      disabledTask: true
+    }, () => {
+      this.props.updateTask(task).then(() => {
+        this.setState({
+          disabledTask: false
+        });
+      });
+    });
     this.toggleTaskWindow(task._id, day || null);
   }
 
