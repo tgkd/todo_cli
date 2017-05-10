@@ -44,8 +44,10 @@ export default class extends Component {
     const birthday = moment(user.birthday);
     this.setState({
       user: {
-        ...user,
-        birthday: birthday.isValid() ? birthday.locale('ru').format('DD.MM.YYYY').toString() : '',
+        _id: user._id || '',
+        photo: user.photo || '',
+        name: user.name || '',
+        birthday: birthday.isValid() ? birthday.locale('ru').format('DD.MM.YYYY') : '',
         formattedDate: birthday.isValid() ? moment(user.birthday) : null
       }
     });
@@ -68,13 +70,15 @@ export default class extends Component {
       const birthday = moment(user.birthday);
       this.setState({
         user: {
-          ...user,
-          birthday: birthday.isValid() ? birthday.locale('ru').format('DD.MM.YYYY').toString() : '',
+          _id: user._id || '',
+          photo: user.photo || '',
+          name: user.name || '',
+          birthday: birthday.isValid() ? birthday.locale('ru').format('DD.MM.YYYY') : '',
           formattedDate: birthday.isValid() ? moment(user.birthday) : null
         }
       });
     }
-    if (stateSessions && stateSessions.length === 0 || (sessions && stateSessions.length !== sessions.length)) {
+    if (stateSessions.length === 0 && (sessions && stateSessions.length !== sessions.length)) {
       this.setState({
         sessions: sessions
       });
@@ -289,7 +293,7 @@ export default class extends Component {
             <div className="row center-xs">
               <div className='col-xs-9 col-sm-6 col-md-4'>
                 {
-                  <p className='message alert-message alert-message--success'>
+                  <p className='profile-container__message alert-message alert-message--success'>
                     { message.isSuccess && message.text }
                   </p>
                 }

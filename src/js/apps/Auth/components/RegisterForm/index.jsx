@@ -62,7 +62,7 @@ export default class extends Component {
       window.location.href = '/';
     } catch (e) {
       let errorText = e.response && e.response.status === 400
-        ? 'Пользователь с таким e-mail уже существует'
+        ? 'Пользователь уже существует'
         : 'Ошибка, повторите попытку';
       this.setState({
         buttonText: 'Войти',
@@ -70,8 +70,8 @@ export default class extends Component {
         inputs: {
           ...this.state.inputs,
           email: {
-            error: true,
-            message: errorText
+            value: this.state.inputs.email.value,
+            error: errorText
           }
         }
       });
@@ -169,18 +169,6 @@ export default class extends Component {
     return `alert-ico ${error ? '' : 'alert-ico--hidden'}`;
   }
 
-  getErrorsList() {
-    return Object.keys(this.state.inputs).map((item, id) => {
-      const error = this.state.inputs[item].error;
-      return (
-        <div key={id} className={ error ? '' : "alert-container--hidden"}>
-          <span className="message alert-message">{ error }</span>
-          <br/>
-        </div>
-      );
-    });
-  }
-
   onKeyPress(event) {
     if (event.key === 'Enter') {
       this.submitClickHandler();
@@ -195,8 +183,8 @@ export default class extends Component {
     return this.inputs.map((input, id) => {
       const error = this.state.inputs[input.name].error;
       return (
-        <div>
-          <div key={id} className="row middle-xs start-xs">
+        <div key={id}>
+          <div className="row middle-xs start-xs">
             <div className="col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
               <input
                 className={::this.getInputClass(input.name)}
@@ -211,13 +199,13 @@ export default class extends Component {
                 onKeyPress={::this.onKeyPress}
               />
             </div>
-            <div className="col-xs-1">
+            <div className="col-xs-1 alert-ico-container">
               <img className={::this.getAlertClass(input.name)} src="/assets/images/icons/alert.svg" alt="alert"/>
             </div>
           </div>
           <div className="row middle-xs start-xs register-container__alert">
             <div className="col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-sm-offset-2 col-xs-offset-1">
-              <div key={id} className={ "alert-container"}>
+              <div key={id} className="alert-container">
                 <span className="message alert-message">{ error }</span>
               </div>
             </div>
