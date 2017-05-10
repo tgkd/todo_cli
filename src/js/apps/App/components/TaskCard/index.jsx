@@ -22,7 +22,7 @@ export default class extends Component {
     const inputValue = e.target.value !== '' ? parseInt(e.target.value, 10) : 0;
     let hours = inputValue > 23 ? '00' : inputValue < 0 ? '23' : inputValue;
     this.setState({
-      hours: hours
+      hours: hours.toString()
     });
   }
 
@@ -30,7 +30,7 @@ export default class extends Component {
     const inputValue = e.target.value !== '' ? parseInt(e.target.value, 10) : 0;
     let minutes = inputValue > 59 ? '00' : inputValue < 0 ? '59' : inputValue;
     this.setState({
-      minutes: minutes
+      minutes: minutes.toString()
     });
   }
 
