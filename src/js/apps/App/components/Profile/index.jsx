@@ -62,7 +62,7 @@ export default class extends Component {
     this.getUserInfo();
   }
 
-  componentDidUpdate() {
+  componentWillReceiveProps() {
     const { user, sessions } = this.props;
     const userState = this.state.user;
     const stateSessions = this.state.sessions;
